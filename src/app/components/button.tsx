@@ -69,9 +69,9 @@ export default function Button(
     }
 
     return (
-        <div>
             <div
-                className={`cursor-pointer font-[family-name:var(--font-geist-sans)] relative overflow-hidden rounded-full border-2 border-white py-3 px-6 transition-colors hover:text-black`}
+                id={id}
+                className={`cursor-pointer font-[family-name:var(--font-geist-sans)] relative overflow-hidden rounded-full border-2 border-white py-3 px-6 transition-colors hover:text-black ${className}`}
                 ref={parentRef as never}
                 onClick={onClick}
                 onMouseEnter={handleMouseEnter}
@@ -93,6 +93,5 @@ export default function Button(
                     }}
                 ></div>
             </div>
-        </div>
     );
 }
