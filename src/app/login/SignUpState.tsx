@@ -1,7 +1,7 @@
 'use client';
 
 import Button from "@/app/components/button";
-import {register} from "@/scripts/users.ts";
+import {register, login} from "@/scripts/user.ts";
 
 export default function SignUp() {
     const handleSubmit = () => {
@@ -11,6 +11,8 @@ export default function SignUp() {
 
         register(username, email, password).then(response => {
             console.log("Signed in with response:", response)
+
+            login(email, password).then(response => console.log("Logged in with response:", response))
         })
     }
 

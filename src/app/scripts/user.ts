@@ -1,5 +1,7 @@
 const USERS_URL = process.env.NEXT_PUBLIC_API_URL + '/users'
 
+export let SESSION_INFO: JSON | undefined = undefined
+
 // Registers the user, responding with a success message and uuid
 export async function register(username: string, email: string, password: string) {
     try {
@@ -37,7 +39,9 @@ export async function login(email: string, password: string) {
             throw new Error(`Response status: ${response.status}`);
         }
 
-        return await response.json();
+        const json = await response.json();
+        SESSION_INFO = json;
+        return json
     }
     catch (error) {
         console.log(error)

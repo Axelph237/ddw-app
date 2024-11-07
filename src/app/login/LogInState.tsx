@@ -1,7 +1,7 @@
 'use client';
 
 import Button from "@/app/components/button";
-import {login} from "@/scripts/users.ts";
+import {login} from "@/scripts/user.ts";
 
 export default function LogIn() {
     const handleSubmit = () => {
