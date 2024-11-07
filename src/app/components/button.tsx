@@ -88,6 +88,7 @@ export default function Button(
                     style={{
                         top: mousePos.y,
                         left: mousePos.x,
+                        scale: 0,
                         transform: "translate(-50%, -50%)", // Centers the child on the mouse position
                     }}
                 ></div>
