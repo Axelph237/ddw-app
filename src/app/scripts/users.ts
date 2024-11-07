@@ -1,5 +1,6 @@
 const USERS_URL = process.env.NEXT_PUBLIC_API_URL + '/users'
 
+// Registers the user, responding with a success message and uuid
 export async function register(username: string, email: string, password: string) {
     try {
         const response = await fetch(USERS_URL + '/register', {
@@ -21,6 +22,7 @@ export async function register(username: string, email: string, password: string
     }
 }
 
+// Logs user in, returning their session token and uuid
 export async function login(email: string, password: string) {
     try {
         const response = await fetch(USERS_URL + '/login', {
