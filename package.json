@@ -11,11 +11,13 @@
   "dependencies": {
     "@next/env": "^15.0.3",
     "gsap": "^3.12.5",
+    "lodash": "^4.17.21",
     "next": "15.0.2",
     "react": "19.0.0-rc-02c0e824-20241028",
     "react-dom": "19.0.0-rc-02c0e824-20241028"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.13",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
