@@ -2,6 +2,7 @@
 
 import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { gsap } from 'gsap';
+import { uniqueId } from 'lodash';
 
 export default function Button(
     { id, onClick, className, text }: { id?: string; className?: string; text: string; onClick: () => void }) {
@@ -13,6 +14,7 @@ export default function Button(
     const [transitionDuration, setTransitionDuration] = useState(0.5);
     const [isHovering, setHovering] = useState(false);
     const [maxDim, setMaxDim] = useState(0);
+    const [bubbleId, setBubbleId] = useState('child_bubble_')
 
     // Reference objects
     const parentRef: MutableRefObject<HTMLElement | undefined> = useRef(undefined);
@@ -50,6 +52,7 @@ export default function Button(
 
         // Initial sizing
         handleResize()
+        setBubbleId(uniqueId('child_bubble_'))
         return () => {
             document.removeEventListener("mousemove", handleMouseMove);
             document.removeEventListener("resize", handleResize);
@@ -58,14 +61,14 @@ export default function Button(
 
     const handleMouseEnter = () => {
         setHovering(true);
-        gsap.killTweensOf(".child-bubble"); // Stop old animations
-        gsap.to(".child-bubble", { id: "circGrow", duration: TRANS_VELOCITY / maxDim, scale: maxDim });
+        gsap.killTweensOf(`#${bubbleId}`); // Stop old animations
+        gsap.to(`#${bubbleId}`, { id: "circGrow", duration: TRANS_VELOCITY / maxDim, scale: maxDim });
     }
 
     const handleMouseLeave = () => {
         setHovering(false);
-        gsap.killTweensOf(".child-bubble"); // Stop old animations
-        gsap.to(".child-bubble", { duration: RECOVER_DURATION, scale: 0 });
+        gsap.killTweensOf(`#${bubbleId}`); // Stop old animations
+        gsap.to(`#${bubbleId}`, { duration: RECOVER_DURATION, scale: 0 });
     }
 
     return (
@@ -83,8 +86,9 @@ export default function Button(
             >
                 <p style={{position: 'relative', zIndex: 2}}>{text}</p>
                 <div
+                    id={bubbleId}
                     ref={circleRef as never}
-                    className={`child-bubble absolute bg-white rounded-full w-1 h-1 pointer-events-none`}
+                    className={`absolute bg-white rounded-full w-1 h-1 pointer-events-none`}
                     style={{
                         top: mousePos.y,
                         left: mousePos.x,
