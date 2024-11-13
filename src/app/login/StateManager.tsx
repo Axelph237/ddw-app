@@ -23,7 +23,7 @@ export default function StateManager({ handleData }: Readonly<{ handleData: Func
     }
     return (
         <div
-            className=' font-[family-name:var(--font-geist-sans)] bg-gradient-to-t from-emerald-950 to-transparent w-screen h-screen flex flex-col items-center justify-center'>
+            className=' font-[family-name:var(--font-geist-sans)] w-screen h-screen flex flex-col items-center justify-center'>
             <h1 className="text-3xl font-[family-name:var(--font-geist-mono)]">{loggingIn ? "Log In" : "Sign Up"}</h1>
             <form id="loginpage-form" className="flex flex-col justify-center items-center">
                 {loggingIn ? <LogInState/> : <SignUpState/>}
