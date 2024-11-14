@@ -2,7 +2,7 @@
 
 import {useState} from "react";
 import Button from "@/app/components/button.tsx";
-import { LoginData } from "./serverFunctions.ts"
+import { LoginData } from "./page.tsx"
 
 export default function StateManager({ handleData }: Readonly<{ handleData: Function }>) {
     const [loggingIn, setLoggingIn] = useState<boolean>(false);
