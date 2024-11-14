@@ -28,7 +28,7 @@ export default function StateManager({ handleData }: Readonly<{ handleData: Func
             <form id="loginpage-form" className="flex flex-col justify-center items-center">
                 {loggingIn ? <LogInState/> : <SignUpState/>}
             </form>
-            <Button onClick={handleSubmit} className="w-46 h-46" text="Enter the fight!"/>
+            <Button onClick={handleSubmit} className="w-46 h-46" text={loggingIn ? 'Enter the fight!' : 'Create Account'}/>
             <p className="underline cursor-pointer font-[family-name:var(--font-geist-mono)]" onClick={() => {
                 handleClick()
             }}>{loggingIn ? "Sign Up" : "Log In"}</p>
