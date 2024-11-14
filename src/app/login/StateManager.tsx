@@ -5,7 +5,7 @@ import Button from "@/app/components/button.tsx";
 import { LoginData } from "./page.tsx"
 
 export default function StateManager({ handleData }: Readonly<{ handleData: Function }>) {
-    const [loggingIn, setLoggingIn] = useState<boolean>(false);
+    const [loggingIn, setLoggingIn] = useState<boolean>(true);
 
     const handleClick = () => {
         setLoggingIn(!loggingIn)

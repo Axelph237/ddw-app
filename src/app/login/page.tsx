@@ -1,5 +1,6 @@
 import StateManager from "./StateManager";
 import {login, register} from "@/scripts/user.ts";
+import {redirect} from "next/navigation";
 
 export interface LoginData {
     action: string,
@@ -11,16 +12,18 @@ export interface LoginData {
 export default function LoginPage() {
 
     async function handleLogin(data: LoginData) {
-        if (data.action === "login") {
-            if (data.email)
-                login(data.email, data.password).then(response => console.log("Logged in with response:", response))
+        'use server'
+
+        if (data.action === "login" && data.email) {
+            const response = await login(data.email, data.password)
+
+            console.log('Successfully logged in with response:', response)
+
+            if (response) redirect('/home')
         }
-        else if (data.action === "register") {
-            if (data.username && data.email)
-                register(data.username, data.email, data.password).then(response => {
-                    console.log("Signed in with response:", response);
-                    login(data.email, data.password).then(response => console.log("Logged in with response:", response));
-                })
+        else if (data.action === "register" && data.username && data.email) {
+            const response = await register(data.username, data.email, data.password)
+            console.log('Successfully logged in with response:', response)
         }
     }
 

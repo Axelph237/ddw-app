@@ -1,3 +1,5 @@
+import {setSession} from "@/scripts/session.ts";
+
 const USERS_URL = process.env.NEXT_PUBLIC_API_URL + '/users'
 
 export let SESSION_INFO: JSON | undefined = undefined
@@ -32,7 +34,7 @@ export async function login(email: string, password: string) {
             headers: {
                 "Content-Type": "application/json"  // Tells the server to expect JSON
             },
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({ email: email, password: password }),
         });
 
         if (!response.ok) {
@@ -40,7 +42,8 @@ export async function login(email: string, password: string) {
         }
 
         const json = await response.json();
-        SESSION_INFO = json;
+
+        await setSession(json); // Set the session to the session data
         return json
     }
     catch (error) {
