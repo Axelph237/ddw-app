@@ -48,10 +48,10 @@ const CharacterCreation = ({
 
         console.log('Creating character', name, weapon)
 
-        if (name && weapon)  {
+        if (name && weapon && name.length < MAX_INPUT_LEN && weapon.length < MAX_INPUT_LEN)  {
             handleCreate();
         }
-        else if (name.length > 50 || weapon.length > 50) {
+        else if (name.length > MAX_INPUT_LEN || weapon.length > MAX_INPUT_LEN) {
             setErrMsg('Woahhh slow down! Those are some pretty big pieces of text.')
         }
         else {
