@@ -7,7 +7,7 @@ export default async function GamePage({params}: {
 
     return (
         <div className='font-[family-name:var(--font-geist-sans)] w-screen h-screen flex flex-col items-center justify-center'>
-            <p>You are in game {(await params).gameId}</p>
+            <p className='absolute top-2 left-2'>You are in game {(await params).gameId}</p>
             <GameplayManager/>
         </div>
     )
