@@ -1,8 +1,9 @@
 'use client'
 
-import {ChangeEvent, useState} from "react";
+import {useState} from "react";
 import Button from "@/app/components/button.tsx";
-import JumpyDog from "@/app/components/jumpy/JumpyDog.tsx";
+// import JumpyDog from "@/app/components/jumpy/JumpyDog.tsx";
+import Limitedinput, {LimitedInputElement} from "@/app/components/limitedinput.tsx";
 
 enum GameplayState {
     CharacterCreation, // On join, before game start
@@ -15,7 +16,7 @@ enum GameplayState {
  * Manages what screen to render to the user if they are in a game.
  */
 export default function GameplayManager() {
-    const [currState, setCurrState] = useState(GameplayState.WaitingRoom);
+    const [currState, setCurrState] = useState(GameplayState.CharacterCreation);
 
     const handleCharacterCreate = () => {
         setCurrState(GameplayState.WaitingRoom);
@@ -38,21 +39,18 @@ const CharacterCreation = ({
 }: {
     handleCreate: () => void
 }) => {
-    const MAX_INPUT_LEN = 50
     const [errMsg, setErrMsg] = useState('');
-    const [nameCharsLength, setNameCharsLength] = useState(MAX_INPUT_LEN);
-    const [weaponCharsLength, setWeaponCharsLength] = useState(MAX_INPUT_LEN);
 
     const handleClick = () => {
-        const name = (document.getElementById("character-name") as HTMLInputElement)?.value;
-        const weapon = (document.getElementById("character-weapon") as HTMLInputElement)?.value;
+        const nameInput = (document.getElementById("character-name") as LimitedInputElement)
+        const weaponInput = (document.getElementById("character-weapon") as LimitedInputElement)
 
-        console.log('Creating character', name, weapon)
+        console.log('Creating character', nameInput.value, weaponInput.value)
 
-        if (name && weapon && name.length < MAX_INPUT_LEN && weapon.length < MAX_INPUT_LEN)  {
+        if (nameInput.validInput && weaponInput.validInput && nameInput.value.length > 0 && weaponInput.value.length > 0)  {
             handleCreate();
         }
-        else if (name.length > MAX_INPUT_LEN || weapon.length > MAX_INPUT_LEN) {
+        else if (!nameInput.validInput || !weaponInput.validInput) {
             setErrMsg('Woahhh slow down! Those are some pretty big pieces of text.')
         }
         else {
@@ -60,33 +58,12 @@ const CharacterCreation = ({
         }
     }
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.currentTarget.id == 'character-name')
-            setNameCharsLength(MAX_INPUT_LEN - e.target.value.length);
-        else if (e.currentTarget.id == 'character-weapon')
-            setWeaponCharsLength(MAX_INPUT_LEN - e.target.value.length);
-
-        setErrMsg('')
-    }
-
     return (
         <div className='flex flex-col justify-center items-center'>
             <h1 className="text-3xl font-[family-name:var(--font-geist-mono)]">Name Your Challenger!</h1>
-            {/* Character Name Div */}
-            <div className='flex flex-row items-center justify-center'>
-                <input id='character-name' type='text' placeholder='Character Name'
-                       onChange={handleChange}/>
-                <p className={`w-0 ${nameCharsLength < 0 ? 'text-red-500' : 'text-white'} ${nameCharsLength == 50 && 'hidden'}`}>
-                    {nameCharsLength}/50</p>
-            </div>
 
-            {/* Character Weapon Div */}
-            <div className='flex flex-row items-center justify-center'>
-                <input id='character-weapon' type='text' placeholder='Character Weapon'
-                       onChange={handleChange}/>
-                <p className={`w-0 ${weaponCharsLength < 0 ? 'text-red-500' : 'text-white'} ${weaponCharsLength == 50 && 'hidden'}`}>
-                    {weaponCharsLength}/50</p>
-            </div>
+            <Limitedinput maxChars={50} id='character-name' type='text' placeholder='Character New Name'/>
+            <Limitedinput maxChars={50} id='character-weapon' type='text' placeholder='Character Weepon'/>
 
             {/* Character Creation Button*/}
             <Button text={'Create Entrant'} onClick={handleClick}/>
