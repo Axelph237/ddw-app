@@ -2,6 +2,7 @@
 
 import {ChangeEvent, useState} from "react";
 import Button from "@/app/components/button.tsx";
+import JumpyDog from "@/app/components/jumpy/JumpyDog.tsx";
 
 enum GameplayState {
     CharacterCreation, // On join, before game start
@@ -14,7 +15,7 @@ enum GameplayState {
  * Manages what screen to render to the user if they are in a game.
  */
 export default function GameplayManager() {
-    const [currState, setCurrState] = useState(GameplayState.CharacterCreation);
+    const [currState, setCurrState] = useState(GameplayState.WaitingRoom);
 
     const handleCharacterCreate = () => {
         setCurrState(GameplayState.WaitingRoom);
@@ -24,7 +25,7 @@ export default function GameplayManager() {
         case GameplayState.CharacterCreation:
             return <CharacterCreation handleCreate={handleCharacterCreate} />
         case GameplayState.WaitingRoom:
-            return <WaitingRoom/>
+            return <WaitingRoom handleStart={() => console.log('Did nothing :D')}/>
         case GameplayState.Betting:
             return <Betting/>
         case GameplayState.PostMatch:
@@ -94,9 +95,19 @@ const CharacterCreation = ({
     )
 }
 
-const WaitingRoom = () => {
+const WaitingRoom = ({
+                         handleStart
+}: {
+    handleStart: () => void,
+}) => {
+    const user = {isAdmin: true}
+
     return (
-        <p>Waiting Room</p>
+        <div className='flex flex-col items-center justify-center'>
+            {/*<JumpyDog/>*/}
+            <p>Waiting...</p>
+            {user.isAdmin && <Button text={'Start Game'} onClick={handleStart} className='m-6'/>}
+        </div>
     )
 }
 
