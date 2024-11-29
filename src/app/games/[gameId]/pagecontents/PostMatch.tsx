@@ -6,6 +6,7 @@ import './PostMatch.css'
 import Button from "@/app/components/button.tsx";
 import {useState} from "react";
 
+// TODO add awaiting functionality to story so that story only displays once available
 const PostMatch = ({winner, loser, prevBal, newBal, story, handleContinue}:
                        {
                            winner: Entrant,
