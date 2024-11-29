@@ -21,8 +21,7 @@ const PostMatch = ({winner, loser, prevBal, newBal, story}:
             <div className='grid grid-rows-1 grid-cols-1'>
                 {/* Loser */}
                 <div
-                    className={`row-end-1 col-end-1 w-44 h-44 grid grid-rows-1 grid-cols-1`}
-                    style={{transform: 'perspective(10rem) rotateX(65deg)'}}>
+                    className={`flat-gelatine row-end-1 col-end-1 w-44 h-44 grid grid-rows-1 grid-cols-1`}>
                     <div className={'w-44 h-44 bg-emerald-800 opacity-50 row-end-1 col-end-1 rounded-full'}></div>
                     <Image src={imgLoser} alt={loser.name}
                            className='w-44 h-44 object-cover row-end-1 col-end-1 rounded-full'/>
@@ -30,7 +29,7 @@ const PostMatch = ({winner, loser, prevBal, newBal, story}:
 
                 {/* Winner */}
                 <div
-                    className={`row-end-1 col-end-1 w-44 h-44 grid grid-rows-1 grid-cols-1 relative`}
+                    className={`bounce row-end-1 col-end-1 w-44 h-44 grid grid-rows-1 grid-cols-1 relative`}
                     style={{top: '-35%'}}>
                     <p className={'row-end-1 col-end-1 relative text-8xl'} style={{
                         rotate: '15deg',
