@@ -66,7 +66,7 @@ const Betting = ({entrantOne, entrantTwo, userBal, handleBet}:
     })
 
     return (
-        <div className='flex flex-col justify-center items-center w-screen h-screen overflow-hidden gap-12'>
+        <div className='flex flex-col justify-center items-center w-fit h-fit p-32 overflow-hidden gap-12'>
             <p>Who will win?</p>
             <div className='flex flex-row gap-6'>
 

@@ -24,7 +24,7 @@ enum GameplayState {
  */
 export default function GameplayManager() {
     const [currState, setCurrState] = useState(GameplayState.Betting);
-    const [userBal, setUserBal] = useState<number>(0);
+    const [userBal, setUserBal] = useState<number>(4000);
 
     const handleCharacterCreate = (entrant: Entrant) => {
         setCurrState(GameplayState.WaitingRoom);
@@ -34,23 +34,35 @@ export default function GameplayManager() {
         })
     }
 
+    let pageContents;
     switch (currState) {
         case GameplayState.CharacterCreation:
-            return <CharacterCreation
+            pageContents = <CharacterCreation
                 handleCreate={handleCharacterCreate}
             />
+            break;
         case GameplayState.WaitingRoom:
-            return <WaitingRoom
+            pageContents = <WaitingRoom
                 handleStart={() => console.log('Did nothing :D')}
             />
+            break;
         case GameplayState.Betting:
-            return <Betting
+            pageContents = <Betting
                 entrantOne={{name: 'Spongeborg', weapon: 'Spatubob'}}
                 entrantTwo={{name: 'Adam Sandler', weapon: 'Philosphy'}}
                 userBal={userBal}
                 handleBet={(entrant: Entrant, amount: number) => {console.log(`$${amount} bet on ${entrant.name}(id:${entrant.id})`)}}
             />
+            break;
         case GameplayState.PostMatch:
-            return <PostMatch/>
+            pageContents = <PostMatch/>
+            break;
     }
+
+    return (
+        <div className={'w-screen h-screen flex flex-col justify-center items-center'}>
+            <p>User bal: {userBal}</p>
+            {pageContents}
+        </div>
+    )
 }
