@@ -1,6 +1,6 @@
 'use server'
 
-const ENTRANTS_URL = process.env.NEXT_PUBLIC_API_URL + '/entrants/'
+const ENTRANTS_URL = process.env.NEXT_PUBLIC_API_URL + '/entrants'
 
 export interface Entrant {
     name: string,
@@ -34,6 +34,7 @@ export async function createEntrant(entrant: Entrant) {
 }
 
 export async function getEntrant(entrantId: number) {
+
     try {
         const response = await fetch(ENTRANTS_URL + `/${entrantId}`, {
             method: 'GET',
