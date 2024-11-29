@@ -1,9 +1,9 @@
 'use client'
 
-import {useState} from "react";
+import {useRef, useState} from "react";
 import Button from "@/app/components/button.tsx";
 // import JumpyDog from "@/app/components/jumpy/JumpyDog.tsx";
-import Limitedinput, {LimitedInputElement} from "@/app/components/limitedinput.tsx";
+import Limitedinput, {LimitedInputHandle} from "@/app/components/limitedinput.tsx";
 
 enum GameplayState {
     CharacterCreation, // On join, before game start
@@ -40,12 +40,18 @@ const CharacterCreation = ({
     handleCreate: () => void
 }) => {
     const [errMsg, setErrMsg] = useState('');
+    const nameInputRef = useRef<LimitedInputHandle>(null)
+    const weaponInputRef = useRef<LimitedInputHandle>(null)
 
     const handleClick = () => {
-        const nameInput = (document.getElementById("character-name") as LimitedInputElement)
-        const weaponInput = (document.getElementById("character-weapon") as LimitedInputElement)
+        const nameInput = nameInputRef.current
+        const weaponInput = weaponInputRef.current
+
+        if (!nameInput || !weaponInput) return // Return if elements are lost
 
         console.log('Creating character', nameInput.value, weaponInput.value)
+        console.log('Name valid?:', nameInput.validInput)
+        console.log('Weapon valid?:', weaponInput.validInput)
 
         if (nameInput.validInput && weaponInput.validInput && nameInput.value.length > 0 && weaponInput.value.length > 0)  {
             handleCreate();
@@ -62,8 +68,8 @@ const CharacterCreation = ({
         <div className='flex flex-col justify-center items-center'>
             <h1 className="text-3xl font-[family-name:var(--font-geist-mono)]">Name Your Challenger!</h1>
 
-            <Limitedinput maxChars={50} id='character-name' type='text' placeholder='Character New Name'/>
-            <Limitedinput maxChars={50} id='character-weapon' type='text' placeholder='Character Weepon'/>
+            <Limitedinput maxChars={50} id='character-name' type='text' placeholder='Character New Name' ref={nameInputRef}/>
+            <Limitedinput maxChars={50} id='character-weapon' type='text' placeholder='Character Weepon' ref={weaponInputRef}/>
 
             {/* Character Creation Button*/}
             <Button text={'Create Entrant'} onClick={handleClick}/>
