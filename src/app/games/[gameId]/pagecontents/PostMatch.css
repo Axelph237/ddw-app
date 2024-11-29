@@ -42,14 +42,28 @@
 }
 
 .loading-bar {
+    visibility: hidden;
     position: relative !important;
     animation: loading-bar linear forwards;
 }
 @keyframes loading-bar {
     from {
+        visibility: visible;
         left: -100%;
     }
     to {
         left: 0;
     }
 }
+
+.loading-bar-bg {
+    visibility: hidden;
+    animation: loading-bar-bg linear forwards;
+    opacity: 0.5;
+}
+@keyframes loading-bar-bg {
+    from {
+        visibility: visible;
+    }
+}
+

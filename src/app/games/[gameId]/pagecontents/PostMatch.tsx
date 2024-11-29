@@ -43,7 +43,7 @@ const PostMatch = ({winner, loser, prevBal, newBal, story}:
             <p className='text-3xl font-bold relative'>{winner.name} stands victorious!</p>
             <div className='flex flex-row items-center justify-center'>
                 <p>{'Earnings:'}</p>
-                <p className={`font-bold text-${newBal >= prevBal ? 'emerald-500' : 'red-500'} text-xl`}>{newBal > prevBal ? '+' : '-'}{Math.abs(newBal - prevBal)}</p>
+                <p className={`font-bold ${newBal < prevBal ? 'text-red-500' : 'text-emerald-500'} text-xl`}>{newBal > prevBal ? '+' : '-'}{Math.abs(newBal - prevBal)}</p>
             </div>
             <StarWarsText text={story}/>
         </div>
@@ -61,7 +61,7 @@ const StarWarsText = ({text}: { text: string }) => {
                    style={{animationDuration: `${text.length / CHARS_PER_MS}ms`}}>{'Lorem Ipsum '.repeat(50)}</p>
             </div>
             <div className='grid grid-rows-1 grid-cols-1 w-64 h-4 rounded-full overflow-hidden'>
-                <div className='row-end-1 col-end-1 bg-emerald-950 w-64 h-4 opacity-50'></div>
+                <div className='loading-bar-bg row-end-1 col-end-1 bg-emerald-950 w-64 h-4' style={{animationDuration: `${text.length / CHARS_PER_MS}ms`}}></div>
                 <div className='loading-bar row-end-1 col-end-1 bg-white w-64 h-4 rounded-full' style={{animationDuration: `${text.length / CHARS_PER_MS}ms`}}></div>
             </div>
         </>
