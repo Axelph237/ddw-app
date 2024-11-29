@@ -1,3 +1,5 @@
+'use server'
+
 import { setSession, clearSession } from "@/scripts/session";
 
 const USERS_URL = process.env.NEXT_PUBLIC_API_URL + '/users';

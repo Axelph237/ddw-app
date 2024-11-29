@@ -1,0 +1,76 @@
+.panel {
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.left-panel {
+    animation-name: grow, flip;
+    animation-duration: 300ms, 1.5s;
+    animation-delay: 0ms, 300ms;
+    animation-timing-function: ease, ease;
+    animation-iteration-count: 1, 1;
+}
+
+.right-panel {
+    animation-name: grow, flip;
+    animation-duration: 300ms, 1.5s;
+    animation-delay: 0ms, 450ms;
+    animation-timing-function: ease, ease;
+    animation-iteration-count: 1, 1;
+}
+
+.entrant-name {
+    font-size: large;
+    font-weight: bold;
+}
+
+.entrant-weapon {
+    font-size: medium;
+    font-style: italic;
+}
+
+@keyframes flip {
+    0% {
+        transform: perspective(400px) rotateY(0);
+        animation-timing-function: ease-out;
+    }
+    40% {
+        transform: perspective(400px) translateZ(150px) rotateY(170deg);
+        animation-timing-function: ease-out;
+    }
+    50% {
+        transform: perspective(400px) translateZ(150px) rotateY(190deg) scale(1);
+        animation-timing-function: ease-in;
+    }
+    80% {
+        transform: perspective(400px) rotateY(360deg) scale(.95);
+        animation-timing-function: ease-in;
+    }
+    100% {
+        transform: perspective(400px) scale(1);
+        animation-timing-function: ease-in;
+    }
+}
+
+@keyframes grow {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+}
+
+.shimmer {
+    /*animation: shimmer 3s;*/
+    /*animation-iteration-count: infinite;*/
+    background: linear-gradient(110deg, #047857 15%, #10B981 25%, #047857 35%, #047857 45%, #10B981 55%, #047857 65%);
+    background-size: 1000px 100%;
+    opacity: 0.5;
+}
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    50% {
+        background-position: 1000px 0;
+    }
+}
+
