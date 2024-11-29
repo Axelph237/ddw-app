@@ -20,6 +20,8 @@
 }
 
 .text-container {
+    height: 300px;
+    width: 600px;
     overflow: hidden;
     transform: perspective(800px) rotateX(50deg);
     mask-image: linear-gradient(to bottom, transparent, #000 40%, #000 60%, transparent);
@@ -32,7 +34,7 @@
 }
 @keyframes scroll-text {
     0% {
-        transform: translateY(30%);
+        transform: translateY(350px);
     }
     100% {
         transform: translateY(-100%);

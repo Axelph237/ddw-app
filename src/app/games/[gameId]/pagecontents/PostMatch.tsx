@@ -58,8 +58,10 @@ export default PostMatch
 
 const StarWarsText = ({text}: { text: string }) => {
     const [visible, setVisible] = useState<boolean>(true)
-    const CHARS_PER_MS = 0.035
+    const CHARS_PER_MS = 0.03
     const durMS = text.length / CHARS_PER_MS
+
+    console.log(`Setting speed with ${text.length}chars to speed of ${durMS}ms`)
 
     setTimeout(() => {
         setVisible(false)
@@ -67,9 +69,9 @@ const StarWarsText = ({text}: { text: string }) => {
 
     return (
         <div className='flex flex-col items-center justify-center'>
-            <div className={`text-container h-64 w-96 grid grid-rows-1 grid-cols-1 ${!visible && 'hidden'} text-center`}>
+            <div className={`text-container grid grid-rows-1 grid-cols-1 ${!visible && 'hidden'} text-center`}>
                 <p className='scroll-text fade-text row-end-1 col-end-1 text-2xl'
-                   style={{animationDuration: `${durMS}ms`}}>{'Lorem Ipsum '.repeat(50)}</p>
+                   style={{animationDuration: `${durMS}ms`}}>{text}</p>
             </div>
             <div className='grid grid-rows-1 grid-cols-1 w-64 h-2 rounded-full overflow-hidden mb-6'>
                 <div className='loading-bar-bg row-end-1 col-end-1 bg-emerald-950 w-64 h-2' style={{animationDuration: `${durMS}ms`}}></div>
