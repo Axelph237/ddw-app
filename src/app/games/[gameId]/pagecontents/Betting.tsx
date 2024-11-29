@@ -1,4 +1,4 @@
-import {ChangeEvent, useRef, useState} from "react";
+import {ChangeEvent, useEffect, useRef, useState} from "react";
 import dog from "@/public/dog.jpg";
 import cat from "@/public/cat.jpg";
 import Image from "next/image";
@@ -21,6 +21,7 @@ const Betting = ({entrantOne, entrantTwo, userBal, handleBet}:
 ) => {
     const [selectedEntrant, setSelectedEntrant] = useState<string | null>(null)
     const [isValidAmount, setIsValidAmount] = useState(true)
+    const [mousePos, setMousePos] = useState({x: -1, y: -1})
     const betInputRef = useRef<HTMLInputElement>(null)
 
     const imgLeft = entrantOne.imgUrl ? entrantOne.imgUrl : dog;
@@ -52,6 +53,18 @@ const Betting = ({entrantOne, entrantTwo, userBal, handleBet}:
         handleBet(entrant, parseInt(betInputRef.current.value))
     }
 
+    const handleMouseMouse = (event: MouseEvent) => {
+        setMousePos({x: event.clientX, y: event.clientY})
+    }
+
+    useEffect(() => {
+        window.addEventListener('mousemove', handleMouseMouse)
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMouse)
+        }
+    })
+
     return (
         <div className='flex flex-col justify-center items-center w-screen h-screen overflow-hidden gap-12'>
             <p>Who will win?</p>
@@ -61,7 +74,7 @@ const Betting = ({entrantOne, entrantTwo, userBal, handleBet}:
                 <div className='flex flex-col justify-center items-center'>
                     <div className={`${selectedEntrant == 'left' ? 'border-emerald-500' : 'hover:border-emerald-500 border-transparent'} box-border border-4 panel left-panel w-44 h-44 grid grid-rows-1 grid-cols-1`}
                          onClick={() => handleSelect('left')}>
-                        {selectedEntrant == 'left' && <div className='shimmer w-full h-full row-end-1 col-end-1'></div>}
+                        {selectedEntrant == 'left' && <div className='shimmer w-full h-full row-end-1 col-end-1'  style={{backgroundPositionX: `${(mousePos.x * ( 2000 / window.innerWidth)) - 500}px`}}></div>}
                         <Image src={imgLeft} alt={entrantOne.name} className='w-44 h-44 object-cover row-end-1 col-end-1'/>
                     </div>
                     <p className='entrant-name'>{entrantOne.name}</p>
@@ -73,7 +86,7 @@ const Betting = ({entrantOne, entrantTwo, userBal, handleBet}:
                     <div
                         className={`${selectedEntrant == 'right' ? 'border-emerald-500' : 'hover:border-emerald-500 border-transparent'} box-border border-4 panel right-panel w-44 h-44 grid grid-rows-1 grid-cols-1`}
                         onClick={() => handleSelect('right')}>
-                        {selectedEntrant == 'right' && <div className='shimmer w-full h-full row-end-1 col-end-1'></div>}
+                        {selectedEntrant == 'right' && <div className='shimmer w-full h-full row-end-1 col-end-1' style={{backgroundPositionX: `${(mousePos.x * ( 2000 / window.innerWidth)) - 500}px`}}></div>}
                         <Image src={imgRight} alt={entrantTwo.name} className='w-44 h-44 object-cover row-end-1 col-end-1'/>
                     </div>
                     <p className='entrant-name'>{entrantTwo.name}</p>
@@ -91,5 +104,4 @@ const Betting = ({entrantOne, entrantTwo, userBal, handleBet}:
         </div>
     )
 }
-
 export default Betting
