@@ -60,21 +60,7 @@ export default function GameplayManager() {
                 loser={{name: 'Adam Sandler', weapon: 'Philosphy'}}
                 newBal={userBal}
                 prevBal={3000}
-                story={'In the center of the Squarish Undersea arena, Spongeborg squared off against his opponent: Adam Sandler, wielding the mighty Philosophy. The audience, a mix of sea creatures and strange mechanical beings, watched in hushed anticipation.\n' +
-                    '\n' +
-                    'Adam Sandler raised his weapon, a glowing tome filled with endless words of abstract thought. He swung it high, chanting in a low, serious voice, "To be or not to be, that is the question!" The very air around them shimmered with confusion as deep, existential questions filled the space, disorienting Spongeborg.\n' +
-                    '\n' +
-                    'But Spongeborg wasn’t fooled. With a quick, robotic flick, he activated his Absorb-O-Matic—a feature that turned the confusing waves of philosophical musings into pure, focused energy. The words of Philosophy were absorbed by his sponge-like body, growing brighter and more powerful as he did so.\n' +
-                    '\n' +
-                    'With a mechanical grin, Spongeborg rushed forward, his limbs extending like spring-loaded fists. “Your philosophy is weak, Adam,” he said, as he swiped a large metal hand through the air.\n' +
-                    '\n' +
-                    'Adam Sandler, now surrounded by a whirlwind of abstract thought, attempted to dodge, but his weapon was too slow. He stumbled, trying to focus on his own deep questions, but it was too late.\n' +
-                    '\n' +
-                    'With a final move, Spongeborg launched himself at Adam, delivering a swift, spinning Spin-Turn-Punch. Adam staggered back, his glowing Philosophy tome falling from his grasp, and with a dramatic tumble, he collapsed into the sand.\n' +
-                    '\n' +
-                    'Spongeborg stood victorious, his mechanical body humming with the power of a thousand absorbed philosophies. “Sometimes, the simplest answer is the best,” he said, brushing off his sponge-like surface.\n' +
-                    '\n' +
-                    'And so, the battle ended, with Spatubob—Spongeborg’s trusty sidekick—cheering from the sidelines.'}
+                story={'Lorem Ipsum'}
                 handleContinue={() => ''} // Make only visible when someone is admin
             />
             break;
