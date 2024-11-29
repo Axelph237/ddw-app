@@ -1,5 +1,6 @@
 import Button from "@/app/components/button.tsx";
 import { redirect } from 'next/navigation';
+import {getEntrant} from "@/scripts/entrants.ts";
 
 export default async function HomePage() {
 
