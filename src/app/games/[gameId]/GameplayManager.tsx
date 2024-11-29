@@ -4,6 +4,7 @@ import {useRef, useState} from "react";
 import Button from "@/app/components/button.tsx";
 // import JumpyDog from "@/app/components/jumpy/JumpyDog.tsx";
 import Limitedinput, {LimitedInputHandle} from "@/app/components/limitedinput.tsx";
+import {createEntrant} from "@/scripts/entrants.ts";
 
 enum GameplayState {
     CharacterCreation, // On join, before game start
@@ -18,8 +19,12 @@ enum GameplayState {
 export default function GameplayManager() {
     const [currState, setCurrState] = useState(GameplayState.CharacterCreation);
 
-    const handleCharacterCreate = () => {
+    const handleCharacterCreate = (entrant: {name: string, weapon: string}) => {
         setCurrState(GameplayState.WaitingRoom);
+
+        createEntrant(entrant).then(response => {
+            console.log('Character created with response:', response)
+        })
     }
 
     switch (currState) {
@@ -37,7 +42,7 @@ export default function GameplayManager() {
 const CharacterCreation = ({
                                handleCreate
 }: {
-    handleCreate: () => void
+    handleCreate: (entrant:{name: string, weapon: string}) => void
 }) => {
     const [errMsg, setErrMsg] = useState('');
     const nameInputRef = useRef<LimitedInputHandle>(null)
@@ -54,7 +59,7 @@ const CharacterCreation = ({
         console.log('Weapon valid?:', weaponInput.validInput)
 
         if (nameInput.validInput && weaponInput.validInput && nameInput.value.length > 0 && weaponInput.value.length > 0)  {
-            handleCreate();
+            handleCreate({name: nameInput.value, weapon: weaponInput.value});
         }
         else if (!nameInput.validInput || !weaponInput.validInput) {
             setErrMsg('Woahhh slow down! Those are some pretty big pieces of text.')
