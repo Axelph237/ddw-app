@@ -4,6 +4,7 @@ import cat from "@/public/cat.jpg";
 import Image from "next/image";
 import Button from "@/app/components/button.tsx";
 import {Entrant} from "@/scripts/entrants.ts";
+import './Betting.css'
 
 /**
  * Page content when player is betting on current match entrants

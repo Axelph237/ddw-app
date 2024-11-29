@@ -5,7 +5,6 @@ import Button from "@/app/components/button.tsx";
 // import JumpyDog from "@/app/components/jumpy/JumpyDog.tsx";
 import Limitedinput, {LimitedInputHandle} from "@/app/components/limitedinput.tsx";
 import {createEntrant} from "@/scripts/entrants.ts";
-import './Betting.css'
 import {Entrant} from "@/scripts/entrants.ts";
 // Page content components
 import Betting from "@/app/games/[gameId]/pagecontents/Betting.tsx";
