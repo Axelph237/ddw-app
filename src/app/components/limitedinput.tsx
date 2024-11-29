@@ -13,10 +13,10 @@ export interface LimitedInputHandle {
     focus: () => void;
 }
 
-const LimitedInput = forwardRef<LimitedInputHandle, LimitedInputProps>((props, ref: ForwardedRef<LimitedInputHandle>) => {
+const LimitedInput = forwardRef<LimitedInputHandle, LimitedInputProps>(({maxChars, ...props}, ref: ForwardedRef<LimitedInputHandle>) => {
     const inputRef = useRef<HTMLInputElement>(null); // Ref to the input element
 
-    const [remainingChars, setRemainingChars] = useState(props.maxChars);
+    const [remainingChars, setRemainingChars] = useState(maxChars);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (props.onChange) { // Call any parent-provided onChange handler
@@ -24,7 +24,7 @@ const LimitedInput = forwardRef<LimitedInputHandle, LimitedInputProps>((props, r
         }
 
         // Update the remaining characters
-        setRemainingChars(props.maxChars - e.target.value.length);
+        setRemainingChars(maxChars - e.target.value.length);
     };
 
     // Use useImperativeHandle to expose custom properties and methods
@@ -40,14 +40,14 @@ const LimitedInput = forwardRef<LimitedInputHandle, LimitedInputProps>((props, r
             <input
                 {...props}
                 ref={inputRef}
-                maxLength={props.maxChars}
+                // maxLength={maxChars} // More fun w/o it being enforced.
                 onChange={handleChange}
             />
             {/* Display the remaining characters */}
             <p
                 className={`w-0 ${remainingChars <= 0 ? 'text-red-500' : 'text-white'} ${remainingChars === 50 && 'hidden'}`}
             >
-                {remainingChars}/{props.maxChars}
+                {remainingChars}/{maxChars}
             </p>
         </div>
     );
