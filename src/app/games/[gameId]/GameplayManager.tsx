@@ -1,10 +1,14 @@
 'use client'
 
-import {useRef, useState} from "react";
+import {ChangeEvent, useRef, useState} from "react";
 import Button from "@/app/components/button.tsx";
 // import JumpyDog from "@/app/components/jumpy/JumpyDog.tsx";
 import Limitedinput, {LimitedInputHandle} from "@/app/components/limitedinput.tsx";
 import {createEntrant} from "@/scripts/entrants.ts";
+import Image from "next/image";
+import cat from "@/public/cat.jpg"
+import dog from "@/public/dog.jpg"
+import './Betting.css'
 
 enum GameplayState {
     CharacterCreation, // On join, before game start
@@ -13,13 +17,20 @@ enum GameplayState {
     PostMatch
 }
 
+interface Entrant {
+    name: string,
+    weapon: string,
+    id?: number,
+    imgUrl?: string,
+}
+
 /**
  * Manages what screen to render to the user if they are in a game.
  */
 export default function GameplayManager() {
-    const [currState, setCurrState] = useState(GameplayState.CharacterCreation);
+    const [currState, setCurrState] = useState(GameplayState.Betting);
 
-    const handleCharacterCreate = (entrant: {name: string, weapon: string}) => {
+    const handleCharacterCreate = (entrant: Entrant) => {
         setCurrState(GameplayState.WaitingRoom);
 
         createEntrant(entrant).then(response => {
@@ -33,16 +44,24 @@ export default function GameplayManager() {
         case GameplayState.WaitingRoom:
             return <WaitingRoom handleStart={() => console.log('Did nothing :D')}/>
         case GameplayState.Betting:
-            return <Betting/>
+            return <Betting
+                entrantOne={{name: 'Spongeborg', weapon: 'Spatubob'}}
+                entrantTwo={{name: 'Adam Sandler', weapon: 'Philosphy'}}/>
         case GameplayState.PostMatch:
             return <PostMatch/>
     }
 }
 
+/**
+ * Page content when user is creating a character
+ *
+ * @param handleCreate - the function to call to handle character creation
+ * @constructor
+ */
 const CharacterCreation = ({
                                handleCreate
 }: {
-    handleCreate: (entrant:{name: string, weapon: string}) => void
+    handleCreate: (entrant: Entrant) => void
 }) => {
     const [errMsg, setErrMsg] = useState('');
     const nameInputRef = useRef<LimitedInputHandle>(null)
@@ -83,6 +102,12 @@ const CharacterCreation = ({
     )
 }
 
+/**
+ * Page content when user is waiting for game to start. Displays 'Start Game' button when the user is the game admin.
+ *
+ * @param handleStart - the function to call on game start
+ * @constructor
+ */
 const WaitingRoom = ({
                          handleStart
 }: {
@@ -99,9 +124,89 @@ const WaitingRoom = ({
     )
 }
 
-const Betting = () => {
+/**
+ * Page content when player is betting on current match entrants
+ *
+ * @constructor
+ */
+const Betting = ({entrantOne, entrantTwo, userBal, handleBet}:
+                     {
+                         entrantOne: Entrant,
+                         entrantTwo: Entrant,
+                         userBal: number,
+                         handleBet: (entrant: Entrant, amount: number) => void
+                     }
+) => {
+    const [selectedEntrant, setSelectedEntrant] = useState<string | null>(null)
+    const [isValidAmount, setIsValidAmount] = useState(true)
+    const betInputRef = useRef<HTMLInputElement>(null)
+
+    const imgLeft = entrantOne.imgUrl ? entrantOne.imgUrl : dog;
+    const imgRight = entrantTwo.imgUrl ? entrantTwo.imgUrl : cat;
+
+    const handleSelect = (target: string) => {
+        if (target == selectedEntrant) {
+            setSelectedEntrant(null)
+        }
+        else {
+            setSelectedEntrant(target)
+        }
+    }
+
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const amount  = parseInt(event.target.value)
+
+        if (amount < 0 || amount > userBal)
+            setIsValidAmount(false)
+        else
+            setIsValidAmount(true)
+    }
+
+    const handleSubmit = () => {
+        if (!betInputRef.current || !isValidAmount) return
+
+        const entrant = selectedEntrant == 'left' ? entrantOne : entrantTwo
+
+        handleBet(entrant, parseInt(betInputRef.current.value))
+    }
+
     return (
-        <p>Betting</p>
+        <div className='flex flex-col justify-center items-center w-screen h-screen overflow-hidden gap-12'>
+            <p>Who will win?</p>
+            <div className='flex flex-row gap-6'>
+
+                {/* Left entrant */}
+                <div className='flex flex-col justify-center items-center'>
+                    <div className={`${selectedEntrant == 'left' ? 'border-emerald-500' : 'hover:border-emerald-500 border-transparent'} box-border border-4 panel left-panel w-44 h-44 grid grid-rows-1 grid-cols-1`}
+                         onClick={() => handleSelect('left')}>
+                        {selectedEntrant == 'left' && <div className='shimmer w-full h-full row-end-1 col-end-1'></div>}
+                        <Image src={imgLeft} alt={entrantOne.name} className='w-44 h-44 object-cover row-end-1 col-end-1'/>
+                    </div>
+                    <p className='entrant-name'>{entrantOne.name}</p>
+                    <p className='entrant-weapon'>With {entrantOne.weapon}</p>
+                </div>
+
+                {/* Right entrant */}
+                <div className='flex flex-col justify-center items-center'>
+                    <div
+                        className={`${selectedEntrant == 'right' ? 'border-emerald-500' : 'hover:border-emerald-500 border-transparent'} box-border border-4 panel right-panel w-44 h-44 grid grid-rows-1 grid-cols-1`}
+                        onClick={() => handleSelect('right')}>
+                        {selectedEntrant == 'right' && <div className='shimmer w-full h-full row-end-1 col-end-1'></div>}
+                        <Image src={imgRight} alt={entrantTwo.name} className='w-44 h-44 object-cover row-end-1 col-end-1'/>
+                    </div>
+                    <p className='entrant-name'>{entrantTwo.name}</p>
+                    <p className='entrant-weapon'>With {entrantTwo.weapon}</p>
+                </div>
+            </div>
+            {selectedEntrant && <div className='flex flex-col justify-center items-center'>
+                <p>How much you wanna bet on {selectedEntrant == 'left' ? entrantOne.name : entrantTwo.name}?</p>
+                <div className='flex flex-row justify-center items-center'>
+                    <p className={`${!isValidAmount && 'text-red-500'}`}>$</p>
+                    <input ref={betInputRef} type='number' placeholder='0' min={0} step={1} onChange={handleChange} className={`${!isValidAmount && 'border-red-500 text-red-500'}`}/>
+                    <Button text={'Submit'} onClick={handleSubmit} />
+                </div>
+            </div>}
+        </div>
     )
 }
 

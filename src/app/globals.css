@@ -51,6 +51,18 @@ input:focus {
   outline: none;
 }
 
+input[type="number"] {
+  -webkit-appearance: none;  /* For Chrome, Safari, and newer versions of Opera */
+  -moz-appearance: textfield; /* For Firefox */
+  appearance: none; /* Standard property for modern browsers */
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none; /* Remove arrows in Chrome and Safari */
+  margin: 0; /* Prevent margin from affecting the layout */
+}
+
 @keyframes rgbBackground {
   0% { background-color: rgba(255, 0, 0, 0.7); }    /* Red */
   33% { background-color: rgba(0, 255, 0, 0.7); }   /* Green */
