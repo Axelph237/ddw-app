@@ -1,5 +1,12 @@
 const ENTRANTS_URL = process.env.NEXT_PUBLIC_API_URL + '/entrants/'
 
+export interface Entrant {
+    name: string,
+    weapon: string,
+    id?: number,
+    imgUrl?: string,
+}
+
 // Creates entrant under user's account
 export async function createEntrant(entrant:{name: string, weapon: string}) {
     try {
