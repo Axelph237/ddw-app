@@ -60,9 +60,9 @@ const StarWarsText = ({text}: { text: string }) => {
                 <p className='scroll-text fade-text row-end-1 col-end-1 text-2xl'
                    style={{animationDuration: `${text.length / CHARS_PER_MS}ms`}}>{'Lorem Ipsum '.repeat(50)}</p>
             </div>
-            <div className='grid grid-rows-1 grid-cols-1 w-64 h-4 rounded-full overflow-hidden'>
-                <div className='loading-bar-bg row-end-1 col-end-1 bg-emerald-950 w-64 h-4' style={{animationDuration: `${text.length / CHARS_PER_MS}ms`}}></div>
-                <div className='loading-bar row-end-1 col-end-1 bg-white w-64 h-4 rounded-full' style={{animationDuration: `${text.length / CHARS_PER_MS}ms`}}></div>
+            <div className='grid grid-rows-1 grid-cols-1 w-64 h-2 rounded-full overflow-hidden'>
+                <div className='loading-bar-bg row-end-1 col-end-1 bg-emerald-950 w-64 h-2' style={{animationDuration: `${text.length / CHARS_PER_MS}ms`}}></div>
+                <div className='loading-bar row-end-1 col-end-1 bg-white w-64 h-2 rounded-full' style={{animationDuration: `${text.length / CHARS_PER_MS}ms`}}></div>
             </div>
         </>
     )
