@@ -34,11 +34,15 @@ export default function GameplayManager({isAdmin}: {isAdmin: boolean}) {
     }
 
     const handleStart = () => {
-
+        /*
+         * Start game *then* set state over to Betting
+         */
     }
 
     const handleContinue = () => {
-
+        /*
+         * Continue game *then* return to Betting
+         */
     }
 
     // Get specific page contents based on state
