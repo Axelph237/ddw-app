@@ -72,7 +72,7 @@ const Betting = ({entrantOne, entrantTwo, userBal, handleBet}:
 
                 {/* Left entrant */}
                 <div className='flex flex-col justify-center items-center'>
-                    <div className={`${selectedEntrant == 'left' ? 'border-emerald-500' : 'hover:border-emerald-500 border-transparent'} box-border border-4 panel left-panel w-44 h-44 grid grid-rows-1 grid-cols-1`}
+                    <div className={`${selectedEntrant == 'left' ? 'border-emerald-500' : 'hover:border-emerald-500 border-transparent'} box-border border-4 panel left-panel w-44 h-44 grid grid-rows-1 grid-cols-1 cursor-pointer`}
                          onClick={() => handleSelect('left')}>
                         {selectedEntrant == 'left' && <div className='shimmer w-full h-full row-end-1 col-end-1'  style={{backgroundPositionX: `${(mousePos.x * ( 2000 / window.innerWidth)) - 500}px`}}></div>}
                         <Image src={imgLeft} alt={entrantOne.name} className='w-44 h-44 object-cover row-end-1 col-end-1'/>
@@ -84,7 +84,7 @@ const Betting = ({entrantOne, entrantTwo, userBal, handleBet}:
                 {/* Right entrant */}
                 <div className='flex flex-col justify-center items-center'>
                     <div
-                        className={`${selectedEntrant == 'right' ? 'border-emerald-500' : 'hover:border-emerald-500 border-transparent'} box-border border-4 panel right-panel w-44 h-44 grid grid-rows-1 grid-cols-1`}
+                        className={`${selectedEntrant == 'right' ? 'border-emerald-500' : 'hover:border-emerald-500 border-transparent'} box-border border-4 panel right-panel w-44 h-44 grid grid-rows-1 grid-cols-1 cursor-pointer`}
                         onClick={() => handleSelect('right')}>
                         {selectedEntrant == 'right' && <div className='shimmer w-full h-full row-end-1 col-end-1' style={{backgroundPositionX: `${(mousePos.x * ( 2000 / window.innerWidth)) - 500}px`}}></div>}
                         <Image src={imgRight} alt={entrantTwo.name} className='w-44 h-44 object-cover row-end-1 col-end-1'/>
