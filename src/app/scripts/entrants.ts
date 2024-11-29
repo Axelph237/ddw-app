@@ -1,3 +1,5 @@
+'use server'
+
 const ENTRANTS_URL = process.env.NEXT_PUBLIC_API_URL + '/entrants/'
 
 export interface Entrant {
