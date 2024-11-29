@@ -61,13 +61,14 @@ export default function GameplayManager() {
                 newBal={userBal}
                 prevBal={3000}
                 story={'lorem ipsum dolor '.repeat(50)}
+                handleContinue={() => ''} // Make only visible when someone is admin
             />
             break;
     }
 
     return (
         <div className={'w-screen h-screen flex flex-col justify-center items-center'}>
-            <p>User bal: {userBal}</p>
+            <p className='absolute top-12 left-2'>User bal: {userBal}</p>
             {pageContents}
         </div>
     )

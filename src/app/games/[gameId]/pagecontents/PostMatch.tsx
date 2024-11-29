@@ -3,14 +3,17 @@ import Image from "next/image";
 import dog from "@/public/dog.jpg";
 import cat from "@/public/cat.jpg";
 import './PostMatch.css'
+import Button from "@/app/components/button.tsx";
+import {useState} from "react";
 
-const PostMatch = ({winner, loser, prevBal, newBal, story}:
+const PostMatch = ({winner, loser, prevBal, newBal, story, handleContinue}:
                        {
                            winner: Entrant,
                            loser: Entrant,
                            prevBal: number,
                            newBal: number,
                            story: string,
+                           handleContinue?: () => void
                        }) => {
 
     const imgWinner = winner.imgUrl ? winner.imgUrl : dog;
@@ -46,24 +49,32 @@ const PostMatch = ({winner, loser, prevBal, newBal, story}:
                 <p className={`font-bold ${newBal < prevBal ? 'text-red-500' : 'text-emerald-500'} text-xl`}>{newBal > prevBal ? '+' : '-'}{Math.abs(newBal - prevBal)}</p>
             </div>
             <StarWarsText text={story}/>
+            <div className='h-'></div>
+            {handleContinue && <Button text='Next Match' onClick={handleContinue}/>}
         </div>
     )
 }
 export default PostMatch
 
 const StarWarsText = ({text}: { text: string }) => {
+    const [visible, setVisible] = useState<boolean>(true)
     const CHARS_PER_MS = 0.035
+    const durMS = text.length / CHARS_PER_MS
+
+    setTimeout(() => {
+        setVisible(false)
+    }, durMS)
 
     return (
-        <>
-            <div className='text-container grid grid-rows-1 grid-cols-1'>
+        <div className='flex flex-col items-center justify-center'>
+            <div className={`text-container h-64 w-96 grid grid-rows-1 grid-cols-1 ${!visible && 'hidden'} text-center`}>
                 <p className='scroll-text fade-text row-end-1 col-end-1 text-2xl'
-                   style={{animationDuration: `${text.length / CHARS_PER_MS}ms`}}>{'Lorem Ipsum '.repeat(50)}</p>
+                   style={{animationDuration: `${durMS}ms`}}>{'Lorem Ipsum '.repeat(50)}</p>
             </div>
-            <div className='grid grid-rows-1 grid-cols-1 w-64 h-2 rounded-full overflow-hidden'>
-                <div className='loading-bar-bg row-end-1 col-end-1 bg-emerald-950 w-64 h-2' style={{animationDuration: `${text.length / CHARS_PER_MS}ms`}}></div>
-                <div className='loading-bar row-end-1 col-end-1 bg-white w-64 h-2 rounded-full' style={{animationDuration: `${text.length / CHARS_PER_MS}ms`}}></div>
+            <div className='grid grid-rows-1 grid-cols-1 w-64 h-2 rounded-full overflow-hidden mb-6'>
+                <div className='loading-bar-bg row-end-1 col-end-1 bg-emerald-950 w-64 h-2' style={{animationDuration: `${durMS}ms`}}></div>
+                <div className='loading-bar row-end-1 col-end-1 bg-white w-64 h-2 rounded-full' style={{animationDuration: `${durMS}ms`}}></div>
             </div>
-        </>
+        </div>
     )
 }

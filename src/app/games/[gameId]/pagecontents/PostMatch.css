@@ -20,8 +20,6 @@
 }
 
 .text-container {
-    max-width: 25%;
-    max-height: 30%;
     overflow: hidden;
     transform: perspective(800px) rotateX(50deg);
     mask-image: linear-gradient(to bottom, transparent, #000 40%, #000 60%, transparent);
