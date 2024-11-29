@@ -23,7 +23,7 @@ enum GameplayState {
  * Manages what screen to render to the user if they are in a game.
  */
 export default function GameplayManager() {
-    const [currState, setCurrState] = useState(GameplayState.Betting);
+    const [currState, setCurrState] = useState(GameplayState.PostMatch);
     const [userBal, setUserBal] = useState<number>(4000);
 
     const handleCharacterCreate = (entrant: Entrant) => {
@@ -37,17 +37,17 @@ export default function GameplayManager() {
     let pageContents;
     switch (currState) {
         case GameplayState.CharacterCreation:
-            pageContents = <CharacterCreation
+            pageContents = <CharacterCreation // Make actual updated values
                 handleCreate={handleCharacterCreate}
             />
             break;
         case GameplayState.WaitingRoom:
-            pageContents = <WaitingRoom
+            pageContents = <WaitingRoom // Make actual updated values
                 handleStart={() => console.log('Did nothing :D')}
             />
             break;
         case GameplayState.Betting:
-            pageContents = <Betting
+            pageContents = <Betting // Make actual updated values
                 entrantOne={{name: 'Spongeborg', weapon: 'Spatubob'}}
                 entrantTwo={{name: 'Adam Sandler', weapon: 'Philosphy'}}
                 userBal={userBal}
@@ -55,7 +55,13 @@ export default function GameplayManager() {
             />
             break;
         case GameplayState.PostMatch:
-            pageContents = <PostMatch/>
+            pageContents = <PostMatch // Make actual updated values
+                winner={{name: 'Spongeborg', weapon: 'Spatubob'}}
+                loser={{name: 'Adam Sandler', weapon: 'Philosphy'}}
+                newBal={userBal}
+                prevBal={3000}
+                story={'lorem ipsum dolor '.repeat(50)}
+            />
             break;
     }
 
