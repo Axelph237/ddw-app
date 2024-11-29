@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 import { encrypt, decrypt } from 'crypto-js/aes';
 import { enc } from 'crypto-js';
 
-const SECRET_KEY = 'my-secret-key';
+const SECRET_KEY = process.env.SECRET_KEY || 'default_secret_key';
 const publicPages = ['/', '/login', '/signup'];
 
 export async function middleware(request: NextRequest) {

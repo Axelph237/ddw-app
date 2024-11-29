@@ -4,9 +4,7 @@ import { encrypt, decrypt } from 'crypto-js/aes';
 import { enc } from 'crypto-js';
 import { cookies } from 'next/headers';
 
-// This should probably be stored in a more secure location
-// maybe as an env var inside render?
-const SECRET_KEY = 'my-secret-key';
+const SECRET_KEY = process.env.SECRET_KEY || 'default_secret_key';
 
 export interface Session {
     accessToken: string,
