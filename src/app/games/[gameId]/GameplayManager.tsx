@@ -1,9 +1,7 @@
 'use client'
 
-import {useRef, useState} from "react";
-import Button from "@/app/components/button.tsx";
+import {useState} from "react";
 // import JumpyDog from "@/app/components/jumpy/JumpyDog.tsx";
-import Limitedinput, {LimitedInputHandle} from "@/app/components/limitedinput.tsx";
 import {createEntrant} from "@/scripts/entrants.ts";
 import {Entrant} from "@/scripts/entrants.ts";
 // Page content components
@@ -22,8 +20,9 @@ enum GameplayState {
 /**
  * Manages what screen to render to the user if they are in a game.
  */
-export default function GameplayManager() {
-    const [currState, setCurrState] = useState(GameplayState.PostMatch);
+export default function GameplayManager({isAdmin}: {isAdmin: boolean}) {
+    const [currState, setCurrState] = useState(GameplayState.CharacterCreation);
+    const [currMatch, setCurrMatch] = useState<number | null>(null)
     const [userBal, setUserBal] = useState<number>(4000);
 
     const handleCharacterCreate = (entrant: Entrant) => {
@@ -34,6 +33,15 @@ export default function GameplayManager() {
         })
     }
 
+    const handleStart = () => {
+
+    }
+
+    const handleContinue = () => {
+
+    }
+
+    // Get specific page contents based on state
     let pageContents;
     switch (currState) {
         case GameplayState.CharacterCreation:
@@ -42,9 +50,7 @@ export default function GameplayManager() {
             />
             break;
         case GameplayState.WaitingRoom:
-            pageContents = <WaitingRoom // Make actual updated values
-                handleStart={() => console.log('Did nothing :D')}
-            />
+            pageContents = <WaitingRoom handleStart={isAdmin ? handleStart : undefined}/>
             break;
         case GameplayState.Betting:
             pageContents = <Betting // Make actual updated values
@@ -61,7 +67,7 @@ export default function GameplayManager() {
                 newBal={userBal}
                 prevBal={3000}
                 story={'Lorem Ipsum'}
-                handleContinue={() => ''} // Make only visible when someone is admin
+                handleContinue={isAdmin ? handleContinue : undefined}
             />
             break;
     }
