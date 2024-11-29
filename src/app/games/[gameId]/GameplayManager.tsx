@@ -25,6 +25,7 @@ enum GameplayState {
  */
 export default function GameplayManager() {
     const [currState, setCurrState] = useState(GameplayState.Betting);
+    const [userBal, setUserBal] = useState<number>(0);
 
     const handleCharacterCreate = (entrant: Entrant) => {
         setCurrState(GameplayState.WaitingRoom);
@@ -36,13 +37,20 @@ export default function GameplayManager() {
 
     switch (currState) {
         case GameplayState.CharacterCreation:
-            return <CharacterCreation handleCreate={handleCharacterCreate} />
+            return <CharacterCreation
+                handleCreate={handleCharacterCreate}
+            />
         case GameplayState.WaitingRoom:
-            return <WaitingRoom handleStart={() => console.log('Did nothing :D')}/>
+            return <WaitingRoom
+                handleStart={() => console.log('Did nothing :D')}
+            />
         case GameplayState.Betting:
             return <Betting
                 entrantOne={{name: 'Spongeborg', weapon: 'Spatubob'}}
-                entrantTwo={{name: 'Adam Sandler', weapon: 'Philosphy'}}/>
+                entrantTwo={{name: 'Adam Sandler', weapon: 'Philosphy'}}
+                userBal={userBal}
+                handleBet={(entrant: Entrant, amount: number) => {console.log(`$${amount} bet on ${entrant.name}(id:${entrant.id})`)}}
+            />
         case GameplayState.PostMatch:
             return <PostMatch/>
     }
