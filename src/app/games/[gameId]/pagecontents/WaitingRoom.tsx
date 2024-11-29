@@ -9,7 +9,7 @@ import Button from "@/app/components/button.tsx";
 const WaitingRoom = ({
                          handleStart
                      }: {
-    handleStart: () => void,
+    handleStart?: () => void,
 }) => {
 
     return (
