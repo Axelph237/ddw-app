@@ -25,10 +25,6 @@ export async function createEntrant(entrant: Entrant) {
             body: JSON.stringify(entrant),
         });
 
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
-        }
-
         return response
     }
     catch (error) {
