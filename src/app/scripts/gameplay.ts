@@ -1,3 +1,5 @@
+'use server'
+
 import fetchWithAuth from "@/scripts/fetchWithAuth.ts";
 
 const GAMEPLAY_URL = process.env.NEXT_PUBLIC_API_URL + '/gameplay/'
@@ -7,11 +9,13 @@ const GAMEPLAY_URL = process.env.NEXT_PUBLIC_API_URL + '/gameplay/'
  *
  * @param gameId - the game to check
  */
-export async function getBalance(gameId: number) { 'use server'
+export async function getBalance(gameId: number) {
     try {
         const response = await fetchWithAuth(GAMEPLAY_URL + `balance/${gameId}`, {
             method: 'GET',
         });
+
+        console.log(response)
 
         return await response.json()
     }
@@ -25,7 +29,7 @@ export async function getBalance(gameId: number) { 'use server'
  *
  * @param gameId - the game to check
  */
-export async function getCurrentRound(gameId: number) { 'use server'
+export async function getCurrentRound(gameId: number) {
     try {
         const response = await fetchWithAuth(GAMEPLAY_URL + `get_round/${gameId}`, {
             method: 'GET',
@@ -43,7 +47,7 @@ export async function getCurrentRound(gameId: number) { 'use server'
  *
  * @param roundId - the round to check
  */
-export async function getCurrentMatch(roundId: number) { 'use server'
+export async function getCurrentMatch(roundId: number) {
     try {
         const response = await fetchWithAuth(GAMEPLAY_URL + `active_match/${roundId}`, {
             method: 'GET',
@@ -61,7 +65,7 @@ export async function getCurrentMatch(roundId: number) { 'use server'
  *
  * @param matchId - the match to check
  */
-export async function getMatchEntrants(matchId: number) { 'use server'
+export async function getMatchEntrants(matchId: number) {
     try {
         const response = await fetchWithAuth(GAMEPLAY_URL + `active_match_entrants/${matchId}`, {
             method: 'GET',
@@ -86,7 +90,7 @@ interface Bet {
  * @param betPlacementId - an id to track if bet was placed
  * @param bet - the matchId, entrantId, and amount to bet
  */
-export async function placeBet(betPlacementId: number, bet: Bet) { 'use server'
+export async function placeBet(betPlacementId: number, bet: Bet) {
     try {
         const response = await fetchWithAuth(GAMEPLAY_URL + `bet/${betPlacementId}`, {
             method: 'POST',
