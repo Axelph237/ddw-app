@@ -42,13 +42,7 @@ export async function getEntrant(entrantId: number) {
             }
         });
 
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
-        }
-
-        const json = await response.json();
-
-        return json
+        return response
     }
     catch (error) {
         console.log(error)
