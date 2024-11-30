@@ -9,7 +9,7 @@ import Betting from "@/app/games/[gameId]/pagecontents/Betting.tsx";
 import WaitingRoom from "@/app/games/[gameId]/pagecontents/WaitingRoom.tsx";
 import CharacterCreation from "@/app/games/[gameId]/pagecontents/CharacterCreation.tsx";
 import PostMatch from "@/app/games/[gameId]/pagecontents/PostMatch.tsx";
-import {getBalance} from "@/scripts/gameplay.ts";
+import {getBalance, getCurrentMatch, getCurrentRound} from "@/scripts/gameplay.ts";
 
 enum GameplayState {
     CharacterCreation, // On join, before game start
@@ -29,6 +29,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     const errDisplay = (errMsg != '' && <p className={'m-1'}>{errMsg}</p>)
     // User and game details
     const [currMatch, setCurrMatch] = useState<number | null>(null)
+    const [currRound, setCurrRound] = useState<number | null>(null)
     const [userBal, setUserBal] = useState<number>(4000);
 
     const handleCharacterCreate = (entrant: Entrant) => {
@@ -65,7 +66,38 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
 
     useEffect(() => {
         getBalance(game.id).then(response => setUserBal(response.balance))
+
+        const updateDelay = 1000
+        // round update tick
+        setInterval(() => {
+            if (game.id) {
+                getCurrentRound(game.id).then(response => {
+                    // Update round
+                    if (response.round_id) setCurrRound(response.round_id)
+                    else setCurrRound(null)
+                })
+            }
+        }, updateDelay)
+
+        // match update tick
+        setInterval(() => {
+            if (currRound) {
+                // Update match
+                getCurrentMatch(game.id).then(response => {
+                    if (response.match_id) setCurrRound(response.match_id)
+                    else setCurrMatch(null)
+                })
+            }
+        }, updateDelay)
     })
+
+    useEffect(() => {
+        // On round update
+    }, [currRound])
+
+    useEffect(() => {
+        // On match update
+    }, [currMatch])
 
     // Get specific page contents based on state
     let pageContents;
