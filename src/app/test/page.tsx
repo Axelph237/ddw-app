@@ -7,12 +7,9 @@ export default async function TestPage() { 'use server'
     const WEAPON = 'nothing'
 
     const handleCreate = async () => { 'use server'
-        const response = await createEntrant({name: NAME, weapon: WEAPON})
+        const data = await createEntrant({name: NAME, weapon: WEAPON})
 
-        if (response) {
-            console.log('Entrant created with data:', response.body)
-        }
-        console.log('Entrant creation FAILED')
+        console.log(data)
     }
 
     return (
