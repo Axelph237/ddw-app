@@ -13,9 +13,6 @@ export interface Entrant {
 
 // Creates entrant under user's account
 export async function createEntrant(entrant: Entrant) {
-    console.log('Running:', ENTRANTS_URL)
-    console.log('Entrant data:', entrant)
-
     try {
         const response = await fetchWithAuth(ENTRANTS_URL, {
             method: 'POST',
