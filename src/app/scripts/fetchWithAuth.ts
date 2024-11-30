@@ -21,7 +21,7 @@ export default async function fetchWithAuth(
     if (init)  {
         init.headers = {
             ...init.headers,
-            'Authorization': `Bearer ${session.accessToken}`
+            Authorization: `Bearer ${session.accessToken}`
         }
     }
 
