@@ -1,6 +1,6 @@
 'use client'
 
-import {useState} from "react";
+import {useEffect, useState} from "react";
 // import JumpyDog from "@/app/components/jumpy/JumpyDog.tsx";
 import {createEntrant} from "@/scripts/entrants.ts";
 import {Entrant} from "@/scripts/entrants.ts";
@@ -9,6 +9,7 @@ import Betting from "@/app/games/[gameId]/pagecontents/Betting.tsx";
 import WaitingRoom from "@/app/games/[gameId]/pagecontents/WaitingRoom.tsx";
 import CharacterCreation from "@/app/games/[gameId]/pagecontents/CharacterCreation.tsx";
 import PostMatch from "@/app/games/[gameId]/pagecontents/PostMatch.tsx";
+import {getBalance} from "@/scripts/gameplay.ts";
 
 enum GameplayState {
     CharacterCreation, // On join, before game start
@@ -20,7 +21,7 @@ enum GameplayState {
 /**
  * Manages what screen to render to the user if they are in a game.
  */
-export default function GameplayManager({isAdmin}: {isAdmin: boolean}) {
+export default function GameplayManager({game}:{game:{id: number, isAdmin: boolean, inLobby: boolean}}) {
     // State for current page display
     const [currState, setCurrState] = useState(GameplayState.CharacterCreation);
     // General error message display
@@ -62,6 +63,10 @@ export default function GameplayManager({isAdmin}: {isAdmin: boolean}) {
          */
     }
 
+    useEffect(() => {
+        getBalance(game.id).then(response => setUserBal(response.balance))
+    })
+
     // Get specific page contents based on state
     let pageContents;
     switch (currState) {
@@ -76,7 +81,7 @@ export default function GameplayManager({isAdmin}: {isAdmin: boolean}) {
             )
             break;
         case GameplayState.WaitingRoom:
-            pageContents = <WaitingRoom handleStart={isAdmin ? handleStart : undefined}/>
+            pageContents = <WaitingRoom handleStart={game.isAdmin ? handleStart : undefined}/>
             break;
         case GameplayState.Betting:
             pageContents = <Betting // Make actual updated values
@@ -93,7 +98,7 @@ export default function GameplayManager({isAdmin}: {isAdmin: boolean}) {
                 newBal={userBal}
                 prevBal={3000}
                 story={'Lorem Ipsum'}
-                handleContinue={isAdmin ? handleContinue : undefined}
+                handleContinue={game.isAdmin ? handleContinue : undefined}
             />
             break;
     }
