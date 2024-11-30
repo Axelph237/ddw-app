@@ -21,8 +21,12 @@ enum GameplayState {
  * Manages what screen to render to the user if they are in a game.
  */
 export default function GameplayManager({isAdmin}: {isAdmin: boolean}) {
+    // State for current page display
     const [currState, setCurrState] = useState(GameplayState.CharacterCreation);
+    // General error message display
     const [errMsg, setErrMsg] = useState('')
+    const errDisplay = (errMsg != '' && <p className={'m-1'}>{errMsg}</p>)
+    // User and game details
     const [currMatch, setCurrMatch] = useState<number | null>(null)
     const [userBal, setUserBal] = useState<number>(4000);
 
@@ -67,7 +71,7 @@ export default function GameplayManager({isAdmin}: {isAdmin: boolean}) {
                     <CharacterCreation // Make actual updated values
                         handleCreate={handleCharacterCreate}
                     />
-                    {errMsg != '' && <p className={'m-1'}>{errMsg}</p>}
+                    {errDisplay}
                 </>
             )
             break;
