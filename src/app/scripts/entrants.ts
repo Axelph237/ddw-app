@@ -29,9 +29,7 @@ export async function createEntrant(entrant: Entrant) {
             throw new Error(`Response status: ${response.status}`);
         }
 
-        const json = await response.json();
-
-        return json
+        return response
     }
     catch (error) {
         console.log(error)
