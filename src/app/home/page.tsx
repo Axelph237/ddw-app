@@ -1,10 +1,19 @@
 import Button from "@/app/components/button.tsx";
 import { redirect } from 'next/navigation';
+import {getCurrentGame, joinGame} from "@/scripts/game.ts";
 
 export default async function HomePage() {
 
     async function handleJoin() { 'use server'
-        console.log('Join button clicked!')
+        const joinedGame = await joinGame()
+
+        if (joinedGame.id) {
+            redirect(`/games/${joinedGame.id}`);
+        }
+        else {
+            const currGame = await getCurrentGame()
+            redirect(`/games/${currGame.id}`)
+        }
     }
 
     return (
