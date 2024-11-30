@@ -29,7 +29,7 @@ export default function GameplayManager({isAdmin}: {isAdmin: boolean}) {
     const handleCharacterCreate = (entrant: Entrant) => {
         createEntrant(entrant)
             .then(response => {
-                if (!response.detail || response.detail.toString().toLowerCase().includes('failed to create')) {
+                if (!response.detail || response.detail.toString().toLowerCase().includes('no row')) {
                     // Successful creation or user already has entrant
                     setCurrState(GameplayState.WaitingRoom)
                 }
