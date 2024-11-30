@@ -25,7 +25,7 @@ export async function createEntrant(entrant: Entrant) {
             body: JSON.stringify(entrant),
         });
 
-        return response
+        return await response.json()
     }
     catch (error) {
         console.log(error)
@@ -42,7 +42,7 @@ export async function getEntrant(entrantId: number) {
             }
         });
 
-        return response
+        return await response.json()
     }
     catch (error) {
         console.log(error)
