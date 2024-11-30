@@ -22,15 +22,28 @@ enum GameplayState {
  */
 export default function GameplayManager({isAdmin}: {isAdmin: boolean}) {
     const [currState, setCurrState] = useState(GameplayState.CharacterCreation);
+    const [errMsg, setErrMsg] = useState('')
     const [currMatch, setCurrMatch] = useState<number | null>(null)
     const [userBal, setUserBal] = useState<number>(4000);
 
     const handleCharacterCreate = (entrant: Entrant) => {
-        setCurrState(GameplayState.WaitingRoom);
-
-        createEntrant(entrant).then(response => {
-            console.log('Character created with response:', response)
-        })
+        createEntrant(entrant)
+            .then(response => {
+                if (!response.detail || response.detail.toString().toLowerCase().includes('failed to create')) {
+                    // Successful creation or user already has entrant
+                    setCurrState(GameplayState.WaitingRoom)
+                }
+                else if (response.detail.toString().toLowerCase().includes('inappropriate')) {
+                    // Inappropriate words were passed to character creation
+                    console.log('Why you putting naughty words in there?')
+                    setErrMsg('Try to do something a bit more appropriate please 😁')
+                }
+                else {
+                    // General catch
+                    console.log('Entrant creation failed with details:', response.detail)
+                    setErrMsg('Uncaught error: ' + response.detail.toString())
+                }
+            })
     }
 
     const handleStart = () => {
@@ -49,9 +62,14 @@ export default function GameplayManager({isAdmin}: {isAdmin: boolean}) {
     let pageContents;
     switch (currState) {
         case GameplayState.CharacterCreation:
-            pageContents = <CharacterCreation // Make actual updated values
-                handleCreate={handleCharacterCreate}
-            />
+            pageContents = (
+                <>
+                    <CharacterCreation // Make actual updated values
+                        handleCreate={handleCharacterCreate}
+                    />
+                    {errMsg != '' && <p className={'m-1'}>{errMsg}</p>}
+                </>
+            )
             break;
         case GameplayState.WaitingRoom:
             pageContents = <WaitingRoom handleStart={isAdmin ? handleStart : undefined}/>
@@ -83,3 +101,4 @@ export default function GameplayManager({isAdmin}: {isAdmin: boolean}) {
         </div>
     )
 }
+
