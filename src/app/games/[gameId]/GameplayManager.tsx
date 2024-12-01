@@ -80,6 +80,10 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         continueGame(game.id).then(response => console.log('Game continued with response:', response))
     }
 
+    const handleNextMatch = () => {
+        setPrevMatch(currMatch) // Move to next betting phase
+    }
+
     const handleBet = (entrantId: number, amount: number) => {
         if (!currMatch) throw TypeError('Current match is null')
 
@@ -130,7 +134,14 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
 
     // Triggers on round update
     useEffect(() => {
-        // On round update
+        // Game started
+        if (prevRound == null && currRound != null) {
+
+        }
+        // Game ended
+        else if (prevRound != null && currRound == null) {
+
+        }
     }, [currRound])
 
     // Triggers on match updates
@@ -195,7 +206,9 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
                 entrantOne={currEntrants?.entrantOne}
                 entrantTwo={currEntrants?.entrantOne}
                 userBal={userBal}
-                handleBet={(entrant: Entrant, amount: number) => {console.log(`$${amount} bet on ${entrant.name}(id:${entrant.id})`)}} // TODO make actual bet
+                matchId={42}
+                handleBet={handleBet}
+                handleContinue={game.isAdmin ? handleNextMatch : undefined}
             />
             break;
         case GameplayState.PostMatch:
@@ -205,7 +218,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
                 newBal={userBal}
                 prevBal={prevBal}
                 story={'Lorem Ipsum'}
-                handleContinue={game.isAdmin ? handleContinue : undefined}
+                handleContinue={game.isAdmin ? handleNextMatch : undefined}
             />
             break;
     }
