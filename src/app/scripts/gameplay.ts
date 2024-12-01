@@ -146,3 +146,21 @@ export async function getMatchResults(matchId: number) {
         console.log(error)
     }
 }
+
+/**
+ * Gets the number of users who have bet in a match, and total users in the match
+ *
+ * @param matchId - the match to search
+ */
+export async function getBetInfo(matchId: number) {
+    try {
+        const response = await fetchWithAuth(GAMEPLAY_URL + `${matchId}/bet_info`, {
+            method: 'GET',
+        });
+
+        return await response.json()
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
