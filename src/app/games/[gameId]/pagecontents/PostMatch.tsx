@@ -9,13 +9,18 @@ import {useState} from "react";
 // TODO add awaiting functionality to story so that story only displays once available
 const PostMatch = ({winner, loser, prevBal, newBal, story, handleContinue}:
                        {
-                           winner: Entrant,
-                           loser: Entrant,
+                           winner?: Entrant,
+                           loser?: Entrant,
                            prevBal: number,
                            newBal: number,
                            story: string,
                            handleContinue?: () => void
                        }) => {
+
+
+    // Default entrant values if missing
+    winner = winner ? winner : {name: 'None', weapon: 'None'}
+    loser = loser ? loser : {name: 'None', weapon: 'None'}
 
     const imgWinner = winner.imgUrl ? winner.imgUrl : dog;
     const imgLoser = loser.imgUrl ? loser.imgUrl : cat;
