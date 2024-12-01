@@ -19,12 +19,14 @@ import {
 } from "@/scripts/gameplay.ts";
 import {startGame} from "@/scripts/game.ts";
 import Loading from "@/app/games/[gameId]/pagecontents/Loading.tsx";
+import GameComplete from "@/app/games/[gameId]/pagecontents/GameComplete.tsx";
 
 enum GameplayState {
     CharacterCreation, // On join, before game start
     WaitingRoom, // After character create, before game start
     Betting, // During match
-    PostMatch
+    PostMatch,
+    Complete
 }
 
 /**
@@ -140,7 +142,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         }
         // Game ended
         else if (prevRound != null && currRound == null) {
-
+            setCurrState(GameplayState.Complete)
         }
     }, [currRound])
 
@@ -187,7 +189,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
 
     // Get specific page contents based on state
     let pageContents;
-    switch (currState) {
+    switch (currMatch) {
         case GameplayState.CharacterCreation:
             pageContents = (
                 <>
@@ -219,6 +221,11 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
                 prevBal={prevBal}
                 story={'Lorem Ipsum'}
                 handleContinue={game.isAdmin ? handleNextMatch : undefined}
+            />
+            break;
+        case GameplayState.Complete:
+            pageContents = <GameComplete
+                entrantId={30}
             />
             break;
     }
