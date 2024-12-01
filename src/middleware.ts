@@ -36,16 +36,16 @@ export async function middleware(request: NextRequest) {
     }
 
     // Add auth header to all API requests
-    if (pathname.startsWith('/api/')) {
-        const requestHeaders = new Headers(request.headers);
-        requestHeaders.set('Authorization', `Bearer ${session.accessToken}`);
-
-        return NextResponse.next({
-            request: {
-                headers: requestHeaders,
-            },
-        });
-    }
+    // if (pathname.startsWith('/api/')) {
+    //     const requestHeaders = new Headers(request.headers);
+    //     requestHeaders.set('Authorization', `Bearer ${session.accessToken}`);
+    //
+    //     return NextResponse.next({
+    //         request: {
+    //             headers: requestHeaders,
+    //         },
+    //     });
+    // }
 
     return NextResponse.next();
 }

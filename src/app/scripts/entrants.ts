@@ -1,18 +1,24 @@
 'use server'
 
+import fetchWithAuth from "@/scripts/fetchWithAuth.ts";
+
 const ENTRANTS_URL = process.env.NEXT_PUBLIC_API_URL + '/entrants/'
 
 export interface Entrant {
     name: string,
     weapon: string,
     id?: number,
-    imgUrl?: string,
+    img_url?: string,
+    total_bets?: number,
+    max_bet?: number,
+    matches_won?: number,
+    leaderboard_pos?: number
 }
 
 // Creates entrant under user's account
-export async function createEntrant(entrant:{name: string, weapon: string}) {
+export async function createEntrant(entrant: Entrant) {
     try {
-        const response = await fetch(ENTRANTS_URL, {
+        const response = await fetchWithAuth(ENTRANTS_URL, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"
@@ -20,13 +26,24 @@ export async function createEntrant(entrant:{name: string, weapon: string}) {
             body: JSON.stringify(entrant),
         });
 
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
-        }
+        return await response.json()
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
 
-        const json = await response.json();
+export async function getEntrant(entrantId: number) {
 
-        return json
+    try {
+        const response = await fetch(ENTRANTS_URL + `${entrantId}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        return await response.json()
     }
     catch (error) {
         console.log(error)

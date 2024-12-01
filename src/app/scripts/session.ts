@@ -20,7 +20,7 @@ export async function setSession(session: Session): Promise<string> {
     // Also store in encrypted cookie for persistence
     const encryptedSession = encrypt(JSON.stringify(session), SECRET_KEY).toString();
     (await cookies()).set('session', encryptedSession, {
-        maxAge: 24 * 60 * 60, // 24 hours
+        maxAge: 40 * 60, // 40 minutes
         path: '/',
         secure: true,
         sameSite: 'strict'
