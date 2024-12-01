@@ -31,7 +31,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     const [currMatch, setCurrMatch] = useState<number | null>(null)
     const [currRound, setCurrRound] = useState<number | null>(null)
     const [currEntrants, setCurrEntrants] = useState<{entrantOne: Entrant, entrantTwo: Entrant} | null>(null)
-    const [userBal, setUserBal] = useState<number>(4000);
+    const [userBal, setUserBal] = useState<number>(0);
 
     const handleCharacterCreate = (entrant: Entrant) => {
         createEntrant(entrant)
