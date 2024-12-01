@@ -9,7 +9,14 @@ import Betting from "@/app/games/[gameId]/pagecontents/Betting.tsx";
 import WaitingRoom from "@/app/games/[gameId]/pagecontents/WaitingRoom.tsx";
 import CharacterCreation from "@/app/games/[gameId]/pagecontents/CharacterCreation.tsx";
 import PostMatch from "@/app/games/[gameId]/pagecontents/PostMatch.tsx";
-import {continueGame, getBalance, getCurrentMatch, getCurrentRound, getMatchEntrants} from "@/scripts/gameplay.ts";
+import {
+    continueGame,
+    getBalance,
+    getCurrentMatch,
+    getCurrentRound,
+    getMatchEntrants, getMatchResults,
+    placeBet
+} from "@/scripts/gameplay.ts";
 import {startGame} from "@/scripts/game.ts";
 import Loading from "@/app/games/[gameId]/pagecontents/Loading.tsx";
 
@@ -35,6 +42,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     const [currMatch, setCurrMatch] = useState<number | null>(null)
     const [prevRound, setPrevRound] = useState<number | null>(null)
     const [currRound, setCurrRound] = useState<number | null>(null)
+    const [prevEntrants, setPrevEntrants] = useState<{winner: Entrant, loser: Entrant} | null>(null)
     const [currEntrants, setCurrEntrants] = useState<{entrantOne: Entrant, entrantTwo: Entrant} | null>(null)
     const [prevBal, setPrevBal] = useState<number>(0)
     const [userBal, setUserBal] = useState<number>(0);
@@ -44,6 +52,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     const handleCharacterCreate = (entrant: Entrant) => {
         createEntrant(entrant)
             .then(response => {
+                console.log('Create entrant response:', response)
                 if (!response.detail || response.detail.toString().toLowerCase().includes('no row')) {
                     // Successful creation or user already has entrant
                     setCurrState(GameplayState.WaitingRoom)
@@ -71,12 +80,25 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         continueGame(game.id).then(response => console.log('Game continued with response:', response))
     }
 
+    const handleBet = (entrantId: number, amount: number) => {
+        if (!currMatch) throw TypeError('Current match is null')
+
+        const placementId = Math.floor(Math.random() * (10**9)) // Random number 1-1,000,000,000
+
+        placeBet(placementId, {
+            matchId: currMatch,
+            entrantId: entrantId,
+            amount: amount
+        }).then(response => console.log('Bet placed with response:', response))
+    }
+
     // Initializes component
     useEffect(() => {
         getBalance(game.id).then(response => setUserBal(response.balance))
 
-        const updateDelay = 1000
+        const updateDelay = 2000
         // round update tick
+        // only handles round update
         setInterval(() => {
             if (game.id) {
                 getCurrentRound(game.id).then(response => {
@@ -91,6 +113,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         }, updateDelay)
 
         // match update tick
+        // only handles match update
         setInterval(() => {
             if (currRound) {
                 getCurrentMatch(currRound).then(response => {
@@ -111,10 +134,11 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     }, [currRound])
 
     // Triggers on match updates
+    // Handles state movement
     useEffect(() => { // On match update
         // Match in empty state
         if (!currMatch) {
-            setLoading(true)
+            // setLoading(true)
             return
         }
 
@@ -130,13 +154,18 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
                 setCurrState(GameplayState.Betting)
             })
         }
-        // Move to PostMatch
-        else {
-            console.log('Entering post match')
+        // Move to PostMatch if defined
+        else if (prevMatch) {
 
-            getBalance(game.id).then(response => {
-                setPrevBal(userBal) // Document previous balance
-                setUserBal(response.balance)
+            getMatchResults(prevMatch).then(async (response) => {
+                const winner = await getEntrant(response.winner)
+                const loser = await getEntrant(response.loser)
+                setPrevEntrants({winner, loser})
+
+                const newBal = await getBalance(game.id)
+                setPrevBal(userBal)
+                setUserBal(newBal)
+
                 setCurrState(GameplayState.PostMatch)
             })
         }
@@ -171,8 +200,8 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
             break;
         case GameplayState.PostMatch:
             pageContents = <PostMatch // Make actual updated values
-                winner={{name: 'Spongeborg', weapon: 'Spatubob'}}
-                loser={{name: 'Adam Sandler', weapon: 'Philosphy'}}
+                winner={prevEntrants?.winner}
+                loser={prevEntrants?.loser}
                 newBal={userBal}
                 prevBal={prevBal}
                 story={'Lorem Ipsum'}
