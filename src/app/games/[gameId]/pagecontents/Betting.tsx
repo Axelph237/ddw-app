@@ -13,8 +13,8 @@ import './Betting.css'
  */
 const Betting = ({entrantOne, entrantTwo, userBal, handleBet}:
                      {
-                         entrantOne: Entrant,
-                         entrantTwo: Entrant,
+                         entrantOne?: Entrant,
+                         entrantTwo?: Entrant,
                          userBal: number,
                          handleBet: (entrant: Entrant, amount: number) => void
                      }
@@ -24,6 +24,11 @@ const Betting = ({entrantOne, entrantTwo, userBal, handleBet}:
     const [mousePos, setMousePos] = useState({x: -1, y: -1})
     const betInputRef = useRef<HTMLInputElement>(null)
 
+    // Default entrant values if missing
+    entrantOne = entrantOne ? entrantOne : {name: 'None', weapon: 'None'}
+    entrantTwo = entrantTwo ? entrantTwo : {name: 'None', weapon: 'None'}
+
+    // Set image values, or default values if missing
     const imgLeft = entrantOne.imgUrl ? entrantOne.imgUrl : dog;
     const imgRight = entrantTwo.imgUrl ? entrantTwo.imgUrl : cat;
 
