@@ -158,8 +158,8 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
             break;
         case GameplayState.Betting:
             pageContents = <Betting // Make actual updated values
-                entrantOne={currEntrants.entrantOne}
-                entrantTwo={currEntrants.entrantOne}
+                entrantOne={currEntrants?.entrantOne}
+                entrantTwo={currEntrants?.entrantOne}
                 userBal={userBal}
                 handleBet={(entrant: Entrant, amount: number) => {console.log(`$${amount} bet on ${entrant.name}(id:${entrant.id})`)}}
             />
