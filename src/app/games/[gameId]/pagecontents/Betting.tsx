@@ -16,7 +16,7 @@ const Betting = ({entrantOne, entrantTwo, userBal, handleBet}:
                          entrantOne?: Entrant,
                          entrantTwo?: Entrant,
                          userBal: number,
-                         handleBet: (entrant: Entrant, amount: number) => void
+                         handleBet: (entrantId: number, amount: number) => void
                      }
 ) => {
     const [selectedEntrant, setSelectedEntrant] = useState<string | null>(null)
@@ -55,7 +55,9 @@ const Betting = ({entrantOne, entrantTwo, userBal, handleBet}:
 
         const entrant = selectedEntrant == 'left' ? entrantOne : entrantTwo
 
-        handleBet(entrant, parseInt(betInputRef.current.value))
+        if (entrant.id) {
+            handleBet(entrant.id, parseInt(betInputRef.current.value))
+        }
     }
 
     const handleMouseMouse = (event: MouseEvent) => {
