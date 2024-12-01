@@ -146,7 +146,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
 
     return (
         <div className={'w-screen h-screen flex flex-col justify-center items-center'}>
-            <p className='absolute top-12 left-2'>User bal: {userBal}</p>
+            {/*<p className='absolute top-12 left-2'>User bal: {userBal}</p>*/}
             {pageContents}
         </div>
     )
