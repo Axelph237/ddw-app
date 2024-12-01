@@ -5,20 +5,25 @@ import Image from "next/image";
 import Button from "@/app/components/button.tsx";
 import {Entrant} from "@/scripts/entrants.ts";
 import './Betting.css'
+import {getBetInfo} from "@/scripts/gameplay.ts";
+import {match} from "node:assert";
 
 /**
  * Page content when player is betting on current match entrants
  *
  * @constructor
  */
-const Betting = ({entrantOne, entrantTwo, userBal, handleBet}:
+const Betting = ({entrantOne, entrantTwo, userBal, handleBet, matchId}:
                      {
                          entrantOne?: Entrant,
                          entrantTwo?: Entrant,
                          userBal: number,
+                         matchId: number | null,
                          handleBet: (entrantId: number, amount: number) => void
                      }
 ) => {
+    const [numBets, setNumBets] = useState<number>(0)
+    const [numPlayers, setNumPlayers] = useState<number | null>(null)
     const [selectedEntrant, setSelectedEntrant] = useState<string | null>(null)
     const [isValidAmount, setIsValidAmount] = useState(true)
     const [mousePos, setMousePos] = useState({x: -1, y: -1})
@@ -65,16 +70,36 @@ const Betting = ({entrantOne, entrantTwo, userBal, handleBet}:
     }
 
     useEffect(() => {
+        // Update num bets display
+        const updateDisplay = async () => {
+            if (!matchId) return;
+
+            const betInfo = await getBetInfo(matchId)
+
+            if (betInfo?.bet_count && betInfo?.player_count) {
+                setNumBets(betInfo.bet_count)
+                setNumPlayers(betInfo.player_count)
+            }
+        }
+        updateDisplay().then(() => console.log('Set initial player counts'))
+
+        const updateDelay = 2000
+        const intervalId = setInterval(updateDisplay, updateDelay)
+
         window.addEventListener('mousemove', handleMouseMouse)
 
         return () => {
             window.removeEventListener('mousemove', handleMouseMouse)
+            clearInterval(intervalId)
         }
     })
 
     return (
         <div className='flex flex-col justify-center items-center w-fit h-fit p-32 overflow-hidden gap-12'>
-            <p>Who will win?</p>
+            <div className='flex flex-col justify-center items-center'>
+                <p className='text-3xl font-bold'>Who will win?</p>
+                {numPlayers && <p>Player bets: {numBets}/{numPlayers}</p>}
+            </div>
             <div className='flex flex-row gap-6'>
 
                 {/* Left entrant */}
