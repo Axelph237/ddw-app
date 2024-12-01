@@ -13,13 +13,14 @@ import {match} from "node:assert";
  *
  * @constructor
  */
-const Betting = ({entrantOne, entrantTwo, userBal, handleBet, matchId}:
+const Betting = ({entrantOne, entrantTwo, userBal, handleBet, matchId, handleContinue}:
                      {
                          entrantOne?: Entrant,
                          entrantTwo?: Entrant,
                          userBal: number,
                          matchId: number | null,
                          handleBet: (entrantId: number, amount: number) => void
+                         handleContinue: () => void
                      }
 ) => {
     const [numBets, setNumBets] = useState<number>(0)
@@ -133,6 +134,7 @@ const Betting = ({entrantOne, entrantTwo, userBal, handleBet, matchId}:
                     <Button text={'Submit'} onClick={handleSubmit} />
                 </div>
             </div>}
+            <Button text={'Next Match'} onClick={handleContinue}/>
         </div>
     )
 }
