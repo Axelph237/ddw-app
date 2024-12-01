@@ -36,6 +36,8 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     const [currEntrants, setCurrEntrants] = useState<{entrantOne: Entrant, entrantTwo: Entrant} | null>(null)
     const [userBal, setUserBal] = useState<number>(0);
 
+    // Run async function for character creation
+    // Handles errors from character creation and sets errMsg accordingly
     const handleCharacterCreate = (entrant: Entrant) => {
         createEntrant(entrant)
             .then(response => {
@@ -56,14 +58,17 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
             })
     }
 
+    // Runs async startGame function
     const handleStart = () => {
         startGame(game.id).then(response => console.log('Game started with response:', response))
     }
 
+    // Runs async continueGame function
     const handleContinue = () => {
         continueGame(game.id).then(response => console.log('Game continued with response:', response))
     }
 
+    // Initializes component
     useEffect(() => {
         getBalance(game.id).then(response => setUserBal(response.balance))
 
@@ -91,10 +96,12 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         }, updateDelay)
     })
 
+    // Triggers on round update
     useEffect(() => {
         // On round update
     }, [currRound])
 
+    // Triggers on match update
     useEffect(() => { // On match update
         if (currMatch) {
             getMatchEntrants(currMatch).then(async (response) => {
