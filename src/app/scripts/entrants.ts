@@ -9,6 +9,10 @@ export interface Entrant {
     weapon: string,
     id?: number,
     img_url?: string,
+    total_bets?: number,
+    max_bet?: number,
+    matches_won?: number,
+    leaderboard_pos?: number
 }
 
 // Creates entrant under user's account
