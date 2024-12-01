@@ -110,3 +110,21 @@ export async function placeBet(betPlacementId: number, bet: Bet) {
         console.log(error)
     }
 }
+
+/**
+ * Continues the game's state
+ *
+ * @param gameId - the game to continue
+ */
+export async function continueGame(gameId: number) {
+    try {
+        const response = await fetchWithAuth(GAMEPLAY_URL + `${gameId}/continue`, {
+            method: 'POST',
+        });
+
+        return await response.json()
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
