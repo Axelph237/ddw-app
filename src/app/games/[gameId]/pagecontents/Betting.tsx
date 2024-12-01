@@ -20,7 +20,7 @@ const Betting = ({entrantOne, entrantTwo, userBal, handleBet, matchId, handleCon
                          userBal: number,
                          matchId: number | null,
                          handleBet: (entrantId: number, amount: number) => void
-                         handleContinue: () => void
+                         handleContinue?: () => void
                      }
 ) => {
     const [numBets, setNumBets] = useState<number>(0)
@@ -134,7 +134,7 @@ const Betting = ({entrantOne, entrantTwo, userBal, handleBet, matchId, handleCon
                     <Button text={'Submit'} onClick={handleSubmit} />
                 </div>
             </div>}
-            <Button text={'Next Match'} onClick={handleContinue}/>
+            {handleContinue && <Button text={'Conclude Match'} onClick={handleContinue}/>}
         </div>
     )
 }
