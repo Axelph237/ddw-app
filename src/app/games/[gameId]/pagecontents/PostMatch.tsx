@@ -22,8 +22,8 @@ const PostMatch = ({winner, loser, prevBal, newBal, story, handleContinue}:
     winner = winner ? winner : {name: 'None', weapon: 'None'}
     loser = loser ? loser : {name: 'None', weapon: 'None'}
 
-    const imgWinner = winner.imgUrl ? winner.imgUrl : dog;
-    const imgLoser = loser.imgUrl ? loser.imgUrl : cat;
+    const imgWinner = winner.img_url ? winner.img_url : dog;
+    const imgLoser = loser.img_url ? loser.img_url : cat;
 
     return (
         <div className='flex flex-col items-center justify-center'>

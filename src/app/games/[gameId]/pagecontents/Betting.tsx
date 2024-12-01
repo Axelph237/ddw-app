@@ -35,8 +35,8 @@ const Betting = ({entrantOne, entrantTwo, userBal, handleBet, matchId, handleCon
     entrantTwo = entrantTwo ? entrantTwo : {name: 'None', weapon: 'None'}
 
     // Set image values, or default values if missing
-    const imgLeft = entrantOne.imgUrl ? entrantOne.imgUrl : dog;
-    const imgRight = entrantTwo.imgUrl ? entrantTwo.imgUrl : cat;
+    const imgLeft = entrantOne.img_url ? entrantOne.img_url : dog;
+    const imgRight = entrantTwo.img_url ? entrantTwo.img_url : cat;
 
     const handleSelect = (target: string) => {
         if (target == selectedEntrant) {
