@@ -103,3 +103,21 @@ export async function getUserStatus() {
         console.log(error)
     }
 }
+
+/**
+ * Ends the game, sending all its matches and rounds to completed
+ *
+ * @param gameId - the game to end
+ */
+export async function endGame(gameId: number) {
+    try {
+        const response = await fetchWithAuth(GAMES_URL + `kill/${gameId}`, {
+            method: 'POST',
+        });
+
+        return await response.json()
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
