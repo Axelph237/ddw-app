@@ -9,7 +9,9 @@ import Betting from "@/app/games/[gameId]/pagecontents/Betting.tsx";
 import WaitingRoom from "@/app/games/[gameId]/pagecontents/WaitingRoom.tsx";
 import CharacterCreation from "@/app/games/[gameId]/pagecontents/CharacterCreation.tsx";
 import PostMatch from "@/app/games/[gameId]/pagecontents/PostMatch.tsx";
-import {getBalance, getCurrentMatch, getCurrentRound, getMatchEntrants} from "@/scripts/gameplay.ts";
+import {continueGame, getBalance, getCurrentMatch, getCurrentRound, getMatchEntrants} from "@/scripts/gameplay.ts";
+import {startGame} from "@/scripts/game.ts";
+import Loading from "@/app/games/[gameId]/pagecontents/Loading.tsx";
 
 enum GameplayState {
     CharacterCreation, // On join, before game start
@@ -24,6 +26,7 @@ enum GameplayState {
 export default function GameplayManager({game}:{game:{id: number, isAdmin: boolean, inLobby: boolean}}) {
     // State for current page display
     const [currState, setCurrState] = useState(GameplayState.CharacterCreation);
+    const [loading, setLoading] = useState(false)
     // General error message display
     const [errMsg, setErrMsg] = useState('')
     const errDisplay = (errMsg != '' && <p className={'m-1'}>{errMsg}</p>)
@@ -54,15 +57,11 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     }
 
     const handleStart = () => {
-        /*
-         * Start game *then* set state over to Betting
-         */
+        startGame(game.id).then(response => console.log('Game started with response:', response))
     }
 
     const handleContinue = () => {
-        /*
-         * Continue game *then* return to Betting
-         */
+        continueGame(game.id).then(response => console.log('Game continued with response:', response))
     }
 
     useEffect(() => {
@@ -142,6 +141,10 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
                 handleContinue={game.isAdmin ? handleContinue : undefined}
             />
             break;
+    }
+    // Overwrite page if the state is loading
+    if (loading) {
+        pageContents = <Loading />
     }
 
     return (
