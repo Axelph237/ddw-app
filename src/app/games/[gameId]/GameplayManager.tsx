@@ -109,7 +109,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         // On round update
     }, [currRound])
 
-    // Triggers on match update
+    // Triggers on match updates
     useEffect(() => { // On match update
         // Match in empty state
         if (!currMatch) {
@@ -117,12 +117,10 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
             return
         }
 
-        // Previous match lags update behind
+        // Move to Betting
+        if (currMatch == prevMatch && currState !== GameplayState.Betting) {
+            console.log('Entering new match')
 
-        setLoading(false)
-
-        // Move to betting
-        if (currState !== GameplayState.Betting) {
             getMatchEntrants(currMatch).then(async (response) => {
                 const entrantOne = await getEntrant(response.entrant1_id)
                 const entrantTwo = await getEntrant(response.entrant2_id)
@@ -131,6 +129,15 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
                 setCurrState(GameplayState.Betting)
             })
         }
+        // Move to PostMatch
+        else {
+            console.log('Entering post match')
+
+            setCurrState(GameplayState.PostMatch)
+        }
+
+        // Update loading page
+        setLoading(false)
     }, [currMatch])
 
     // Get specific page contents based on state
@@ -151,8 +158,8 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
             break;
         case GameplayState.Betting:
             pageContents = <Betting // Make actual updated values
-                entrantOne={{name: 'Spongeborg', weapon: 'Spatubob'}}
-                entrantTwo={{name: 'Adam Sandler', weapon: 'Philosphy'}}
+                entrantOne={currEntrants.entrantOne}
+                entrantTwo={currEntrants.entrantOne}
                 userBal={userBal}
                 handleBet={(entrant: Entrant, amount: number) => {console.log(`$${amount} bet on ${entrant.name}(id:${entrant.id})`)}}
             />
