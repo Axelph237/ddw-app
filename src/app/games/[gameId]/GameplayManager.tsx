@@ -2,14 +2,14 @@
 
 import {useEffect, useState} from "react";
 // import JumpyDog from "@/app/components/jumpy/JumpyDog.tsx";
-import {createEntrant} from "@/scripts/entrants.ts";
+import {createEntrant, getEntrant} from "@/scripts/entrants.ts";
 import {Entrant} from "@/scripts/entrants.ts";
 // Page content components
 import Betting from "@/app/games/[gameId]/pagecontents/Betting.tsx";
 import WaitingRoom from "@/app/games/[gameId]/pagecontents/WaitingRoom.tsx";
 import CharacterCreation from "@/app/games/[gameId]/pagecontents/CharacterCreation.tsx";
 import PostMatch from "@/app/games/[gameId]/pagecontents/PostMatch.tsx";
-import {getBalance, getCurrentMatch, getCurrentRound} from "@/scripts/gameplay.ts";
+import {getBalance, getCurrentMatch, getCurrentRound, getMatchEntrants} from "@/scripts/gameplay.ts";
 
 enum GameplayState {
     CharacterCreation, // On join, before game start
@@ -30,6 +30,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     // User and game details
     const [currMatch, setCurrMatch] = useState<number | null>(null)
     const [currRound, setCurrRound] = useState<number | null>(null)
+    const [currEntrants, setCurrEntrants] = useState<{entrantOne: Entrant, entrantTwo: Entrant} | null>(null)
     const [userBal, setUserBal] = useState<number>(4000);
 
     const handleCharacterCreate = (entrant: Entrant) => {
@@ -95,8 +96,16 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         // On round update
     }, [currRound])
 
-    useEffect(() => {
-        // On match update
+    useEffect(() => { // On match update
+        if (currMatch) {
+            getMatchEntrants(currMatch).then(async (response) => {
+                const entrantOne = await getEntrant(response.entrant1_id)
+                const entrantTwo = await getEntrant(response.entrant2_id)
+
+                setCurrEntrants({entrantOne, entrantTwo})
+                setCurrState(GameplayState.Betting)
+            })
+        }
     }, [currMatch])
 
     // Get specific page contents based on state
