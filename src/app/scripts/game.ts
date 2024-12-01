@@ -87,3 +87,19 @@ export async function getCurrentGame() {
         console.log(error)
     }
 }
+
+/**
+ * Gets if the user is in the current game, and if they are the admin of it.
+ */
+export async function getUserStatus() {
+    try {
+        const response = await fetchWithAuth(GAMES_URL + 'user_status', {
+            method: 'GET',
+        });
+
+        return await response.json()
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
