@@ -31,7 +31,9 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     const [errMsg, setErrMsg] = useState('')
     const errDisplay = (errMsg != '' && <p className={'m-1'}>{errMsg}</p>)
     // User and game details
+    const [prevMatch, setPrevMatch] = useState<number | null>(null)
     const [currMatch, setCurrMatch] = useState<number | null>(null)
+    const [prevRound, setPrevRound] = useState<number | null>(null)
     const [currRound, setCurrRound] = useState<number | null>(null)
     const [currEntrants, setCurrEntrants] = useState<{entrantOne: Entrant, entrantTwo: Entrant} | null>(null)
     const [userBal, setUserBal] = useState<number>(0);
@@ -78,7 +80,10 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
             if (game.id) {
                 getCurrentRound(game.id).then(response => {
                     // Update round
-                    if (response.round_id) setCurrRound(response.round_id)
+                    if (response.round_id && response.round_id != currRound) {
+                        setPrevRound(currRound) // Document last round
+                        setCurrRound(response.round_id)
+                    }
                     else setCurrRound(null)
                 })
             }
@@ -87,9 +92,12 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         // match update tick
         setInterval(() => {
             if (currRound) {
-                // Update match
-                getCurrentMatch(game.id).then(response => {
-                    if (response.match_id) setCurrRound(response.match_id)
+                getCurrentMatch(currRound).then(response => {
+                    // Update match
+                    if (response.match_id && response.match_id != currMatch) {
+                        setPrevMatch(currMatch) // Document last match
+                        setCurrMatch(response.match_id)
+                    }
                     else setCurrMatch(null)
                 })
             }
@@ -103,7 +111,18 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
 
     // Triggers on match update
     useEffect(() => { // On match update
-        if (currMatch) {
+        // Match in empty state
+        if (!currMatch) {
+            setLoading(true)
+            return
+        }
+
+        // Previous match lags update behind
+
+        setLoading(false)
+
+        // Move to betting
+        if (currState !== GameplayState.Betting) {
             getMatchEntrants(currMatch).then(async (response) => {
                 const entrantOne = await getEntrant(response.entrant1_id)
                 const entrantTwo = await getEntrant(response.entrant2_id)
