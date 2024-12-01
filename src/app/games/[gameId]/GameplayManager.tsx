@@ -208,7 +208,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
                 userBal={userBal}
                 matchId={42}
                 handleBet={handleBet}
-                handleContinue={game.isAdmin ? handleNextMatch : undefined}
+                handleContinue={game.isAdmin ? handleContinue : undefined}
             />
             break;
         case GameplayState.PostMatch:
