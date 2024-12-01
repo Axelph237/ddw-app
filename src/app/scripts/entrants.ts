@@ -8,7 +8,7 @@ export interface Entrant {
     name: string,
     weapon: string,
     id?: number,
-    imgUrl?: string,
+    img_url?: string,
 }
 
 // Creates entrant under user's account
