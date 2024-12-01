@@ -1,8 +1,15 @@
 import Button from "@/app/components/button.tsx";
 import { redirect } from 'next/navigation';
-import {getCurrentGame, joinGame} from "@/scripts/game.ts";
+import {getCurrentGame, getUserStatus, joinGame} from "@/scripts/game.ts";
 
 export default async function HomePage() {
+
+    // Attempt to reenter current game if in lobby
+    const userStatus = await getUserStatus();
+    if (userStatus && userStatus.in_lobby == true) {
+        const currGame = await getCurrentGame();
+        redirect(`/games/${currGame.id}`)
+    }
 
     async function handleJoin() { 'use server'
         const joinedGame = await joinGame()
