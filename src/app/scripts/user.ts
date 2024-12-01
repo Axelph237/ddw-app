@@ -1,4 +1,5 @@
 import { setSession, clearSession } from "@/scripts/session";
+import fetchWithAuth from "@/scripts/fetchWithAuth.ts";
 
 const USERS_URL = process.env.NEXT_PUBLIC_API_URL + '/users';
 export let SESSION_INFO: JSON | undefined = undefined;
@@ -60,4 +61,21 @@ export async function login(email: string, password: string) { 'use server'
 export async function logout() { 'use server'
     await clearSession();
     window.location.href = '/login';
+}
+
+/**
+ * Gets the current user's details
+ */
+export async function getMe() {
+    try {
+        const response = await fetchWithAuth(USERS_URL + '/me', {
+            method: 'GET',
+        });
+
+        return await response.json();
+    }
+    catch (error) {
+        console.log(error);
+        throw error;
+    }
 }
