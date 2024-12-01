@@ -1,3 +1,5 @@
+'use server'
+
 import fetchWithAuth from "@/scripts/fetchWithAuth.ts";
 
 const GAMES_URL = process.env.NEXT_PUBLIC_API_URL + '/games/'
@@ -7,7 +9,7 @@ const GAMES_URL = process.env.NEXT_PUBLIC_API_URL + '/games/'
  *
  * @param gameId - the game to start
  */
-export async function startGame(gameId: number) { 'use server'
+export async function startGame(gameId: number) {
     try {
         const response = await fetchWithAuth(GAMES_URL + `${gameId}/start`, {
             method: 'POST',
