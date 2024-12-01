@@ -36,6 +36,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     const [prevRound, setPrevRound] = useState<number | null>(null)
     const [currRound, setCurrRound] = useState<number | null>(null)
     const [currEntrants, setCurrEntrants] = useState<{entrantOne: Entrant, entrantTwo: Entrant} | null>(null)
+    const [prevBal, setPrevBal] = useState<number>(0)
     const [userBal, setUserBal] = useState<number>(0);
 
     // Run async function for character creation
@@ -133,7 +134,11 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         else {
             console.log('Entering post match')
 
-            setCurrState(GameplayState.PostMatch)
+            getBalance(game.id).then(response => {
+                setPrevBal(userBal) // Document previous balance
+                setUserBal(response.balance)
+                setCurrState(GameplayState.PostMatch)
+            })
         }
 
         // Update loading page
@@ -157,11 +162,11 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
             pageContents = <WaitingRoom handleStart={game.isAdmin ? handleStart : undefined}/>
             break;
         case GameplayState.Betting:
-            pageContents = <Betting // Make actual updated values
+            pageContents = <Betting
                 entrantOne={currEntrants?.entrantOne}
                 entrantTwo={currEntrants?.entrantOne}
                 userBal={userBal}
-                handleBet={(entrant: Entrant, amount: number) => {console.log(`$${amount} bet on ${entrant.name}(id:${entrant.id})`)}}
+                handleBet={(entrant: Entrant, amount: number) => {console.log(`$${amount} bet on ${entrant.name}(id:${entrant.id})`)}} // TODO make actual bet
             />
             break;
         case GameplayState.PostMatch:
@@ -169,7 +174,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
                 winner={{name: 'Spongeborg', weapon: 'Spatubob'}}
                 loser={{name: 'Adam Sandler', weapon: 'Philosphy'}}
                 newBal={userBal}
-                prevBal={3000}
+                prevBal={prevBal}
                 story={'Lorem Ipsum'}
                 handleContinue={game.isAdmin ? handleContinue : undefined}
             />
