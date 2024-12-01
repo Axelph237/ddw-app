@@ -128,3 +128,21 @@ export async function continueGame(gameId: number) {
         console.log(error)
     }
 }
+
+/**
+ * Gets the winner and loser of a match
+ *
+ * @param matchId - the match to search
+ */
+export async function getMatchResults(matchId: number) {
+    try {
+        const response = await fetchWithAuth(GAMEPLAY_URL + `${matchId}/results`, {
+            method: 'GET',
+        });
+
+        return await response.json()
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
