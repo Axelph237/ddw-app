@@ -141,8 +141,15 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
 
         }
         // Game ended
-        else if (prevRound != null && currRound == null) {
-            setCurrState(GameplayState.Complete)
+        else if (prevRound != null && currRound == null && prevMatch) {
+            getMatchResults(prevMatch).then(async response => {
+                const winner = await getEntrant(response.winner)
+                const loser = await getEntrant(response.loser)
+
+                setPrevEntrants({winner, loser})
+                setCurrEntrants(null)
+                setCurrState(GameplayState.Complete)
+            })
         }
     }, [currRound])
 
@@ -224,9 +231,11 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
             />
             break;
         case GameplayState.Complete:
-            pageContents = <GameComplete
-                entrantId={30}
-            />
+            if (prevEntrants?.winner.id) {
+                pageContents = <GameComplete
+                    entrantId={prevEntrants.winner.id}
+                />
+            }
             break;
     }
     // Overwrite page if the state is loading
