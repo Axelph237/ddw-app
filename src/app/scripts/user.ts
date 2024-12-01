@@ -1,5 +1,3 @@
-'use server'
-
 import { setSession, clearSession } from "@/scripts/session";
 import fetchWithAuth from "@/scripts/fetchWithAuth.ts";
 
@@ -7,7 +5,7 @@ const USERS_URL = process.env.NEXT_PUBLIC_API_URL + '/users';
 export let SESSION_INFO: JSON | undefined = undefined;
 
 // Registers the user, responding with a success message and uuid
-export async function register(username: string, email: string, password: string) {
+export async function register(username: string, email: string, password: string) { 'use server'
     try {
         const response = await fetch(USERS_URL + '/register', {
             method: 'POST',
@@ -30,7 +28,7 @@ export async function register(username: string, email: string, password: string
 }
 
 // Logs user in, returning their session token and uuid
-export async function login(email: string, password: string) {
+export async function login(email: string, password: string) { 'use server'
     try {
         const response = await fetch(USERS_URL + '/login', {
             method: 'POST',
@@ -60,7 +58,7 @@ export async function login(email: string, password: string) {
     }
 }
 
-export async function logout() {
+export async function logout() { 'use server'
     await clearSession();
     window.location.href = '/login';
 }
@@ -68,7 +66,7 @@ export async function logout() {
 /**
  * Gets the current user's details
  */
-export async function getMe() {
+export async function getMe() { 'use server'
     try {
         const response = await fetchWithAuth(USERS_URL + '/me', {
             method: 'GET',
