@@ -2,6 +2,7 @@
 
 import { setSession, clearSession } from "@/scripts/session";
 import fetchWithAuth from "@/scripts/fetchWithAuth.ts";
+import {redirect} from "next/navigation";
 
 const USERS_URL = process.env.NEXT_PUBLIC_API_URL + '/users';
 
@@ -61,7 +62,7 @@ export async function login(email: string, password: string) {
 
 export async function logout() {
     await clearSession();
-    window.location.href = '/login';
+    redirect('/login')
 }
 
 /**
