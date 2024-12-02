@@ -58,7 +58,7 @@ export async function getEntrant(entrantId: number) {
 export async function getUserEntrant(gameId: number) {
 
     try {
-        const response = await fetch(ENTRANTS_URL + `user/${gameId}`, {
+        const response = await fetchWithAuth(ENTRANTS_URL + `user/${gameId}`, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json"

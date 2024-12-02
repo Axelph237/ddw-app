@@ -34,7 +34,7 @@ enum GameplayState {
  */
 export default function GameplayManager({game}:{game:{id: number, isAdmin: boolean, inLobby: boolean}}) {
     // State for current page display
-    const [currState, setCurrState] = useState(GameplayState.CharacterCreation);
+    const [currState, setCurrState] = useState<GameplayState | undefined>(undefined);
     const [loading, setLoading] = useState(false)
     // General error message display
     const [errMsg, setErrMsg] = useState('')
@@ -140,6 +140,18 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         // Set initial balance
         getBalance(game.id).then(response => setUserBal(response.balance))
 
+        // Set initial state
+        getUserEntrant(game.id).then(response => {
+            if (currState != null) return;
+
+            if (response.created) {
+                setCurrState(GameplayState.WaitingRoom)
+            }
+            else {
+                setCurrState(GameplayState.CharacterCreation)
+            }
+        })
+
         return () => {
             clearInterval(roundIntervalID)
             clearInterval(matchIntervalID)
@@ -173,6 +185,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
             // State either character create or waiting room
             if (currState != GameplayState.Complete) {
                 getUserEntrant(game.id).then(response => {
+                    console.log('User entrant data:', response)
                     if (response.created) {
                         setCurrState(GameplayState.WaitingRoom)
                     }
@@ -219,7 +232,11 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         console.log('Current state:', currState)
     }, [currState])
 
-    function getPageContents(state: GameplayState) {
+    function getPageContents(state: GameplayState | undefined) {
+        if (state === undefined) {
+            return <Loading />
+        }
+
         // Get specific page contents based on state
         let pageContents;
         switch (state) {
