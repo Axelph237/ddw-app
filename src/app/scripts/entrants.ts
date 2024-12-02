@@ -49,3 +49,25 @@ export async function getEntrant(entrantId: number) {
         console.log(error)
     }
 }
+
+/**
+ * Gets if user created entrant this game.
+ *
+ * @param gameId - Game to check.
+ */
+export async function getUserEntrant(gameId: number) {
+
+    try {
+        const response = await fetch(ENTRANTS_URL + `user/${gameId}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        return await response.json()
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
