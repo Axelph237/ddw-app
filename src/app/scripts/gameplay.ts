@@ -61,13 +61,13 @@ export async function getCurrentMatch(roundId: number) {
 }
 
 /**
- * Gets the entrants in the match
+ * Gets the data for a given match.
  *
  * @param matchId - the match to check
  */
-export async function getMatchEntrants(matchId: number) {
+export async function getMatchData(matchId: number) {
     try {
-        const response = await fetchWithAuth(GAMEPLAY_URL + `active_match_entrants/${matchId}`, {
+        const response = await fetchWithAuth(GAMEPLAY_URL + `${matchId}`, {
             method: 'GET',
         });
 
