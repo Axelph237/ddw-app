@@ -175,7 +175,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         else if (currMatch == prevMatch && currState !== GameplayState.Betting) {
             console.log('Entering new match')
 
-            getMatchData(currMatch).then(async (response) => { // TODO update to new backend endpoint
+            getMatchData(currMatch).then(async (response) => {
                 const entrantOne = await getEntrant(response.entrant_one)
                 const entrantTwo = await getEntrant(response.entrant_two)
 
