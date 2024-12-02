@@ -33,6 +33,7 @@ enum GameplayState {
  * Manages what screen to render to the user if they are in a game.
  */
 export default function GameplayManager({game}:{game:{id: number, isAdmin: boolean, inLobby: boolean}}) {
+    // ---- STATE VARIABLES ----
     // State for current page display
     const [currState, setCurrState] = useState<GameplayState | undefined>(undefined);
     const [loading, setLoading] = useState(false)
@@ -47,8 +48,38 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     const [prevEntrants, setPrevEntrants] = useState<{winner: Entrant, loser: Entrant} | null>(null)
     const [currEntrants, setCurrEntrants] = useState<{entrantOne: Entrant, entrantTwo: Entrant} | null>(null)
     const [prevBal, setPrevBal] = useState<number>(0)
-    const [userBal, setUserBal] = useState<number>(0);
+    const [userBal, setUserBal] = useState<number>(0)
 
+    // ---- STATE INITIALIZE ----
+    // Get initial page content state
+    function initState() {
+        getCurrentRound(game.id).then(async (round) => {
+
+            // No current round
+            if (!round.round_id) {
+                const userEntrant = await getUserEntrant(game.id)
+
+                // Move to waiting room if already created a character
+                // and character creation if not
+                if (userEntrant.created) {
+                    setCurrState(GameplayState.WaitingRoom)
+                }
+                else {
+                    setCurrState(GameplayState.CharacterCreation)
+                }
+            }
+            // Current round
+            else {
+                // Set round and match data
+                const match = await getCurrentMatch(round.round_id)
+
+                setCurrMatch(match.match_id)
+                setCurrRound(round.round_id)
+            }
+        })
+    }
+
+    // ---- HANDLERS ----
     // Run async function for character creation
     // Handles errors from character creation and sets errMsg accordingly
     const handleCharacterCreate = (entrant: Entrant) => {
@@ -98,6 +129,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         }).then(response => console.log('Bet placed with response:', response))
     }
 
+    // ---- RERENDER EVENTS ----
     // Initializes component
     useEffect(() => {
         const updateDelay = 2000
@@ -140,23 +172,13 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         // Set initial balance
         getBalance(game.id).then(response => setUserBal(response.balance))
 
-        // Set initial state
-        getUserEntrant(game.id).then(response => {
-            if (currState != null) return;
-
-            if (response.created) {
-                setCurrState(GameplayState.WaitingRoom)
-            }
-            else {
-                setCurrState(GameplayState.CharacterCreation)
-            }
-        })
+        initState()
 
         return () => {
             clearInterval(roundIntervalID)
             clearInterval(matchIntervalID)
         }
-    })
+    }, [])
 
     // Triggers on round update
     useEffect(() => {
@@ -184,9 +206,9 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         if (!currMatch) {
             // State either character create or waiting room
             if (currState != GameplayState.Complete) {
-                getUserEntrant(game.id).then(response => {
-                    console.log('User entrant data:', response)
+                getUserEntrant(game.id).then(async (response) => {
                     if (response.created) {
+
                         setCurrState(GameplayState.WaitingRoom)
                     }
                     else {
@@ -232,6 +254,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         console.log('Current state:', currState)
     }, [currState])
 
+    // ---- PAGE CONTENT LOGIC ----
     function getPageContents(state: GameplayState | undefined) {
         if (state === undefined) {
             return <Loading />
@@ -289,6 +312,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         return pageContents
     }
 
+    // ---- BODY ----
     return (
         <div className={'w-screen h-screen flex flex-col justify-center items-center'}>
             {/*<p className='absolute top-12 left-2'>User bal: {userBal}</p>*/}
