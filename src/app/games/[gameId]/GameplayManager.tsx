@@ -106,6 +106,9 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         const roundIntervalID = setInterval(() => {
             if (game.id) {
                 getCurrentRound(game.id).then(response => {
+                    // Exit if no update needed
+                    if (response.round_id == currRound) return;
+
                     // Update round
                     if (response.round_id && response.round_id != currRound) {
                         setPrevRound(currRound) // Document last round
@@ -121,6 +124,9 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         const matchIntervalID = setInterval(() => {
             if (currRound) {
                 getCurrentMatch(currRound).then(response => {
+                    // Exit if no update needed
+                    if (response.match_id == currRound) return;
+
                     // Update match
                     if (response.match_id && response.match_id != currMatch) {
                         setPrevMatch(currMatch) // Document last match
