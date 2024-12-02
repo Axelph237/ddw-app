@@ -103,7 +103,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         const updateDelay = 2000
         // round update tick
         // only handles round update
-        setInterval(() => {
+        const roundIntervalID = setInterval(() => {
             if (game.id) {
                 getCurrentRound(game.id).then(response => {
                     // Update round
@@ -118,7 +118,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
 
         // match update tick
         // only handles match update
-        setInterval(() => {
+        const matchIntervalID = setInterval(() => {
             if (currRound) {
                 getCurrentMatch(currRound).then(response => {
                     // Update match
@@ -132,6 +132,11 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         }, updateDelay)
 
         getBalance(game.id).then(response => setUserBal(response.balance))
+
+        return () => {
+            clearInterval(roundIntervalID)
+            clearInterval(matchIntervalID)
+        }
     })
 
     // Triggers on round update
