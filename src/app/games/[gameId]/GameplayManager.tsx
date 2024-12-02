@@ -100,8 +100,6 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
 
     // Initializes component
     useEffect(() => {
-        getBalance(game.id).then(response => setUserBal(response.balance))
-
         const updateDelay = 2000
         // round update tick
         // only handles round update
@@ -132,6 +130,8 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
                 })
             }
         }, updateDelay)
+
+        getBalance(game.id).then(response => setUserBal(response.balance))
     })
 
     // Triggers on round update
@@ -194,60 +194,67 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         setLoading(false)
     }, [currMatch])
 
-    // Get specific page contents based on state
-    let pageContents;
-    switch (currMatch) {
-        case GameplayState.CharacterCreation:
-            pageContents = (
-                <>
-                    <CharacterCreation // Make actual updated values
-                        handleCreate={handleCharacterCreate}
-                    />
-                    {errDisplay}
-                </>
-            )
-            break;
-        case GameplayState.WaitingRoom:
-            pageContents = <WaitingRoom handleStart={game.isAdmin ? handleStart : undefined}/>
-            break;
-        case GameplayState.Betting:
-            pageContents = <Betting
-                entrantOne={currEntrants?.entrantOne}
-                entrantTwo={currEntrants?.entrantOne}
-                userBal={userBal}
-                matchId={42}
-                handleBet={handleBet}
-                handleContinue={game.isAdmin ? handleContinue : undefined}
-            />
-            break;
-        case GameplayState.PostMatch:
-            pageContents = <PostMatch // Make actual updated values
-                winner={prevEntrants?.winner}
-                loser={prevEntrants?.loser}
-                newBal={userBal}
-                prevBal={prevBal}
-                story={'Lorem Ipsum'}
-                handleContinue={game.isAdmin ? handleNextMatch : undefined}
-            />
-            break;
-        case GameplayState.Complete:
-            if (prevEntrants?.winner.id) {
-                pageContents = <GameComplete
-                    entrantId={prevEntrants.winner.id}
+    useEffect(() => {
+        console.log('Current state:', currState)
+    }, [currState])
+
+    function getPageContents(state: GameplayState) {
+        // Get specific page contents based on state
+        let pageContents;
+        switch (state) {
+            case GameplayState.CharacterCreation:
+                pageContents = (
+                    <>
+                        <CharacterCreation // Make actual updated values
+                            handleCreate={handleCharacterCreate}
+                        />
+                        {errDisplay}
+                    </>
+                )
+                break;
+            case GameplayState.WaitingRoom:
+                pageContents = <WaitingRoom handleStart={game.isAdmin ? handleStart : undefined}/>
+                break;
+            case GameplayState.Betting:
+                pageContents = <Betting
+                    entrantOne={currEntrants?.entrantOne}
+                    entrantTwo={currEntrants?.entrantOne}
+                    userBal={userBal}
+                    matchId={42}
+                    handleBet={handleBet}
+                    handleContinue={game.isAdmin ? handleContinue : undefined}
                 />
-            }
-            break;
-    }
-    // Overwrite page if the state is loading
-    if (loading) {
-        pageContents = <Loading />
+                break;
+            case GameplayState.PostMatch:
+                pageContents = <PostMatch // Make actual updated values
+                    winner={prevEntrants?.winner}
+                    loser={prevEntrants?.loser}
+                    newBal={userBal}
+                    prevBal={prevBal}
+                    story={'Lorem Ipsum'}
+                    handleContinue={game.isAdmin ? handleNextMatch : undefined}
+                />
+                break;
+            case GameplayState.Complete:
+                if (prevEntrants?.winner.id) {
+                    pageContents = <GameComplete
+                        entrantId={prevEntrants.winner.id}
+                    />
+                }
+                break;
+        }
+        // Overwrite page if the state is loading
+        if (loading) {
+            pageContents = <Loading />
+        }
+
+        return pageContents
     }
 
     return (
         <div className={'w-screen h-screen flex flex-col justify-center items-center'}>
             {/*<p className='absolute top-12 left-2'>User bal: {userBal}</p>*/}
-            {pageContents}
+            {getPageContents(currState)}
         </div>
     )
 }
-
