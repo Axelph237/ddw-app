@@ -137,6 +137,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
             }
         }, updateDelay)
 
+        // Set initial balance
         getBalance(game.id).then(response => setUserBal(response.balance))
 
         return () => {
