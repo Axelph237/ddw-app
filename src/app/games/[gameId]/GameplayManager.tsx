@@ -2,7 +2,7 @@
 
 import {useEffect, useState} from "react";
 // import JumpyDog from "@/app/components/jumpy/JumpyDog.tsx";
-import {createEntrant, getEntrant} from "@/scripts/entrants.ts";
+import {createEntrant, getEntrant, getUserEntrant} from "@/scripts/entrants.ts";
 import {Entrant} from "@/scripts/entrants.ts";
 // Page content components
 import Betting from "@/app/games/[gameId]/pagecontents/Betting.tsx";
@@ -13,8 +13,8 @@ import {
     continueGame,
     getBalance,
     getCurrentMatch,
-    getCurrentRound,
-    getMatchEntrants, getMatchResults,
+    getCurrentRound, getMatchData,
+    getMatchResults,
     placeBet
 } from "@/scripts/gameplay.ts";
 import {startGame} from "@/scripts/game.ts";
@@ -158,17 +158,26 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     useEffect(() => { // On match update
         // Match in empty state
         if (!currMatch) {
-            // setLoading(true)
+            // State either character create or waiting room
+            if (currState != GameplayState.Complete) {
+                getUserEntrant(game.id).then(response => {
+                    if (response.created) {
+                        setCurrState(GameplayState.WaitingRoom)
+                    }
+                    else {
+                        setCurrState(GameplayState.CharacterCreation)
+                    }
+                })
+            }
             return
         }
-
         // Move to Betting
-        if (currMatch == prevMatch && currState !== GameplayState.Betting) {
+        else if (currMatch == prevMatch && currState !== GameplayState.Betting) {
             console.log('Entering new match')
 
-            getMatchEntrants(currMatch).then(async (response) => {
-                const entrantOne = await getEntrant(response.entrant1_id)
-                const entrantTwo = await getEntrant(response.entrant2_id)
+            getMatchData(currMatch).then(async (response) => { // TODO update to new backend endpoint
+                const entrantOne = await getEntrant(response.entrant_one)
+                const entrantTwo = await getEntrant(response.entrant_two)
 
                 setCurrEntrants({entrantOne, entrantTwo})
                 setCurrState(GameplayState.Betting)
