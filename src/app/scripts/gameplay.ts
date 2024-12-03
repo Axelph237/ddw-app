@@ -188,7 +188,20 @@ export async function endGame(gameId: number) {
  */
 export async function getCurrentGameState() {
     try {
-        const response = await fetchWithAuth(GAMEPLAY_URL + `state`, {
+        const response = await fetchWithAuth(GAMEPLAY_URL + 'state/', {
+            method: 'GET',
+        });
+
+        return await response.json()
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+export async function getPrevMatch() {
+    try {
+        const response = await fetchWithAuth(GAMEPLAY_URL + 'previous_match', {
             method: 'GET',
         });
 
