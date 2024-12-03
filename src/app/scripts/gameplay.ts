@@ -31,7 +31,7 @@ export async function getBalance(gameId: number) {
  */
 export async function getCurrentRound(gameId: number) {
     try {
-        const response = await fetchWithAuth(GAMEPLAY_URL + `get_round/${gameId}`, {
+        const response = await fetchWithAuth(GAMEPLAY_URL + `round/${gameId}`, {
             method: 'GET',
         });
 
@@ -49,7 +49,7 @@ export async function getCurrentRound(gameId: number) {
  */
 export async function getCurrentMatch(roundId: number) {
     try {
-        const response = await fetchWithAuth(GAMEPLAY_URL + `active_match/${roundId}`, {
+        const response = await fetchWithAuth(GAMEPLAY_URL + `match/${roundId}`, {
             method: 'GET',
         });
 
