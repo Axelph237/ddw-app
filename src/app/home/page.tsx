@@ -1,26 +1,19 @@
 import Button from "@/app/components/button.tsx";
 import { redirect } from 'next/navigation';
-import {getCurrentGame, getUserStatus, joinGame} from "@/scripts/game.ts";
+import {getUserStatus, joinGame} from "@/scripts/game.ts";
 
 export default async function HomePage() {
 
     // Attempt to reenter current game if in lobby
     const userStatus = await getUserStatus();
     if (userStatus && userStatus.in_lobby == true) {
-        const currGame = await getCurrentGame();
-        redirect(`/games/${currGame.id}`)
+        redirect(`/games`)
     }
 
     async function handleJoin() { 'use server'
-        const joinedGame = await joinGame()
+        await joinGame()
 
-        if (joinedGame.id) {
-            redirect(`/games/${joinedGame.id}`);
-        }
-        else {
-            const currGame = await getCurrentGame()
-            redirect(`/games/${currGame.id}`)
-        }
+        redirect('/games')
     }
 
     return (
