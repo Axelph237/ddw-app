@@ -12,10 +12,10 @@ export interface Session {
     userId: string
 }
 
-let currentSession: Session | undefined;
+// let currentSession: Session | undefined;
 
 export async function setSession(session: Session): Promise<string> {
-    currentSession = session;
+    // currentSession = session;
     
     // Also store in encrypted cookie for persistence
     const encryptedSession = encrypt(JSON.stringify(session), SECRET_KEY).toString();
@@ -31,9 +31,9 @@ export async function setSession(session: Session): Promise<string> {
 
 export async function getSession(): Promise<Session | undefined> {
     // First try memory
-    if (currentSession) {
-        return currentSession;
-    }
+    // if (currentSession) {
+    //     return currentSession;
+    // }
     
     // Then try cookie
     const sessionCookie = (await cookies()).get('session');
@@ -41,7 +41,7 @@ export async function getSession(): Promise<Session | undefined> {
         try {
             const bytes = decrypt(sessionCookie.value, SECRET_KEY);
             const decrypted = bytes.toString(enc.Utf8);
-            currentSession = JSON.parse(decrypted);
+            const currentSession = JSON.parse(decrypted);
             return currentSession;
         } catch (e) {
             return undefined;
@@ -52,6 +52,6 @@ export async function getSession(): Promise<Session | undefined> {
 }
 
 export async function clearSession(): Promise<void> {
-    currentSession = undefined;
+    // currentSession = undefined;
     (await cookies()).delete('session');
 }
