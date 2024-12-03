@@ -2,7 +2,7 @@
 
 import {logout} from "@/scripts/user.ts";
 import Button from "@/app/components/button.tsx";
-import {endGame} from "@/scripts/game.ts";
+import {endGame} from "@/scripts/gameplay.ts";
 
 export default function GameplayHeader({gameId, isAdmin, username}: {gameId: number, isAdmin: boolean, username: string}) {
     console.log(`${username} is Admin? ${isAdmin}`);
