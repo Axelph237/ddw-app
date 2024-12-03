@@ -53,10 +53,13 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     // ---- STATE INITIALIZE ----
     // Get initial page content state
     function initState() {
+        console.log('Initializing state...')
         getCurrentRound(game.id).then(async (round) => {
+            console.log('Initializing state: round:', round)
 
             // No current round
             if (!round.round_id) {
+                console.log('Initializing state: no round found')
                 const userEntrant = await getUserEntrant(game.id)
 
                 // Move to waiting room if already created a character
@@ -70,9 +73,11 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
             }
             // Current round
             else {
+                console.log('Initializing state: round found! getting match...')
                 // Set round and match data
                 const match = await getCurrentMatch(round.round_id)
 
+                console.log('Initializing state: match:', match)
                 setCurrMatch(match.match_id)
                 setCurrRound(round.round_id)
             }
@@ -105,7 +110,12 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
 
     // Runs async startGame function
     const handleStart = () => {
-        startGame(game.id).then(response => console.log('Game started with response:', response))
+        startGame(game.id).then(async (response) => {
+            console.log('Game started with response:', response)
+
+            const continueResponse = await continueGame(game.id)
+            console.log('Game started with response:', continueResponse)
+        })
     }
 
     // Runs async continueGame function
@@ -206,24 +216,27 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     // Handles state movement
     useEffect(() => { // On match update
         // Match in empty state
+        console.log('Match updated: currMatch: ' + currMatch + ' | prevMatch: ' + prevMatch)
         if (!currMatch) {
+            console.log('Match updated: no match found')
             // State either character create or waiting room
-            if (currState != GameplayState.Complete) {
-                setLoading(true)
-                getUserEntrant(game.id).then(async (response) => {
-                    setLoading(false)
-                    if (response.created) {
-                        setCurrState(GameplayState.WaitingRoom)
-                    }
-                    else {
-                        setCurrState(GameplayState.CharacterCreation)
-                    }
-                })
-            }
+            // if (currState != GameplayState.Complete) {
+            //     setLoading(true)
+            //     getUserEntrant(game.id).then(async (response) => {
+            //         setLoading(false)
+            //         if (response.created) {
+            //             setCurrState(GameplayState.WaitingRoom)
+            //         }
+            //         else {
+            //             setCurrState(GameplayState.CharacterCreation)
+            //         }
+            //     })
+            // }
             return
         }
         // Move to Betting
         else if (currMatch == prevMatch && currState !== GameplayState.Betting) {
+            console.log('Match updated: moving to betting')
             setLoading(true)
 
             getMatchData(currMatch).then(async (response) => {
@@ -237,6 +250,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         }
         // Move to PostMatch if defined
         else if (prevMatch) {
+            console.log('Match updated: moving to post match')
             setLoading(true)
 
             getMatchResults(prevMatch).then(async (response) => {
@@ -251,6 +265,9 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
                 setLoading(false)
                 setCurrState(GameplayState.PostMatch)
             })
+        }
+        else {
+            console.log('Match updated: all previous conditions failed')
         }
     }, [currMatch])
 
