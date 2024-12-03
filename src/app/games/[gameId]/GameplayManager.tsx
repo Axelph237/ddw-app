@@ -188,12 +188,15 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         }
         // Game ended
         else if (prevRound != null && currRound == null && prevMatch) {
+            setLoading(true)
+
             getMatchResults(prevMatch).then(async response => {
                 const winner = await getEntrant(response.winner)
                 const loser = await getEntrant(response.loser)
 
                 setPrevEntrants({winner, loser})
                 setCurrEntrants(null)
+                setLoading(false)
                 setCurrState(GameplayState.Complete)
             })
         }
@@ -206,9 +209,10 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         if (!currMatch) {
             // State either character create or waiting room
             if (currState != GameplayState.Complete) {
+                setLoading(true)
                 getUserEntrant(game.id).then(async (response) => {
+                    setLoading(false)
                     if (response.created) {
-
                         setCurrState(GameplayState.WaitingRoom)
                     }
                     else {
@@ -220,18 +224,20 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         }
         // Move to Betting
         else if (currMatch == prevMatch && currState !== GameplayState.Betting) {
-            console.log('Entering new match')
+            setLoading(true)
 
             getMatchData(currMatch).then(async (response) => {
                 const entrantOne = await getEntrant(response.entrant_one)
                 const entrantTwo = await getEntrant(response.entrant_two)
 
                 setCurrEntrants({entrantOne, entrantTwo})
+                setLoading(false)
                 setCurrState(GameplayState.Betting)
             })
         }
         // Move to PostMatch if defined
         else if (prevMatch) {
+            setLoading(true)
 
             getMatchResults(prevMatch).then(async (response) => {
                 const winner = await getEntrant(response.winner)
@@ -242,12 +248,10 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
                 setPrevBal(userBal)
                 setUserBal(newBal)
 
+                setLoading(false)
                 setCurrState(GameplayState.PostMatch)
             })
         }
-
-        // Update loading page
-        setLoading(false)
     }, [currMatch])
 
     useEffect(() => {
