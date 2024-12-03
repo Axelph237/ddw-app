@@ -8,13 +8,12 @@ import {useEffect, useState} from "react";
 import {getMatchData} from "@/scripts/gameplay.ts";
 
 // TODO add awaiting functionality to story so that story only displays once available
-const PostMatch = ({winner, loser, prevBal, newBal, handleContinue, matchId}:
+const PostMatch = ({winner, loser, deltaBal, handleContinue, matchId}:
                        {
                            winner?: Entrant,
                            loser?: Entrant,
                            matchId: number | null,
-                           prevBal: number,
-                           newBal: number,
+                           deltaBal: number,
                            handleContinue?: () => void
                        }) => {
     const [imgMatch, setImgMatch] = useState<string | null>(null);
@@ -68,7 +67,7 @@ const PostMatch = ({winner, loser, prevBal, newBal, handleContinue, matchId}:
             <p className='text-3xl font-bold relative'>{winner.name} stands victorious!</p>
             <div className='flex flex-row items-center justify-center'>
                 <p>{'Earnings:'}</p>
-                <p className={`font-bold ${newBal < prevBal ? 'text-red-500' : 'text-emerald-500'} text-xl`}>{newBal > prevBal ? '+' : '-'}{Math.abs(newBal - prevBal)}</p>
+                <p className={`font-bold ${deltaBal < 0 ? 'text-red-500' : 'text-emerald-500'} text-xl`}>{deltaBal > 0 ? '+' : '-'}{Math.abs(deltaBal)}</p>
             </div>
             {story && <StarWarsText text={story}/>}
             <div className='h-'></div>
