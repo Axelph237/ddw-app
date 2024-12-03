@@ -45,6 +45,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     const [currMatch, setCurrMatch] = useState<number | null>(null)
     const [prevRound, setPrevRound] = useState<number | null>(null)
     const [currRound, setCurrRound] = useState<number | null>(null)
+    const [matchImgUrl, setMatchImgUrl] = useState<string | null>(null)
     const [prevEntrants, setPrevEntrants] = useState<{winner: Entrant, loser: Entrant} | null>(null)
     const [currEntrants, setCurrEntrants] = useState<{entrantOne: Entrant, entrantTwo: Entrant} | null>(null)
     const [prevBal, setPrevBal] = useState<number>(0)
@@ -296,7 +297,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
                     loser={prevEntrants?.loser}
                     newBal={userBal}
                     prevBal={prevBal}
-                    story={'Lorem Ipsum'}
+                    matchId={prevMatch}
                     handleContinue={game.isAdmin ? handleNextMatch : undefined}
                 />
                 break;
