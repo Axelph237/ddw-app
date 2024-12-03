@@ -12,7 +12,7 @@ const PostMatch = ({winner, loser, prevBal, newBal, handleContinue, matchId}:
                        {
                            winner?: Entrant,
                            loser?: Entrant,
-                           matchId?: number,
+                           matchId: number | null,
                            prevBal: number,
                            newBal: number,
                            handleContinue?: () => void
