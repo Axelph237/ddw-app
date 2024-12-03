@@ -38,9 +38,6 @@ export async function getEntrant(entrantId: number) {
     try {
         const response = await fetch(ENTRANTS_URL + `${entrantId}`, {
             method: 'GET',
-            headers: {
-                "Content-Type": "application/json"
-            }
         });
 
         return await response.json()
