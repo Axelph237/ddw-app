@@ -4,19 +4,30 @@ import dog from "@/public/dog.jpg";
 import cat from "@/public/cat.jpg";
 import './PostMatch.css'
 import Button from "@/app/components/button.tsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {getMatchData} from "@/scripts/gameplay.ts";
 
 // TODO add awaiting functionality to story so that story only displays once available
-const PostMatch = ({winner, loser, prevBal, newBal, story, handleContinue}:
+const PostMatch = ({winner, loser, prevBal, newBal, handleContinue, matchId}:
                        {
                            winner?: Entrant,
                            loser?: Entrant,
+                           matchId?: number,
                            prevBal: number,
                            newBal: number,
-                           story: string,
                            handleContinue?: () => void
                        }) => {
+    const [imgMatch, setImgMatch] = useState<string | null>(null);
+    const [story, setStory] = useState<string | null>(null);
 
+    useEffect(() => {
+        if (matchId) {
+            getMatchData(matchId).then((data) => {
+                setImgMatch(data.img_url)
+                setStory(data.story)
+            })
+        }
+    }, [])
 
     // Default entrant values if missing
     winner = winner ? winner : {name: 'None', weapon: 'None'}
@@ -28,33 +39,38 @@ const PostMatch = ({winner, loser, prevBal, newBal, story, handleContinue}:
     return (
         <div className='flex flex-col items-center justify-center'>
             <div className='grid grid-rows-1 grid-cols-1'>
-                {/* Loser */}
-                <div
-                    className={`flat-gelatine row-end-1 col-end-1 w-44 h-44 grid grid-rows-1 grid-cols-1`}>
-                    <div className={'w-44 h-44 bg-emerald-800 opacity-50 row-end-1 col-end-1 rounded-full'}></div>
-                    <Image src={imgLoser} alt={loser.name}
-                           className='w-44 h-44 object-cover row-end-1 col-end-1 rounded-full'/>
-                </div>
+                {imgMatch
+                    ? <Image src={imgMatch} alt={imgMatch} className='w-64 h-64 object-cover' />
+                    : (<>
+                    {/* Loser */}
+                    <div
+                        className={`flat-gelatine row-end-1 col-end-1 w-44 h-44 grid grid-rows-1 grid-cols-1`}>
+                        <div className={'w-44 h-44 bg-emerald-800 opacity-50 row-end-1 col-end-1 rounded-full'}></div>
+                        <Image src={imgLoser} alt={loser.name}
+                               className='w-44 h-44 object-cover row-end-1 col-end-1 rounded-full'/>
+                    </div>
 
-                {/* Winner */}
-                <div
-                    className={`bounce row-end-1 col-end-1 w-44 h-44 grid grid-rows-1 grid-cols-1 relative`}
-                    style={{top: '-35%'}}>
-                    <p className={'row-end-1 col-end-1 relative text-8xl'} style={{
-                        rotate: '15deg',
-                        top: '-35%',
-                        left: '22.5%'
-                    }}>👑</p>
-                    <Image src={imgWinner} alt={winner.name}
-                           className='w-44 h-44 object-cover row-end-1 col-end-1 rounded-full'/>
-                </div>
+                    {/* Winner */}
+                    <div
+                        className={`bounce row-end-1 col-end-1 w-44 h-44 grid grid-rows-1 grid-cols-1 relative`}
+                        style={{top: '-35%'}}>
+                        <p className={'row-end-1 col-end-1 relative text-8xl'} style={{
+                            rotate: '15deg',
+                            top: '-35%',
+                            left: '22.5%'
+                        }}>👑</p>
+                        <Image src={imgWinner} alt={winner.name}
+                               className='w-44 h-44 object-cover row-end-1 col-end-1 rounded-full'/>
+                    </div>
+                </>)
+            }
             </div>
             <p className='text-3xl font-bold relative'>{winner.name} stands victorious!</p>
             <div className='flex flex-row items-center justify-center'>
                 <p>{'Earnings:'}</p>
                 <p className={`font-bold ${newBal < prevBal ? 'text-red-500' : 'text-emerald-500'} text-xl`}>{newBal > prevBal ? '+' : '-'}{Math.abs(newBal - prevBal)}</p>
             </div>
-            <StarWarsText text={story}/>
+            {story && <StarWarsText text={story}/>}
             <div className='h-'></div>
             {handleContinue && <Button text='Next Match' onClick={handleContinue}/>}
         </div>
