@@ -182,3 +182,19 @@ export async function endGame(gameId: number) {
         console.log(error)
     }
 }
+
+/**
+ * Fetches the current state of the game
+ */
+export async function getCurrentGameState() {
+    try {
+        const response = await fetchWithAuth(GAMEPLAY_URL + `state`, {
+            method: 'GET',
+        });
+
+        return await response.json()
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
