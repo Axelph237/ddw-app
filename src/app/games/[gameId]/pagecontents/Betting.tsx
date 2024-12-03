@@ -19,7 +19,7 @@ const Betting = ({entrantOne, entrantTwo, userBal, handleBet, matchId, handleCon
                          entrantTwo?: Entrant,
                          userBal: number,
                          matchId: number | null,
-                         handleBet: (entrantId: number, amount: number) => void
+                         handleBet: (matchId: number, entrantId: number, amount: number) => void
                          handleContinue?: () => void
                      }
 ) => {
@@ -61,8 +61,8 @@ const Betting = ({entrantOne, entrantTwo, userBal, handleBet, matchId, handleCon
 
         const entrant = selectedEntrant == 'left' ? entrantOne : entrantTwo
 
-        if (entrant.id) {
-            handleBet(entrant.id, parseInt(betInputRef.current.value))
+        if (entrant.id && matchId) {
+            handleBet(matchId, entrant.id, parseInt(betInputRef.current.value))
         }
     }
 
