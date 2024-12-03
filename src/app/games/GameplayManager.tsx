@@ -15,7 +15,6 @@ import {
     placeBet
 } from "@/scripts/gameplay.ts";
 import {getCurrentGame, startGame} from "@/scripts/game.ts";
-import Loading from "@/app/games/pagecontents/Loading.tsx";
 import GameComplete from "@/app/games/pagecontents/GameComplete.tsx";
 import {redirect} from "next/navigation";
 
@@ -40,48 +39,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     const [errMsg, setErrMsg] = useState('')
     const errDisplay = (errMsg != '' && <p className={'m-1'}>{errMsg}</p>)
     // User and game details
-    // const [prevMatch, setPrevMatch] = useState<number | null>(null)
-    // const [currMatch, setCurrMatch] = useState<number | null>(null)
-    // const [prevRound, setPrevRound] = useState<number | null>(null)
-    // const [currRound, setCurrRound] = useState<number | null>(null)
-    // const [prevEntrants, setPrevEntrants] = useState<{winner: Entrant, loser: Entrant} | null>(null)
-    // const [currEntrants, setCurrEntrants] = useState<{entrantOne: Entrant, entrantTwo: Entrant} | null>(null)
-    // const [prevBal, setPrevBal] = useState<number>(0)
     const [userBal, setUserBal] = useState<number>(0)
-
-    // ---- STATE INITIALIZE ----
-    // Get initial page content state
-    // function initState() {
-    //     console.log('Initializing state...')
-    //     getCurrentRound(game.id).then(async (round) => {
-    //         console.log('Initializing state: round:', round)
-    //
-    //         // No current round
-    //         if (!round.round_id) {
-    //             console.log('Initializing state: no round found')
-    //             const userEntrant = await getUserEntrant(game.id)
-    //
-    //             // Move to waiting room if already created a character
-    //             // and character creation if not
-    //             if (userEntrant.created) {
-    //                 setCurrState(GameplayState.WaitingRoom)
-    //             }
-    //             else {
-    //                 setCurrState(GameplayState.CharacterCreation)
-    //             }
-    //         }
-    //         // Current round
-    //         else {
-    //             console.log('Initializing state: round found! getting match...')
-    //             // Set round and match data
-    //             const match = await getCurrentMatch(round.round_id)
-    //
-    //             console.log('Initializing state: match:', match)
-    //             setCurrMatch(match.match_id)
-    //             setCurrRound(round.round_id)
-    //         }
-    //     })
-    // }
 
     // ---- HANDLERS ----
     // Run async function for character creation
@@ -122,10 +80,6 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         continueGame(game.id).then(response => console.log('Game continued with response:', response))
     }
 
-    // const handleNewMatch = () => {
-    //     continueGame(game.id).then(response => console.log('Game continued with response:', response))
-    // }
-
     const handleBet = (matchId: number, entrantId: number, amount: number) => {
         const placementId = Math.floor(Math.random() * (10**9)) // Random number 1-1,000,000,000
 
@@ -140,41 +94,6 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     // Initializes component
     useEffect(() => {
         const updateDelay = 2000
-        // round update tick
-        // only handles round update
-        // const roundIntervalID = setInterval(() => {
-        //     if (game.id) {
-        //         getCurrentRound(game.id).then(response => {
-        //             // Exit if no update needed
-        //             if (response.round_id == currRound) return;
-        //
-        //             // Update round
-        //             if (response.round_id && response.round_id != currRound) {
-        //                 setPrevRound(currRound) // Document last round
-        //                 setCurrRound(response.round_id)
-        //             }
-        //             else setCurrRound(null)
-        //         })
-        //     }
-        // }, updateDelay)
-        //
-        // // match update tick
-        // // only handles match update
-        // const matchIntervalID = setInterval(() => {
-        //     if (currRound) {
-        //         getCurrentMatch(currRound).then(response => {
-        //             // Exit if no update needed
-        //             if (response.match_id == currRound) return;
-        //
-        //             // Update match
-        //             if (response.match_id && response.match_id != currMatch) {
-        //                 setPrevMatch(currMatch) // Document last match
-        //                 setCurrMatch(response.match_id)
-        //             }
-        //             else setCurrMatch(null)
-        //         })
-        //     }
-        // }, updateDelay)
 
         const updateLoop = () => {
             console.log('Updating...')
@@ -218,87 +137,6 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
             // clearInterval(matchIntervalID)
         }
     }, [])
-
-    // Triggers on round update
-    // useEffect(() => {
-    //     // Game started
-    //     if (prevRound == null && currRound != null) {
-    //
-    //     }
-    //     // Game ended
-    //     else if (prevRound != null && currRound == null && prevMatch) {
-    //         setLoading(true)
-    //
-    //         getMatchResults(prevMatch).then(async response => {
-    //             const winner = await getEntrant(response.winner)
-    //             const loser = await getEntrant(response.loser)
-    //
-    //             setPrevEntrants({winner, loser})
-    //             setCurrEntrants(null)
-    //             setLoading(false)
-    //             setCurrState(GameplayState.Complete)
-    //         })
-    //     }
-    // }, [currRound])
-
-    // Triggers on match updates
-    // Handles state movement
-    // useEffect(() => { // On match update
-    //     // Match in empty state
-    //     console.log('Match updated: currMatch: ' + currMatch + ' | prevMatch: ' + prevMatch)
-    //     if (!currMatch) {
-    //         console.log('Match updated: no match found')
-    //         // State either character create or waiting room
-    //         // if (currState != GameplayState.Complete) {
-    //         //     setLoading(true)
-    //         //     getUserEntrant(game.id).then(async (response) => {
-    //         //         setLoading(false)
-    //         //         if (response.created) {
-    //         //             setCurrState(GameplayState.WaitingRoom)
-    //         //         }
-    //         //         else {
-    //         //             setCurrState(GameplayState.CharacterCreation)
-    //         //         }
-    //         //     })
-    //         // }
-    //         return
-    //     }
-    //     // Move to Betting
-    //     else if (currMatch == prevMatch && currState !== GameplayState.Betting) {
-    //         console.log('Match updated: moving to betting')
-    //         setLoading(true)
-    //
-    //         getMatchData(currMatch).then(async (response) => {
-    //             const entrantOne = await getEntrant(response.entrant_one)
-    //             const entrantTwo = await getEntrant(response.entrant_two)
-    //
-    //             setCurrEntrants({entrantOne, entrantTwo})
-    //             setLoading(false)
-    //             setCurrState(GameplayState.Betting)
-    //         })
-    //     }
-    //     // Move to PostMatch if defined
-    //     else if (prevMatch) {
-    //         console.log('Match updated: moving to post match')
-    //         setLoading(true)
-    //
-    //         getMatchResults(prevMatch).then(async (response) => {
-    //             const winner = await getEntrant(response.winner)
-    //             const loser = await getEntrant(response.loser)
-    //             setPrevEntrants({winner, loser})
-    //
-    //             const newBal = await getBalance(game.id)
-    //             setPrevBal(userBal)
-    //             setUserBal(newBal)
-    //
-    //             setLoading(false)
-    //             setCurrState(GameplayState.PostMatch)
-    //         })
-    //     }
-    //     else {
-    //         console.log('Match updated: all previous conditions failed')
-    //     }
-    // }, [currMatch])
 
     useEffect(() => {
         console.log('Current state:', currState)
@@ -412,71 +250,10 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         setCurrState(GameplayState.Complete)
     }
 
-    // ---- PAGE CONTENT LOGIC ----
-    // function getPageContents(state: GameplayState | undefined) {
-    //     if (state === undefined) {
-    //         return <Loading />
-    //     }
-    //
-    //     // Get specific page contents based on state
-    //     let pageContents;
-    //     switch (state) {
-    //         case GameplayState.CharacterCreation:
-    //             pageContents = (
-    //                 <>
-    //                     <CharacterCreation // Make actual updated values
-    //                         handleCreate={handleCharacterCreate}
-    //                     />
-    //                     {errDisplay}
-    //                 </>
-    //             )
-    //             break;
-    //         case GameplayState.WaitingRoom:
-    //             pageContents = <WaitingRoom handleStart={game.isAdmin ? handleStart : undefined}/>
-    //             break;
-    //         case GameplayState.Betting:
-    //             pageContents = <Betting
-    //                 entrantOne={currEntrants?.entrantOne}
-    //                 entrantTwo={currEntrants?.entrantOne}
-    //                 userBal={userBal}
-    //                 matchId={42}
-    //                 handleBet={handleBet}
-    //                 handleContinue={game.isAdmin ? handleContinue : undefined}
-    //             />
-    //             break;
-    //         case GameplayState.PostMatch:
-    //             pageContents = <PostMatch // Make actual updated values
-    //                 winner={prevEntrants?.winner}
-    //                 loser={prevEntrants?.loser}
-    //                 newBal={userBal}
-    //                 prevBal={prevBal}
-    //                 matchId={prevMatch}
-    //                 handleContinue={game.isAdmin ? handleNextMatch : undefined}
-    //             />
-    //             break;
-    //         case GameplayState.Complete:
-    //             if (prevEntrants?.winner.id) {
-    //                 pageContents = <GameComplete
-    //                     entrantId={prevEntrants.winner.id}
-    //                 />
-    //             }
-    //             break;
-    //     }
-    //     // Overwrite page if the state is loading
-    //     if (loading) {
-    //         pageContents = <Loading />
-    //     }
-    //
-    //     return pageContents
-    // }
-
     // ---- BODY ----
     return (
         <div className={'w-screen h-screen flex flex-col justify-center items-center'}>
             {/*<p className='absolute top-12 left-2'>User bal: {userBal}</p>*/}
-            {/*<div className={`${loading ? 'block' : 'hidden'} w-screen h-screen flex flex-col justify-center items-center`}>*/}
-            {/*    <Loading />*/}
-            {/*</div>*/}
             {pageContents}
         </div>
     )
