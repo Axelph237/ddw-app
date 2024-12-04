@@ -101,6 +101,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
             const start = performance.now()
             // console.log('Updating...')
             getCurrentGame().then(game => {
+                console.log('Update retrieved game:', game)
                 if (!game) {
                     redirect('/home')
                 }
