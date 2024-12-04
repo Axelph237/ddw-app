@@ -1,5 +1,5 @@
 import {Entrant} from "@/scripts/entrants.ts";
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import Limitedinput, {LimitedInputHandle} from "@/app/components/limitedinput.tsx";
 import Button from "@/app/components/button.tsx";
 
@@ -10,11 +10,12 @@ import Button from "@/app/components/button.tsx";
  * @constructor
  */
 const CharacterCreation = ({
-                               handleCreate
+                               handleCreate, creationError
                            }: {
-    handleCreate: (entrant: Entrant) => void
+    handleCreate: (entrant: Entrant) => void,
+    creationError: string
 }) => {
-    const [errMsg, setErrMsg] = useState('');
+    const [errMsg, setErrMsg] = useState('')
     const nameInputRef = useRef<LimitedInputHandle>(null)
     const weaponInputRef = useRef<LimitedInputHandle>(null)
 
@@ -38,6 +39,10 @@ const CharacterCreation = ({
             setErrMsg('An empty entrant is no entrant :/')
         }
     }
+
+    useEffect(() => {
+        setErrMsg(creationError)
+    }, [creationError])
 
     return (
         <div className='flex flex-col justify-center items-center'>

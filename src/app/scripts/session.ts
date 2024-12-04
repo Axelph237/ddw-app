@@ -43,7 +43,7 @@ export async function getSession(): Promise<Session | undefined> {
             const decrypted = bytes.toString(enc.Utf8);
             const currentSession = JSON.parse(decrypted);
             return currentSession;
-        } catch (e) {
+        } catch {
             return undefined;
         }
     }

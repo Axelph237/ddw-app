@@ -11,11 +11,11 @@ import CharacterCreation from "@/app/games/pagecontents/CharacterCreation.tsx";
 import PostMatch from "@/app/games/pagecontents/PostMatch.tsx";
 import {
     continueGame,
-    getBalance, getBet,
+    getBalance,
     placeBet
 } from "@/scripts/gameplay.ts";
 import {getCurrentGame, startGame} from "@/scripts/game.ts";
-import GameComplete from "@/app/games/pagecontents/GameComplete.tsx";
+// import GameComplete from "@/app/games/pagecontents/GameComplete.tsx";
 import {redirect} from "next/navigation";
 import Loading from "@/app/games/pagecontents/Loading.tsx";
 
@@ -38,9 +38,9 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     const [loading, setLoading] = useState(false)
     // General error message display
     const [errMsg, setErrMsg] = useState('')
-    const errDisplay = (errMsg != '' && <p className={'m-1'}>{errMsg}</p>)
+    // const errDisplay = (errMsg != '' && <p className={'m-1'}>{errMsg}</p>)
     // User and game details
-    const [userBal, setUserBal] = useState<number>(0)
+    // const [userBal, setUserBal] = useState<number>(0)
 
     // ---- HANDLERS ----
     // Run async function for character creation
@@ -133,7 +133,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         }
 
         // Set initial balance
-        getBalance(game.id).then(response => setUserBal(response.balance))
+        getBalance(game.id).then(response => response)
 
         // initState()
         updateLoop()
@@ -164,7 +164,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
                 setCurrState(GameplayState.WaitingRoom)
             }
             else if (pageContents?.type !== CharacterCreation) {
-                pageElem = <CharacterCreation handleCreate={handleCharacterCreate}/>
+                pageElem = <CharacterCreation handleCreate={handleCharacterCreate} creationError={errMsg}/>
                 setCurrState(GameplayState.CharacterCreation)
             }
             else return;
@@ -202,7 +202,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
                 handleContinue={game.isAdmin ? handleContinue : undefined}
             />
 
-            setUserBal(response.balance)
+            // setUserBal(response.balance)
             setPageContents(pageElem)
             setCurrState(GameplayState.Betting)
             if (loading) {
@@ -235,7 +235,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
                 handleContinue={game.isAdmin ? handleContinue : undefined}
             />
 
-            setUserBal(response.balance)
+            // setUserBal(response.balance)
             setPageContents(pageElem)
             setCurrState(GameplayState.PostMatch)
             if (loading) {
@@ -244,17 +244,17 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         })
     }
 
-    function stateToGameComplete(entrant: number) {
-        if (pageContents?.type === GameComplete) {
-            console.log('Not updating state')
-            return
-        }
-
-        const pageElem = <GameComplete entrantId={entrant} />
-
-        setPageContents(pageElem)
-        setCurrState(GameplayState.Complete)
-    }
+    // function stateToGameComplete(entrant: number) {
+    //     if (pageContents?.type === GameComplete) {
+    //         console.log('Not updating state')
+    //         return
+    //     }
+    //
+    //     const pageElem = <GameComplete entrantId={entrant} />
+    //
+    //     setPageContents(pageElem)
+    //     setCurrState(GameplayState.Complete)
+    // }
 
     // ---- BODY ----
     return (

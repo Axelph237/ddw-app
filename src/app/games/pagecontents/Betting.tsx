@@ -6,7 +6,6 @@ import Button from "@/app/components/button.tsx";
 import {Entrant} from "@/scripts/entrants.ts";
 import './Betting.css'
 import {getBetInfo} from "@/scripts/gameplay.ts";
-import {match} from "node:assert";
 
 /**
  * Page content when player is betting on current match entrants
