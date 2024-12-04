@@ -17,6 +17,7 @@ import {
 import {getCurrentGame, startGame} from "@/scripts/game.ts";
 import GameComplete from "@/app/games/pagecontents/GameComplete.tsx";
 import {redirect} from "next/navigation";
+import Loading from "@/app/games/pagecontents/Loading.tsx";
 
 enum GameplayState {
     CharacterCreation, // On join, before game start
@@ -94,9 +95,10 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     // ---- RERENDER EVENTS ----
     // Initializes component
     useEffect(() => {
-        const updateDelay = 2000
+        const minUpdateDelay = 500
 
         const updateLoop = () => {
+            const start = performance.now()
             // console.log('Updating...')
             getCurrentGame().then(game => {
                 if (!game) {
@@ -123,7 +125,10 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
                     stateToLobby()
                 }
 
-                setTimeout(updateLoop, updateDelay)
+                const end = performance.now();
+                const elapsedTime = end - start
+                // console.log('Update took ' + elapsedTime + 'ms')
+                setTimeout(updateLoop, Math.min(minUpdateDelay - elapsedTime), 0)
             })
         }
 
@@ -255,7 +260,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     return (
         <div className={'w-screen h-screen flex flex-col justify-center items-center'}>
             {/*<p className='absolute top-12 left-2'>User bal: {userBal}</p>*/}
-            {pageContents}
+            {pageContents ? pageContents : <Loading />}
         </div>
     )
 }
