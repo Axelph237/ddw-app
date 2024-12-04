@@ -16,7 +16,7 @@ const WaitingRoom = ({
     return (
         <div className='flex flex-col items-center justify-center'>
             {/*<JumpyDog/>*/}
-            <p className='text-3xl'>{handleStart ? 'Start the game when ready!' : 'Waiting'}</p>
+            <p className='text-3xl font-[family-name:var(--font-geist-mono)]'>{handleStart ? 'Start the game when ready!' : 'Waiting'}</p>
             {!handleStart && <Loading/>}
             {handleStart && <Button text={'Start Game'} onClick={handleStart} className='m-6'/>}
         </div>
