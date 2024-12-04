@@ -17,6 +17,6 @@ export default function Loading() {
         });
     }, []);
     return (
-        <div className='w-64 h-64' id='load-icon'></div>
+        <div className='w-64 h-32' id='load-icon'></div>
     )
 }
