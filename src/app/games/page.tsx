@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import GameplayManager from "@/app/games/GameplayManager.tsx";
 import {getCurrentGame, getUserStatus} from "@/scripts/game.ts";
 import {redirect} from "next/navigation";
