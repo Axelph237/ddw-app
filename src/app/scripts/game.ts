@@ -91,6 +91,22 @@ export async function getCurrentGame() {
 }
 
 /**
+ * Gets the most recently completed game.
+ */
+export async function getLatestGame() {
+    try {
+        const response = await fetchWithAuth(GAMES_URL + 'latest/', {
+            method: 'GET',
+        });
+
+        return await response.json()
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+/**
  * Gets if the user is in the current game, and if they are the admin of it.
  */
 export async function getUserStatus() {
