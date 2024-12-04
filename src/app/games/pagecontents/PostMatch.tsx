@@ -5,25 +5,26 @@ import cat from "@/public/cat.jpg";
 import './PostMatch.css'
 import Button from "@/app/components/button.tsx";
 import {useEffect, useState} from "react";
-import {getMatchData} from "@/scripts/gameplay.ts";
+import {continueGame, getMatchData} from "@/scripts/gameplay.ts";
 
 // TODO add awaiting functionality to story so that story only displays once available
-const PostMatch = ({winner, loser, newBal, handleContinue, matchId}:
+const PostMatch = ({winner, loser, newBal, isAdmin, matchId, gameId}:
                        {
                            winner?: Entrant,
                            loser?: Entrant,
                            matchId: number | null,
                            newBal: number,
-                           handleContinue?: () => void
+                           isAdmin: boolean,
+                           gameId: number
                        }) => {
     const [imgMatch, setImgMatch] = useState<string | null>(null);
     const [story, setStory] = useState<string | null>(null);
     const [buttonClicked, setButtonClicked] = useState(false)
 
     const handleClick = () => {
-        if (handleContinue) {
+        if (isAdmin) {
             setButtonClicked(true)
-            handleContinue()
+            continueGame(gameId).then(() => '').catch(() => setButtonClicked(false))
         }
     }
 
@@ -84,7 +85,7 @@ const PostMatch = ({winner, loser, newBal, handleContinue, matchId}:
             <div className='flex flex-col items-center justify-center'>
                 {story && <StarWarsText text={story}/>}
                 <div className='h-'></div>
-                {(handleContinue && !buttonClicked) && <Button text='Next Match' onClick={handleClick}/>}
+                {(isAdmin && !buttonClicked) && <Button text='Next Match' onClick={handleClick}/>}
             </div>
         </div>
     )

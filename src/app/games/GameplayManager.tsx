@@ -233,7 +233,8 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
                 loser={loser}
                 newBal={response.balance}
                 matchId={matchId}
-                handleContinue={game.isAdmin ? handleContinue : undefined}
+                isAdmin={game.isAdmin}
+                gameId={game.id}
             />
 
             // setUserBal(response.balance)
