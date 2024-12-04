@@ -1,5 +1,5 @@
 import {Entrant, getEntrant} from "@/scripts/entrants.ts";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import Image from "next/image";
 import Loading from "@/app/games/pagecontents/Loading.tsx";
 import './Betting.css'
