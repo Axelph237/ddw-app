@@ -5,10 +5,11 @@ import Button from "@/app/components/button.tsx";
 import steve from '@/public/steve_image.png'
 import walter from '@/public/walter_image.png'
 import './games/pagecontents/Betting.css'
+import {redirect} from "next/navigation";
 
 export default function Home() {
   const handleLogin = () => {
-
+      redirect('/login')
   }
 
   return (
