@@ -73,19 +73,19 @@ const Betting = ({entrantOne, entrantTwo, userBal, handleBet, matchId, handleCon
 
     useEffect(() => {
         // Update num bets display
-        const updateDisplay = async () => {
+        const updateDisplay = () => {
             if (!matchId) return;
 
-            const betInfo = await getBetInfo(matchId)
-
-            if (betInfo?.bet_count && betInfo?.player_count) {
-                setNumBets(betInfo.bet_count)
-                setNumPlayers(betInfo.player_count)
-            }
+            getBetInfo(matchId).then(betInfo => {
+                if (betInfo?.bet_count && betInfo?.player_count) {
+                    setNumBets(betInfo.bet_count)
+                    setNumPlayers(betInfo.player_count)
+                }
+            })
         }
-        updateDisplay().then(() => {})
+        updateDisplay()
 
-        const updateDelay = 2000
+        const updateDelay = 1000
         const intervalId = setInterval(updateDisplay, updateDelay)
 
         window.addEventListener('mousemove', handleMouseMouse)
@@ -94,7 +94,7 @@ const Betting = ({entrantOne, entrantTwo, userBal, handleBet, matchId, handleCon
             window.removeEventListener('mousemove', handleMouseMouse)
             clearInterval(intervalId)
         }
-    })
+    }, [])
 
     return (
         <div className='flex flex-col justify-center items-center w-fit h-fit p-32 overflow-hidden gap-12'>
