@@ -16,13 +16,13 @@ export default async function UserLeaderboard({ params }: {params: {gameId: numb
 
             if (i == users.length - 1) {
                 elem = <div key={i} className='w-full flex flex-col items-start justify-start p-1 text-left'>
-                    <p className='font-bold text-left'>{users[i].rank}. {users[i].username}</p>
+                    <p className='font-bold text-left'>{i + 1}. {users[i].username}</p>
                     <p className={`italic ${users[i].total_earnings < 0 ? 'text-red-500' : 'text-emerald-500'}`}>{users[i].total_earnings}</p>
                 </div>
             }
             else {
                 elem = <div key={i} className='w-full flex flex-col items-start justify-start p-1 text-left'>
-                    <p className='font-bold text-left'>{users[i].rank}. {users[i].username}</p>
+                    <p className='font-bold text-left'>{i + 1}. {users[i].username}</p>
                     <p className={`italic ${users[i].total_earnings < 0 ? 'text-red-500' : 'text-emerald-500'}`}>{users[i].total_earnings}</p>
                     <div className='bg-white h-px w-full mt-2 mb-2'></div>
                 </div>

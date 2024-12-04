@@ -16,13 +16,13 @@ export default async function EntrantsLeaderboard({ params }: {params: {gameId: 
 
             if (i == entrants.length - 1) {
                 elem = <div key={i} className='w-full flex flex-col items-start justify-start p-1 text-left'>
-                    <p className='font-bold text-left'>{entrants[i].rank}. {entrants[i].entrant_name}</p>
+                    <p className='font-bold text-left'>{i + 1}. {entrants[i].entrant_name}</p>
                     <p className='italic text-left'>With {entrants[i].entrant_weapon}</p>
                     <p className={`italic ${entrants[i].total_wins > 0 ? 'text-emerald-500' : 'text-red-500'}`}>Wins: {entrants[i].total_wins}</p>
                 </div>
             } else {
                 elem = <div key={i} className='w-full flex flex-col items-start justify-start p-1 text-left'>
-                    <p className='font-bold text-left'>{entrants[i].rank}. {entrants[i].entrant_name}</p>
+                    <p className='font-bold text-left'>{i + 1}. {entrants[i].entrant_name}</p>
                     <p className='italic text-left'>With {entrants[i].entrant_weapon}</p>
                     <p className={`italic ${entrants[i].total_wins > 0 ? 'text-emerald-500' : 'text-red-500'}`}>Wins: {entrants[i].total_wins}</p>
                     <div className='bg-white h-px w-full mt-2 mb-2'></div>
