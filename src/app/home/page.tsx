@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import Button from "@/app/components/button.tsx";
 import { redirect } from 'next/navigation';
 import {getLatestGame, getUserStatus, joinGame} from "@/scripts/game.ts";
