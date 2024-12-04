@@ -35,7 +35,7 @@ export default async function EntrantsLeaderboard({ params }: {params: {gameId: 
         return (
             <div className='flex flex-col items-center justify-center overflow-hidden'>
                 <p className='text-2xl m-4 font-bold'>Entrant leaderboard</p>
-                <div className='flex flex-col items-center justify-center border-2 border-white rounded-3xl p-2'>
+                <div className='min-w-64 flex flex-col items-center justify-center border-2 border-white rounded-3xl p-2'>
                     {leaderboardElems}
                 </div>
             </div>
