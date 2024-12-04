@@ -257,6 +257,10 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     //     setCurrState(GameplayState.Complete)
     // }
 
+    useEffect(() => {
+        console.log('New page contents:', pageContents)
+    }, [pageContents]);
+
     // ---- BODY ----
     return (
         <div className={'w-screen h-screen flex flex-col justify-center items-center'}>
