@@ -9,7 +9,7 @@ export default async function GameResultsPage({ params }: {params: Promise<{ gam
     console.log('Game id:', gameId)
 
     return (
-            <div className='flex flex-col items-center justify-center'>
+            <div className='flex flex-col items-center justify-center p-12'>
                 <h1 className='text-4xl font-bold font-[family-name:var(--font-geist-mono)]'>Game {gameId} Results</h1>
                 <div
                     className='font-[family-name:var(--font-geist-mono)] flex flex-row items-start justify-center'>
