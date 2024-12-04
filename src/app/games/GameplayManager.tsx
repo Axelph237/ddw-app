@@ -16,7 +16,7 @@ import {
 } from "@/scripts/gameplay.ts";
 import {getCurrentGame, startGame} from "@/scripts/game.ts";
 // import GameComplete from "@/app/games/pagecontents/GameComplete.tsx";
-import {redirect} from "next/navigation";
+// import {redirect} from "next/navigation";
 import Loading from "@/app/games/pagecontents/Loading.tsx";
 
 enum GameplayState {
