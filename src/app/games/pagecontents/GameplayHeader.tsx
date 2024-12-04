@@ -3,7 +3,7 @@
 import {logout} from "@/scripts/user.ts";
 import Button from "@/app/components/button.tsx";
 import {endGame} from "@/scripts/gameplay.ts";
-// import {redirect} from "next/navigation";
+import {redirect} from "next/navigation";
 
 export default function GameplayHeader({gameId, isAdmin, username}: {gameId: number, isAdmin: boolean, username: string}) {
     console.log(`${username} is Admin? ${isAdmin}`);
@@ -15,7 +15,7 @@ export default function GameplayHeader({gameId, isAdmin, username}: {gameId: num
     const handleEndGame = () => {
         endGame(gameId).then(response => console.log('Ended game with response:', response))
 
-        // redirect('/home')
+        redirect('/home')
     }
 
     return (
