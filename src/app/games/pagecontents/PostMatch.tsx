@@ -18,6 +18,14 @@ const PostMatch = ({winner, loser, newBal, handleContinue, matchId}:
                        }) => {
     const [imgMatch, setImgMatch] = useState<string | null>(null);
     const [story, setStory] = useState<string | null>(null);
+    const [buttonClicked, setButtonClicked] = useState(false)
+
+    const handleClick = () => {
+        if (handleContinue) {
+            setButtonClicked(true)
+            handleContinue()
+        }
+    }
 
     useEffect(() => {
         if (matchId) {
@@ -76,7 +84,7 @@ const PostMatch = ({winner, loser, newBal, handleContinue, matchId}:
             <div className='flex flex-col items-center justify-center'>
                 {story && <StarWarsText text={story}/>}
                 <div className='h-'></div>
-                {handleContinue && <Button text='Next Match' onClick={handleContinue}/>}
+                {(handleContinue && !buttonClicked) && <Button text='Next Match' onClick={handleClick}/>}
             </div>
         </div>
     )
