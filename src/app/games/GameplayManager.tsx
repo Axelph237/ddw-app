@@ -103,7 +103,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
             getCurrentGame().then(game => {
                 console.log('Update retrieved game:', game)
                 if (!game) {
-                    redirect('/home')
+                    // redirect('/home')
                 }
 
                 if (game.active_round) { // Game started
