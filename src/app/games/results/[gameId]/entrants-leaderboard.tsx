@@ -1,4 +1,4 @@
-import {getEntrantsLeaderboard, getUsersLeaderboard} from "@/scripts/leaderboards.ts";
+import {getEntrantsLeaderboard} from "@/scripts/leaderboards.ts";
 import {ReactElement} from "react";
 
 export default async function EntrantsLeaderboard({ params }: {params: {gameId: number}}) {

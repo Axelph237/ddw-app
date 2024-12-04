@@ -1,7 +1,7 @@
 'use client'
 
-import Button from "@/app/components/button.tsx";
-import {createEntrant} from "@/scripts/entrants.ts";
+// import Button from "@/app/components/button.tsx";
+// import {createEntrant} from "@/scripts/entrants.ts";
 // import './shimmer-text.css'
 import Loading from "@/app/games/pagecontents/Loading.tsx";
 

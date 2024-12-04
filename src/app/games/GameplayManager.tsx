@@ -19,13 +19,13 @@ import {getCurrentGame, startGame} from "@/scripts/game.ts";
 import {redirect} from "next/navigation";
 import Loading from "@/app/games/pagecontents/Loading.tsx";
 
-enum GameplayState {
-    CharacterCreation, // On join, before game start
-    WaitingRoom, // After character create, before game start
-    Betting, // During match
-    PostMatch,
-    Complete
-}
+// enum GameplayState {
+//     CharacterCreation, // On join, before game start
+//     WaitingRoom, // After character create, before game start
+//     Betting, // During match
+//     PostMatch,
+//     Complete
+// }
 
 /**
  * Manages what screen to render to the user if they are in a game.
