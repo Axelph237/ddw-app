@@ -33,7 +33,7 @@ enum GameplayState {
 export default function GameplayManager({game}:{game:{id: number, isAdmin: boolean}}) {
     // ---- STATE VARIABLES ----
     // State for current page display
-    const [currState, setCurrState] = useState<GameplayState | undefined>();
+    // const [currState, setCurrState] = useState<GameplayState | undefined>();
     const [pageContents, setPageContents] = useState<ReactElement | undefined>(undefined)
     const [loading, setLoading] = useState(false)
     // General error message display
@@ -51,7 +51,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
                 console.log('Create entrant response:', response)
                 if (!response.detail || response.detail.toString().toLowerCase().includes('no row')) {
                     // Successful creation or user already has entrant
-                    setCurrState(GameplayState.WaitingRoom)
+                    // setCurrState(GameplayState.WaitingRoom)
                 }
                 else if (response.detail.toString().toLowerCase().includes('inappropriate')) {
                     // Inappropriate words were passed to character creation
@@ -145,9 +145,9 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         }
     }, [])
 
-    useEffect(() => {
-        console.log('Current state:', currState)
-    }, [currState])
+    // useEffect(() => {
+    //     console.log('Current state:', currState)
+    // }, [currState])
 
     // ---- STATE UPDATE FUNCTIONS ----
     // Moves to lobby states
@@ -162,11 +162,11 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
             let pageElem: ReactElement;
             if (userEntrant.created && pageContents?.type !== WaitingRoom) {
                 pageElem = <WaitingRoom handleStart={game.isAdmin ? handleStart : undefined}/>
-                setCurrState(GameplayState.WaitingRoom)
+                // setCurrState(GameplayState.WaitingRoom)
             }
             else if (pageContents?.type !== CharacterCreation) {
                 pageElem = <CharacterCreation handleCreate={handleCharacterCreate} creationError={errMsg}/>
-                setCurrState(GameplayState.CharacterCreation)
+                // setCurrState(GameplayState.CharacterCreation)
             }
             else return;
 
@@ -205,7 +205,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
 
             // setUserBal(response.balance)
             setPageContents(pageElem)
-            setCurrState(GameplayState.Betting)
+            // setCurrState(GameplayState.Betting)
             if (loading) {
                 setLoading(false)
             }
@@ -238,7 +238,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
 
             // setUserBal(response.balance)
             setPageContents(pageElem)
-            setCurrState(GameplayState.PostMatch)
+            // setCurrState(GameplayState.PostMatch)
             if (loading) {
                 setLoading(false)
             }
