@@ -17,7 +17,7 @@ export default async function HomePage() {
     }
 
     async function handleLatestResults() { 'use server'
-        const gameId = await getLatestGame()
+        const gameId = (await getLatestGame()).game_id
 
         redirect(`/games/results/${gameId}`)
     }
