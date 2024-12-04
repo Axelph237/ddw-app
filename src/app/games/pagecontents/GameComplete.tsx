@@ -1,7 +1,7 @@
 import {Entrant, getEntrant} from "@/scripts/entrants.ts";
 import {useEffect, useRef, useState} from "react";
 import Image from "next/image";
-import Loading from "@/app/games/[gameId]/pagecontents/Loading.tsx";
+import Loading from "@/app/games/pagecontents/Loading.tsx";
 import './Betting.css'
 import './PostMatch.css'
 import dog from "@/public/dog.jpg";

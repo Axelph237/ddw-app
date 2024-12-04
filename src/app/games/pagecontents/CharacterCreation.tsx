@@ -44,7 +44,7 @@ const CharacterCreation = ({
             <h1 className="text-3xl font-[family-name:var(--font-geist-mono)]">Name Your Challenger!</h1>
 
             <Limitedinput maxChars={50} id='character-name' type='text' placeholder='Character New Name' ref={nameInputRef}/>
-            <Limitedinput maxChars={50} id='character-weapon' type='text' placeholder='Character Weepon' ref={weaponInputRef}/>
+            <Limitedinput maxChars={50} id='character-weapon' type='text' placeholder='Character Weapon' ref={weaponInputRef}/>
 
             {/* Character Creation Button*/}
             <Button text={'Create Entrant'} onClick={handleClick}/>
