@@ -92,6 +92,7 @@ interface Bet {
  */
 export async function placeBet(betPlacementId: number, bet: Bet) {
     try {
+        console.log('placing bet')
         const response = await fetchWithAuth(GAMEPLAY_URL + `bet/${betPlacementId}`, {
             method: 'POST',
             headers: {
@@ -102,6 +103,24 @@ export async function placeBet(betPlacementId: number, bet: Bet) {
                 entrant_id: bet.entrantId,
                 bet_amount: bet.amount
             }),
+        });
+
+        return await response.json()
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+/**
+ * Gets the amount of a user's bet for a given match
+ *
+ * @param matchId - the match to search
+ */
+export async function getBet(matchId: number) {
+    try {
+        const response = await fetchWithAuth(GAMEPLAY_URL + `bet/${matchId}`, {
+            method: 'GET',
         });
 
         return await response.json()
@@ -188,7 +207,20 @@ export async function endGame(gameId: number) {
  */
 export async function getCurrentGameState() {
     try {
-        const response = await fetchWithAuth(GAMEPLAY_URL + `state`, {
+        const response = await fetchWithAuth(GAMEPLAY_URL + 'state/', {
+            method: 'GET',
+        });
+
+        return await response.json()
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+export async function getPrevMatch() {
+    try {
+        const response = await fetchWithAuth(GAMEPLAY_URL + 'previous_match', {
             method: 'GET',
         });
 

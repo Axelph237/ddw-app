@@ -79,7 +79,7 @@ export async function getLobbyPlayers(gameId: number) {
  */
 export async function getCurrentGame() {
     try {
-        const response = await fetchWithAuth(GAMES_URL + 'current', {
+        const response = await fetchWithAuth(GAMES_URL + 'current/', {
             method: 'GET',
         });
 

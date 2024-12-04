@@ -17,8 +17,6 @@ export default function Loading() {
         });
     }, []);
     return (
-        <div className='flex flex-row items-center justify-center w-screen h-screen'>
-            <div className='w-64 h-64' id='load-icon'></div>
-        </div>
+        <div className='w-64 h-64' id='load-icon'></div>
     )
 }

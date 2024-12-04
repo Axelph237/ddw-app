@@ -7,7 +7,7 @@ const ENTRANTS_URL = process.env.NEXT_PUBLIC_API_URL + '/entrants/'
 export interface Entrant {
     name: string,
     weapon: string,
-    id?: number,
+    entrant_id?: number,
     img_url?: string,
     total_bets?: number,
     max_bet?: number,
@@ -38,9 +38,6 @@ export async function getEntrant(entrantId: number) {
     try {
         const response = await fetch(ENTRANTS_URL + `${entrantId}`, {
             method: 'GET',
-            headers: {
-                "Content-Type": "application/json"
-            }
         });
 
         return await response.json()
