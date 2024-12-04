@@ -36,42 +36,48 @@ const PostMatch = ({winner, loser, newBal, handleContinue, matchId}:
     const imgLoser = loser.img_url ? loser.img_url : cat;
 
     return (
-        <div className='flex flex-col items-center justify-center'>
-            <div className='grid grid-rows-1 grid-cols-1'>
-                {imgMatch
-                    ? <Image src={imgMatch} alt={imgMatch} className='w-64 h-64 object-cover' />
-                    : (<>
-                    {/* Loser */}
-                    <div
-                        className={`flat-gelatine row-end-1 col-end-1 w-44 h-44 grid grid-rows-1 grid-cols-1`}>
-                        <div className={'w-44 h-44 bg-emerald-800 opacity-50 row-end-1 col-end-1 rounded-full'}></div>
-                        <Image src={imgLoser} alt={loser.name}
-                               className='w-44 h-44 object-cover row-end-1 col-end-1 rounded-full'/>
-                    </div>
+        <div className='flex flex-row items-center justify-center'>
+            <div className='flex flex-col items-center justify-center'>
+                <div className='grid grid-rows-1 grid-cols-1'>
+                    {imgMatch
+                        ? <Image src={imgMatch} alt={imgMatch} width={600} height={300}
+                                 className='w-64 h-64 object-cover rounded-3xl'/>
+                        : (<>
+                            {/* Loser */}
+                            <div
+                                className={`flat-gelatine row-end-1 col-end-1 w-44 h-44 grid grid-rows-1 grid-cols-1`}>
+                                <div
+                                    className={'w-44 h-44 bg-emerald-800 opacity-50 row-end-1 col-end-1 rounded-full'}></div>
+                                <Image src={imgLoser} alt={loser.name}
+                                       className='w-44 h-44 object-cover row-end-1 col-end-1 rounded-full'/>
+                            </div>
 
-                    {/* Winner */}
-                    <div
-                        className={`bounce row-end-1 col-end-1 w-44 h-44 grid grid-rows-1 grid-cols-1 relative`}
-                        style={{top: '-35%'}}>
-                        <p className={'row-end-1 col-end-1 relative text-8xl'} style={{
-                            rotate: '15deg',
-                            top: '-35%',
-                            left: '22.5%'
-                        }}>👑</p>
-                        <Image src={imgWinner} alt={winner.name}
-                               className='w-44 h-44 object-cover row-end-1 col-end-1 rounded-full'/>
-                    </div>
-                </>)
-            }
+                            {/* Winner */}
+                            <div
+                                className={`bounce row-end-1 col-end-1 w-44 h-44 grid grid-rows-1 grid-cols-1 relative`}
+                                style={{top: '-35%'}}>
+                                <p className={'row-end-1 col-end-1 relative text-8xl'} style={{
+                                    rotate: '15deg',
+                                    top: '-35%',
+                                    left: '22.5%'
+                                }}>👑</p>
+                                <Image src={imgWinner} alt={winner.name}
+                                       className='w-44 h-44 object-cover row-end-1 col-end-1 rounded-full'/>
+                            </div>
+                        </>)
+                    }
+                </div>
+                <p className='text-3xl font-bold relative'>{winner.name} stands victorious!</p>
+                <div className='flex flex-row items-center justify-center'>
+                    <p>{'New balance: '}</p>
+                    <p className={`font-bold text-emerald-500 text-xl`}>{newBal}</p>
+                </div>
             </div>
-            <p className='text-3xl font-bold relative'>{winner.name} stands victorious!</p>
-            <div className='flex flex-row items-center justify-center'>
-                <p>{'New balance: '}</p>
-                <p className={`font-bold text-emerald-500 text-xl`}>{newBal}</p>
+            <div className='flex flex-col items-center justify-center'>
+                {story && <StarWarsText text={story}/>}
+                <div className='h-'></div>
+                {handleContinue && <Button text='Next Match' onClick={handleContinue}/>}
             </div>
-            {story && <StarWarsText text={story}/>}
-            <div className='h-'></div>
-            {handleContinue && <Button text='Next Match' onClick={handleContinue}/>}
         </div>
     )
 }
@@ -95,8 +101,10 @@ const StarWarsText = ({text}: { text: string }) => {
                    style={{animationDuration: `${durMS}ms`}}>{text}</p>
             </div>
             <div className='grid grid-rows-1 grid-cols-1 w-64 h-2 rounded-full overflow-hidden mb-6'>
-                <div className='loading-bar-bg row-end-1 col-end-1 bg-emerald-950 w-64 h-2' style={{animationDuration: `${durMS}ms`}}></div>
-                <div className='loading-bar row-end-1 col-end-1 bg-white w-64 h-2 rounded-full' style={{animationDuration: `${durMS}ms`}}></div>
+                <div className='loading-bar-bg row-end-1 col-end-1 bg-emerald-950 w-64 h-2'
+                     style={{animationDuration: `${durMS}ms`}}></div>
+                <div className='loading-bar row-end-1 col-end-1 bg-white w-64 h-2 rounded-full'
+                     style={{animationDuration: `${durMS}ms`}}></div>
             </div>
         </div>
     )
