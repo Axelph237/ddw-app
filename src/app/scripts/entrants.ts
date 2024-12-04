@@ -7,7 +7,7 @@ const ENTRANTS_URL = process.env.NEXT_PUBLIC_API_URL + '/entrants/'
 export interface Entrant {
     name: string,
     weapon: string,
-    id?: number,
+    entrant_id?: number,
     img_url?: string,
     total_bets?: number,
     max_bet?: number,

@@ -11,7 +11,7 @@ import CharacterCreation from "@/app/games/pagecontents/CharacterCreation.tsx";
 import PostMatch from "@/app/games/pagecontents/PostMatch.tsx";
 import {
     continueGame,
-    getBalance,
+    getBalance, getBet,
     placeBet
 } from "@/scripts/gameplay.ts";
 import {getCurrentGame, startGame} from "@/scripts/game.ts";
@@ -83,6 +83,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     const handleBet = (matchId: number, entrantId: number, amount: number) => {
         const placementId = Math.floor(Math.random() * (10**9)) // Random number 1-1,000,000,000
 
+        console.log(`Submitting bet: entrantId: ${entrantId} | matchId: ${matchId} | amount: ${amount} | placementId: ${placementId}`)
         placeBet(placementId, {
             matchId: matchId,
             entrantId: entrantId,
@@ -96,7 +97,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         const updateDelay = 2000
 
         const updateLoop = () => {
-            console.log('Updating...')
+            // console.log('Updating...')
             getCurrentGame().then(game => {
                 if (!game) {
                     redirect('/home')
@@ -104,12 +105,12 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
 
                 if (game.active_round) { // Game started
                     if (game.active_match) { // There is a running match
-                        console.log('There is an active match')
+                        // console.log('There is an active match')
                         stateToBetting(game.active_match,
                             {one: game.active_entrant_one, two: game.active_entrant_two})
                     }
                     else if (game.last_match) { // No running match, but previous match
-                        console.log('There is not active match')
+                        // console.log('There is not active match')
                         stateToPostMatch(game.last_match,
                             {victor: game.last_victor, loser: game.last_loser})
                     }
@@ -118,7 +119,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
                     }
                 }
                 else { // Game not started
-                    console.log('Game is in lobby')
+                    // console.log('Game is in lobby')
                     stateToLobby()
                 }
 
@@ -224,7 +225,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
             const pageElem = <PostMatch // Make actual updated values
                 winner={victor}
                 loser={loser}
-                deltaBal={response.balance - userBal}
+                newBal={response.balance}
                 matchId={matchId}
                 handleContinue={game.isAdmin ? handleContinue : undefined}
             />
