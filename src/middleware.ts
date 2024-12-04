@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { encrypt, decrypt } from 'crypto-js/aes';
+import { decrypt } from 'crypto-js/aes';
 import { enc } from 'crypto-js';
 
 const SECRET_KEY = process.env.SECRET_KEY || 'default_secret_key';
@@ -23,7 +23,7 @@ export async function middleware(request: NextRequest) {
             const bytes = decrypt(sessionCookie.value, SECRET_KEY);
             const decrypted = bytes.toString(enc.Utf8);
             session = JSON.parse(decrypted);
-        } catch (e) {
+        } catch {
             session = null;
         }
     }
