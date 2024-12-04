@@ -32,6 +32,7 @@ export async function register(username: string, email: string, password: string
 // Logs user in, returning their session token and uuid
 export async function login(email: string, password: string) {
     try {
+        console.log('Attempting login on URL:', USERS_URL)
         const response = await fetch(USERS_URL + '/login', {
             method: 'POST',
             headers: {
