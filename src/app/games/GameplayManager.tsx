@@ -40,7 +40,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     const [errMsg, setErrMsg] = useState('')
     // const errDisplay = (errMsg != '' && <p className={'m-1'}>{errMsg}</p>)
     // User and game details
-    // const [userBal, setUserBal] = useState<number>(0)
+    const [userBal, setUserBal] = useState<number>(0)
 
     // ---- HANDLERS ----
     // Run async function for character creation
@@ -98,6 +98,8 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         const updateDelay = 500
 
         const updateLoop = () => {
+            getBalance(game.id).then(response => setUserBal(response.balance))
+
             // const start = performance.now()
             // console.log('Updating...')
             getCurrentGame().then(game => {
@@ -132,9 +134,6 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
             // console.log('Update took ' + elapsedTime + 'ms')
             setTimeout(updateLoop, updateDelay)
         }
-
-        // Set initial balance
-        getBalance(game.id).then(response => response)
 
         // initState()
         updateLoop()
@@ -261,7 +260,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     // ---- BODY ----
     return (
         <div className={'w-screen h-screen flex flex-col justify-center items-center'}>
-            {/*<p className='absolute top-12 left-2'>User bal: {userBal}</p>*/}
+            <p className='absolute top-24 left-2'>User bal: {userBal}</p>
             {pageContents ? pageContents : <Loading />}
         </div>
     )
