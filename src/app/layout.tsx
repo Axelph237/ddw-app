@@ -14,8 +14,17 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "D0GG33 D0G W0RLD",
-  description: "The best online betting game!",
+    title: "D0GG33 D0G W0RLD",
+    description: "The best online betting game!",
+    icons: {
+        icon: '/icon.ico',
+        shortcut: '/icon.ico',
+        apple: '/icon.ico',
+        other: {
+            rel: 'apple-touch-icon',
+            url: '/icon.ico',
+        },
+    },
 };
 
 export default function RootLayout({
