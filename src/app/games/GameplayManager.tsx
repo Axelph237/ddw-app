@@ -146,11 +146,9 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
             let pageElem: ReactElement;
             if (userEntrant.created && pageContents?.type !== WaitingRoom) {
                 pageElem = <WaitingRoom handleStart={game.isAdmin ? handleStart : undefined}/>
-                // setCurrState(GameplayState.WaitingRoom)
             }
             else if (pageContents?.type !== CharacterCreation) {
                 pageElem = <CharacterCreation handleCreate={handleCharacterCreate} creationError={errMsg}/>
-                // setCurrState(GameplayState.CharacterCreation)
             }
             else return;
 
@@ -187,9 +185,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
                 handleContinue={game.isAdmin ? handleContinue : undefined}
             />
 
-            // setUserBal(response.balance)
             setPageContents(pageElem)
-            // setCurrState(GameplayState.Betting)
             if (loading) {
                 setLoading(false)
             }
@@ -221,9 +217,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
                 gameId={game.id}
             />
 
-            // setUserBal(response.balance)
             setPageContents(pageElem)
-            // setCurrState(GameplayState.PostMatch)
             if (loading) {
                 setLoading(false)
             }
