@@ -95,13 +95,13 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     // ---- RERENDER EVENTS ----
     // Initializes component
     useEffect(() => {
-        const updateDelay = 500
+        const minUpdateDelay = 500
 
         const updateLoop = () => {
             getBalance(game.id).then(response => setUserBal(response.balance))
 
-            // const start = performance.now()
-            // console.log('Updating...')
+            const start = performance.now()
+
             getCurrentGame().then(game => {
                 console.log('Update retrieved game:', game)
                 if (!game) {
@@ -127,12 +127,11 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
                     // console.log('Game is in lobby')
                     stateToLobby()
                 }
+                const end = performance.now();
+                const elapsedTime = end - start
+                // Run update immediately if elapsedTime > minUpdateDelay
+                setTimeout(updateLoop, Math.max(minUpdateDelay - elapsedTime, 0))
             })
-
-            // const end = performance.now();
-            // const elapsedTime = end - start
-            // console.log('Update took ' + elapsedTime + 'ms')
-            setTimeout(updateLoop, updateDelay)
         }
 
         // initState()
