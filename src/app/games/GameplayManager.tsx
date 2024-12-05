@@ -133,10 +133,6 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         }
     }, [])
 
-    // useEffect(() => {
-    //     console.log('Current state:', currState)
-    // }, [currState])
-
     // ---- STATE UPDATE FUNCTIONS ----
     // Moves to lobby states
     function stateToLobby() {
