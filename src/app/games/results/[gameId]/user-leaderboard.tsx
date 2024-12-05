@@ -11,9 +11,11 @@ export default async function UserLeaderboard({ params }: {params: {gameId: numb
         const users = response.result
 
         const leaderboardElems: ReactElement[] = []
+        // Create user displays
         for (let i = 0; i < users.length; i++) {
             let elem: ReactElement
 
+            // Last element, do not add display divider
             if (i == users.length - 1) {
                 elem = <div key={i} className='w-full flex flex-col items-start justify-start p-1 text-left'>
                     <p className='font-bold text-left'>{i + 1}. {users[i].username}</p>
