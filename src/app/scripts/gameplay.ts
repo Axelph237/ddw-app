@@ -25,42 +25,6 @@ export async function getBalance(gameId: number) {
 }
 
 /**
- * Gets the currently active round
- *
- * @param gameId - the game to check
- */
-export async function getCurrentRound(gameId: number) {
-    try {
-        const response = await fetchWithAuth(GAMEPLAY_URL + `round/${gameId}`, {
-            method: 'GET',
-        });
-
-        return await response.json()
-    }
-    catch (error) {
-        console.log(error)
-    }
-}
-
-/**
- * Gets the currently active match
- *
- * @param roundId - the round to check
- */
-export async function getCurrentMatch(roundId: number) {
-    try {
-        const response = await fetchWithAuth(GAMEPLAY_URL + `match/${roundId}`, {
-            method: 'GET',
-        });
-
-        return await response.json()
-    }
-    catch (error) {
-        console.log(error)
-    }
-}
-
-/**
  * Gets the data for a given match.
  *
  * @param matchId - the match to check
@@ -113,24 +77,6 @@ export async function placeBet(betPlacementId: number, bet: Bet) {
 }
 
 /**
- * Gets the amount of a user's bet for a given match
- *
- * @param matchId - the match to search
- */
-export async function getBet(matchId: number) {
-    try {
-        const response = await fetchWithAuth(GAMEPLAY_URL + `bet/${matchId}`, {
-            method: 'GET',
-        });
-
-        return await response.json()
-    }
-    catch (error) {
-        console.log(error)
-    }
-}
-
-/**
  * Continues the game's state
  *
  * @param gameId - the game to continue
@@ -139,24 +85,6 @@ export async function continueGame(gameId: number) {
     try {
         const response = await fetchWithAuth(GAMEPLAY_URL + `${gameId}/continue`, {
             method: 'POST',
-        });
-
-        return await response.json()
-    }
-    catch (error) {
-        console.log(error)
-    }
-}
-
-/**
- * Gets the winner and loser of a match
- *
- * @param matchId - the match to search
- */
-export async function getMatchResults(matchId: number) {
-    try {
-        const response = await fetchWithAuth(GAMEPLAY_URL + `${matchId}/results`, {
-            method: 'GET',
         });
 
         return await response.json()
@@ -193,35 +121,6 @@ export async function endGame(gameId: number) {
     try {
         const response = await fetchWithAuth(GAMEPLAY_URL + `kill/${gameId}`, {
             method: 'POST',
-        });
-
-        return await response.json()
-    }
-    catch (error) {
-        console.log(error)
-    }
-}
-
-/**
- * Fetches the current state of the game
- */
-export async function getCurrentGameState() {
-    try {
-        const response = await fetchWithAuth(GAMEPLAY_URL + 'state/', {
-            method: 'GET',
-        });
-
-        return await response.json()
-    }
-    catch (error) {
-        console.log(error)
-    }
-}
-
-export async function getPrevMatch() {
-    try {
-        const response = await fetchWithAuth(GAMEPLAY_URL + 'previous_match', {
-            method: 'GET',
         });
 
         return await response.json()
