@@ -17,12 +17,12 @@ export const metadata: Metadata = {
     title: "D0GG33 D0G W0RLD",
     description: "The best online betting game!",
     icons: {
-        icon: '/icon.ico',
-        shortcut: '/icon.ico',
-        apple: '/icon.ico',
+        icon: '/icon.png',
+        shortcut: '/icon.png',
+        apple: '/icon.png',
         other: {
             rel: 'apple-touch-icon',
-            url: '/icon.ico',
+            url: '/icon.png',
         },
     },
 };
