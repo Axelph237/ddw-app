@@ -1,7 +1,6 @@
 'use client'
 
 import {ReactElement, useEffect, useState} from "react";
-// import JumpyDog from "@/app/components/jumpy/JumpyDog.tsx";
 import {createEntrant, getEntrant, getUserEntrant} from "@/scripts/entrants.ts";
 import {Entrant} from "@/scripts/entrants.ts";
 // Page content components
@@ -15,7 +14,6 @@ import {
     placeBet
 } from "@/scripts/gameplay.ts";
 import {getCurrentGame, startGame} from "@/scripts/game.ts";
-// import GameComplete from "@/app/games/pagecontents/GameComplete.tsx";
 import {redirect} from "next/navigation";
 import Loading from "@/app/games/pagecontents/Loading.tsx";
 
