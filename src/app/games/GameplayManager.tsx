@@ -39,7 +39,6 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
                 console.log('Create entrant response:', response)
                 if (!response.detail || response.detail.toString().toLowerCase().includes('no row')) {
                     // Successful creation or user already has entrant
-                    // setCurrState(GameplayState.WaitingRoom)
                 }
                 else if (response.detail.toString().toLowerCase().includes('inappropriate')) {
                     // Inappropriate words were passed to character creation
