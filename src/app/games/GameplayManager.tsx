@@ -224,18 +224,6 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
         })
     }
 
-    // function stateToGameComplete(entrant: number) {
-    //     if (pageContents?.type === GameComplete) {
-    //         console.log('Not updating state')
-    //         return
-    //     }
-    //
-    //     const pageElem = <GameComplete entrantId={entrant} />
-    //
-    //     setPageContents(pageElem)
-    //     setCurrState(GameplayState.Complete)
-    // }
-
     useEffect(() => {
         console.log('New page contents:', pageContents)
     }, [pageContents]);
