@@ -7,7 +7,6 @@ import Button from "@/app/components/button.tsx";
 import {useEffect, useState} from "react";
 import {continueGame, getMatchData} from "@/scripts/gameplay.ts";
 
-// TODO add awaiting functionality to story so that story only displays once available
 const PostMatch = ({winner, loser, newBal, isAdmin, matchId, gameId}:
                        {
                            winner?: Entrant,
