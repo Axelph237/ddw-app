@@ -25,12 +25,10 @@ import Loading from "@/app/games/pagecontents/Loading.tsx";
 export default function GameplayManager({game}:{game:{id: number, isAdmin: boolean}}) {
     // ---- STATE VARIABLES ----
     // State for current page display
-    // const [currState, setCurrState] = useState<GameplayState | undefined>();
     const [pageContents, setPageContents] = useState<ReactElement | undefined>(undefined)
     const [loading, setLoading] = useState(false)
     // General error message display
     const [errMsg, setErrMsg] = useState('')
-    // const errDisplay = (errMsg != '' && <p className={'m-1'}>{errMsg}</p>)
     // User and game details
     const [userBal, setUserBal] = useState<number>(0)
 
