@@ -57,24 +57,6 @@ export async function leaveGame(gameId: number) {
 }
 
 /**
- * Gets all players in the lobby.
- *
- * @param gameId - the game to search
- */
-export async function getLobbyPlayers(gameId: number) {
-    try {
-        const response = await fetchWithAuth(GAMES_URL + `${gameId}/lobby`, {
-            method: 'GET',
-        });
-
-        return await response.json()
-    }
-    catch (error) {
-        console.log(error)
-    }
-}
-
-/**
  * Gets the currently running game
  */
 export async function getCurrentGame() {
