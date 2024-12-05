@@ -1,8 +1,14 @@
+import type {Metadata} from "next";
+
 export const dynamic = 'force-dynamic';
 
 import Button from "@/app/components/button.tsx";
 import { redirect } from 'next/navigation';
 import {getLatestGame, getUserStatus, joinGame} from "@/scripts/game.ts";
+
+export const metadata: Metadata = {
+    title: "DDW | Home",
+};
 
 export default async function HomePage() {
 

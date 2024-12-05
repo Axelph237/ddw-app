@@ -1,6 +1,11 @@
 import StateManager from "./StateManager";
 import {login, register} from "@/scripts/user.ts";
 import {redirect} from "next/navigation";
+import type {Metadata} from "next";
+
+export const metadata: Metadata = {
+    title: "DDW | Login",
+};
 
 export interface LoginData {
     action: string,

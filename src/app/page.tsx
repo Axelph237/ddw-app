@@ -17,7 +17,7 @@ export default function Home() {
             {/* Header */}
             <div
                 className='absolute flex flex-row justify-around items-center top-0 left-0 w-screen h-16 p-2 border-b-white border-transparent border-b-white border-2'>
-            <p className='text-white text-xl rounded p-1'>DOGGEE-DOG-WORLD</p>
+            <p className='text-white text-xl rounded p-1'>D0GG33-D0G-W0RLD</p>
             <Button text='Login' onClick={handleLogin}/>
             </div>
             <div className='h-16'></div> {/* Header ghost */}

@@ -1,3 +1,5 @@
+import type {Metadata} from "next";
+
 export const dynamic = 'force-dynamic';
 
 import GameplayManager from "@/app/games/GameplayManager.tsx";
@@ -5,6 +7,10 @@ import {getCurrentGame, getUserStatus} from "@/scripts/game.ts";
 import {redirect} from "next/navigation";
 import {getMe} from "@/scripts/user.ts";
 import GameplayHeader from "@/app/games/pagecontents/GameplayHeader.tsx";
+
+export const metadata: Metadata = {
+    title: "DDW | In a game",
+};
 
 export default async function GamePage() {
     let isAdmin = false;

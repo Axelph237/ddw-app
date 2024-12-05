@@ -1,7 +1,12 @@
 import UserLeaderboard from "@/app/games/results/[gameId]/user-leaderboard.tsx";
 import EntrantsLeaderboard from "@/app/games/results/[gameId]/entrants-leaderboard.tsx";
+import type {Metadata} from "next";
 
 export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+    title: "DDW | Results",
+};
 
 export default async function GameResultsPage({ params }: {params: Promise<{ gameId: number }>}) {
     const gameId = (await params).gameId

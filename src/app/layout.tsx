@@ -14,7 +14,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-    title: "D0GG33 D0G W0RLD",
+    title: "DDW",
     description: "The best online betting game!",
 };
 
