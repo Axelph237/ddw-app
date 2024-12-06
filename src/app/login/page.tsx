@@ -1,7 +1,9 @@
-import StateManager from "./StateManager";
 import {login, register} from "@/scripts/user.ts";
 import {redirect} from "next/navigation";
 import type {Metadata} from "next";
+import dynamic from "next/dynamic";
+
+const StateManager = dynamic(() => import("./StateManager"), { ssr: false });
 
 export const metadata: Metadata = {
     title: "DDW | Login",
