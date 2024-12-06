@@ -21,15 +21,7 @@ export async function register(username: string, email: string, password: string
             throw new Error(`Response status: ${response.status}`);
         }
 
-        const json = await response.json();
-        const sessionData = {
-            accessToken: json.access_token,
-            tokenType: json.token_type,
-            userId: json.user_id
-        };
-
-        await setSession(sessionData);
-        return json;
+        return await response.json();
     }
     catch (error) {
         console.log(error);
