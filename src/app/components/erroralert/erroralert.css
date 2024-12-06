@@ -32,7 +32,7 @@
         linear-gradient(to right, var(--from-color), var(--to-color), var(--from-color)) border-box;
     border-radius: 1.5rem;
     animation: 10s cycle-border alternate infinite;
-    border: 4px solid transparent;
+    border: 2px solid transparent;
 
     overflow-y: hidden;
 
