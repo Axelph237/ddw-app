@@ -55,17 +55,23 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
 
     // Runs async startGame function
     const handleStart = () => {
-        startGame(game.id).then(async (response) => {
-            console.log('Game started with response:', response)
+        startGame(game.id)
+            .then(async (response) => {
+                console.log('Game started with response:', response)
 
-            const continueResponse = await continueGame(game.id)
-            console.log('First match started with response:', continueResponse)
-        })
+                const continueResponse = await continueGame(game.id)
+                console.log('First match started with response:', continueResponse)
+            })
+            .catch(error => {
+                dispatchError(error)
+            })
     }
 
     // Runs async continueGame function
     const handleContinue = () => {
-        continueGame(game.id).then(response => console.log('Game continued with response:', response))
+        continueGame(game.id)
+            .then(response => console.log('Game continued with response:', response))
+            .catch(error => dispatchError(error))
     }
 
     const handleBet = (matchId: number, entrantId: number, amount: number) => {
@@ -76,7 +82,9 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
             matchId: matchId,
             entrantId: entrantId,
             amount: amount
-        }).then(response => console.log('Bet placed with response:', response))
+        })
+            .then(response => console.log('Bet placed with response:', response))
+            .catch(error => console.log('Error placing bet:', error))
     }
 
     // ---- RERENDER EVENTS ----
@@ -90,7 +98,6 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
             const start = performance.now()
 
             getCurrentGame().then(game => {
-                console.log('Update retrieved game:', game)
                 if (!game) {
                     redirect('/home')
                 }
@@ -133,7 +140,6 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     // ---- STATE UPDATE FUNCTIONS ----
     // Moves to lobby states
     function stateToLobby() {
-        console.log('Changing state to: Lobby')
         if (!loading) {
             setLoading(true)
         }
@@ -160,11 +166,9 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     // Moves to betting, getting necessary data
     function stateToBetting(matchId: number, entrants: {one: number, two: number}) {
         if (pageContents?.type === Betting) {
-            console.log('Not updating state')
             return
         }
 
-        console.log('Changing state to: Betting')
         if (!loading) {
             setLoading(true)
         }
@@ -192,11 +196,9 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     // Moves to post match, getting necessary data
     function stateToPostMatch(matchId: number, entrants: {victor: number, loser: number}) {
         if (pageContents?.type === PostMatch) {
-            console.log('Not updating state')
             return
         }
 
-        console.log('Changing state to: PostMatch')
         if (!loading) {
             setLoading(true)
         }
@@ -220,10 +222,6 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
             }
         })
     }
-
-    useEffect(() => {
-        console.log('New page contents:', pageContents)
-    }, [pageContents]);
 
     // ---- BODY ----
     return (
