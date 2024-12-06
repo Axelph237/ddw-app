@@ -3,10 +3,13 @@
 import {useEffect, useState} from "react";
 import './erroralert.css'
 
-
+interface Callback {
+    (): void;
+}
 
 export default function ErrorAlert() {
     const [msg, setMsg] = useState('');
+    const [callback, setCallback] = useState<Callback | undefined>();
     const [opened, setOpened] = useState<boolean>(false);
 
     const handleError = (e: Event) => {
@@ -14,12 +17,17 @@ export default function ErrorAlert() {
         // before accessing details
         if (e instanceof CustomEvent) {
             setMsg(e.detail.msg)
+            setCallback(e.detail.callback)
             setOpened(true)
         }
     }
 
     const handleClick = () => {
         setOpened(false)
+
+        if (callback !== undefined) {
+            callback()
+        }
     }
 
     useEffect(() => {
@@ -45,12 +53,12 @@ export default function ErrorAlert() {
     )
 }
 
-export function dispatchError(msg: string) {
+export function dispatchError(msg: string, callback?: () => void) {
     // Creates new alert-error
     const error = new CustomEvent("alert-error", {
         detail: {
-            msg: msg
-
+            msg: msg,
+            callback: callback
         }
     });
 
