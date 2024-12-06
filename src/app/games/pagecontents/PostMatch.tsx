@@ -28,12 +28,24 @@ const PostMatch = ({winner, loser, newBal, isAdmin, matchId, gameId}:
     }
 
     useEffect(() => {
-        if (matchId) {
-            getMatchData(matchId).then((data) => {
-                setImgMatch(data.img_url)
-                setStory(data.story)
-            })
+
+        const getMatch = () => {
+            if ((!story || !imgMatch) && matchId) {
+                getMatchData(matchId).then((data) => {
+                    if (!imgMatch) {
+                        setImgMatch(data.img_url)
+                    }
+                    if (!story) {
+                        setStory(data.story)
+                    }
+
+                    if (!data.img_url || !data.story) {
+                        getMatch()
+                    }
+                })
+            }
         }
+        getMatch()
     }, [])
 
     // Default entrant values if missing
