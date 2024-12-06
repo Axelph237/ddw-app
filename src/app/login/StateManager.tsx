@@ -3,8 +3,10 @@
 import {useState} from "react";
 import Button from "@/app/components/button.tsx";
 import { LoginData } from "./page.tsx"
+import Loading from "@/app/games/pagecontents/Loading.tsx";
 
 export default function StateManager({ handleData }: Readonly<{ handleData: (data: LoginData) => void }>) {
+    const [loading, setLoading] = useState<boolean>(false);
     const [loggingIn, setLoggingIn] = useState<boolean>(true);
 
     const handleClick = () => {
@@ -19,21 +21,27 @@ export default function StateManager({ handleData }: Readonly<{ handleData: (dat
         const data: LoginData = {username, email, password, action: loggingIn ? "login" : "register"}
 
         // Pass data up to parent
+        setLoading(true)
         handleData(data)
     }
-    return (
-        <div
-            className=' font-[family-name:var(--font-geist-sans)] w-screen h-screen flex flex-col items-center justify-center'>
-            <h1 className="text-3xl font-[family-name:var(--font-geist-mono)]">{loggingIn ? "Log In" : "Sign Up"}</h1>
-            <form id="loginpage-form" className="flex flex-col justify-center items-center">
-                {loggingIn ? <LogInState/> : <SignUpState/>}
-            </form>
-            <Button onClick={handleSubmit} className="w-46 h-46" text={loggingIn ? 'Enter the fight!' : 'Create Account'}/>
-            <p className="underline cursor-pointer font-[family-name:var(--font-geist-mono)]" onClick={() => {
-                handleClick()
-            }}>{loggingIn ? "Sign Up" : "Log In"}</p>
-        </div>
-    )
+    return !loading
+    ? <div
+        className=' font-[family-name:var(--font-geist-sans)] w-screen h-screen flex flex-col items-center justify-center'>
+        <h1 className="text-3xl font-[family-name:var(--font-geist-mono)]">{loggingIn ? "Log In" : "Sign Up"}</h1>
+        <form id="loginpage-form" className="flex flex-col justify-center items-center">
+            {loggingIn ? <LogInState/> : <SignUpState/>}
+        </form>
+        <Button onClick={handleSubmit} className="w-46 h-46" text={loggingIn ? 'Enter the fight!' : 'Create Account'}/>
+        <p className="underline cursor-pointer font-[family-name:var(--font-geist-mono)]" onClick={() => {
+            handleClick()
+        }}>{loggingIn ? "Sign Up" : "Log In"}</p>
+    </div>
+    : <div className='flex flex-col items-center justify-center'>
+        <p className='text-3xl font-[family-name:var(--font-geist-mono)]'>Logging In</p>
+        <Loading/>
+    </div>
+
+
 }
 
 function LogInState() {
