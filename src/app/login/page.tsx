@@ -21,7 +21,6 @@ export default function LoginPage() {
 
         if (data.action === "login" && data.email) {
             const response = await login(data.email, data.password)
-
             console.log('Successfully logged in with response:', response)
 
             if (response) redirect('/home')
@@ -29,6 +28,8 @@ export default function LoginPage() {
         else if (data.action === "register" && data.username && data.email) {
             const response = await register(data.username, data.email, data.password)
             console.log('Successfully logged in with response:', response)
+
+            if (response) redirect('/home')
         }
     }
 
