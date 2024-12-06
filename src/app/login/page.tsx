@@ -29,7 +29,9 @@ export default function LoginPage() {
             const response = await register(data.username, data.email, data.password)
             console.log('Successfully logged in with response:', response)
 
-            if (response) redirect('/home')
+            if (response) {
+                await handleLogin({username: data.username, password: data.password, action: 'login'})
+            }
         }
     }
 
