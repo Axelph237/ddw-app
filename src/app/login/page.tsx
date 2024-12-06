@@ -1,9 +1,7 @@
+import StateManager from "./StateManager";
 import {login, register} from "@/scripts/user.ts";
 import {redirect} from "next/navigation";
 import type {Metadata} from "next";
-import dynamic from "next/dynamic";
-
-const StateManager = dynamic(() => import("./StateManager"), { ssr: false });
 
 export const metadata: Metadata = {
     title: "DDW | Login",
@@ -23,6 +21,7 @@ export default function LoginPage() {
 
         if (data.action === "login" && data.email) {
             const response = await login(data.email, data.password)
+
             console.log('Successfully logged in with response:', response)
 
             if (response) redirect('/home')
@@ -30,15 +29,13 @@ export default function LoginPage() {
         else if (data.action === "register" && data.username && data.email) {
             const response = await register(data.username, data.email, data.password)
             console.log('Successfully logged in with response:', response)
-
-            if (response) redirect('/home')
         }
     }
 
     return (
         <>
             <h1 className='absolute m-6 font-[family-name:var(--font-geist-mono)] text-4xl'>D0GG33-D0G-W0RLD</h1>
-            <StateManager handleData={handleLogin}/>
+            <StateManager handleData={handleLogin} />
         </>
     );
 }
