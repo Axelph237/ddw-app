@@ -17,7 +17,7 @@ export default function ErrorAlert() {
         // before accessing details
         if (e instanceof CustomEvent) {
             setMsg(e.detail.msg)
-            setCallback(e.detail.callback)
+            setCallback(() => e.detail.callback)
             setOpened(true)
         }
     }
@@ -25,7 +25,7 @@ export default function ErrorAlert() {
     const handleClick = () => {
         setOpened(false)
 
-        if (callback !== undefined) {
+        if (callback) {
             callback()
         }
     }
@@ -53,7 +53,7 @@ export default function ErrorAlert() {
     )
 }
 
-export function dispatchError(msg: string, callback?: () => void) {
+export function dispatchError(msg: string, callback?: Callback) {
     // Creates new alert-error
     const error = new CustomEvent("alert-error", {
         detail: {
