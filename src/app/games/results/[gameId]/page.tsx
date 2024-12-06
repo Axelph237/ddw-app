@@ -27,7 +27,7 @@ export default async function GameResultsPage({ params }: {params: Promise<{ gam
                     <EntrantsLeaderboard params={{gameId: gameId}}/>
                     <UserLeaderboard params={{gameId: gameId}}/>
                 </div>
-                <Button text={'Home'} onClick={handleClick} />
+                <Button text={'Home'} onClick={handleClick} className='m-4'/>
             </div>
     )
 }
