@@ -16,6 +16,7 @@ import {
 import {getCurrentGame, startGame} from "@/scripts/game.ts";
 import {redirect} from "next/navigation";
 import Loading from "@/app/games/pagecontents/Loading.tsx";
+import {dispatchError} from "@/app/components/erroralert/erroralert.tsx";
 
 /**
  * Manages what screen to render to the user if they are in a game.
@@ -26,14 +27,13 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
     const [pageContents, setPageContents] = useState<ReactElement | undefined>(undefined)
     const [loading, setLoading] = useState(false)
     // General error message display
-    const [errMsg, setErrMsg] = useState('')
     // User and game details
     const [userBal, setUserBal] = useState<number>(0)
 
     // ---- HANDLERS ----
     // Run async function for character creation
     // Handles errors from character creation and sets errMsg accordingly
-    const handleCharacterCreate = (entrant: Entrant) => {
+    const handleCharacterCreate = (entrant: Entrant, onErr: () => void) => {
         createEntrant(entrant)
             .then(response => {
                 console.log('Create entrant response:', response)
@@ -43,12 +43,12 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
                 else if (response.detail.toString().toLowerCase().includes('inappropriate')) {
                     // Inappropriate words were passed to character creation
                     console.log('Why you putting naughty words in there?')
-                    setErrMsg('Try to do something a bit more appropriate please 😁')
+                    dispatchError('Try to do something a bit more appropriate please 😁', onErr)
                 }
                 else {
                     // General catch
                     console.log('Entrant creation failed with details:', response.detail)
-                    setErrMsg('Uncaught error: ' + response.detail.toString())
+                    dispatchError('Uncaught error: ' + response.detail.toString(), onErr)
                 }
             })
     }
@@ -145,7 +145,7 @@ export default function GameplayManager({game}:{game:{id: number, isAdmin: boole
                 pageElem = <WaitingRoom handleStart={game.isAdmin ? handleStart : undefined}/>
             }
             else if (pageContents?.type !== CharacterCreation) {
-                pageElem = <CharacterCreation handleCreate={handleCharacterCreate} creationError={errMsg}/>
+                pageElem = <CharacterCreation handleCreate={handleCharacterCreate} />
             }
             else return;
 
