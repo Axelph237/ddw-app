@@ -9,13 +9,17 @@ export default function GameplayHeader({gameId, isAdmin, username}: {gameId: num
     console.log(`${username} is Admin? ${isAdmin}`);
 
     const handleLogout = () => {
-        logout().then(response => console.log('Logged out with response:', response))
+        logout().then(response => {
+            console.log('Logged out with response:', response)
+            redirect('/')
+        })
     }
 
     const handleEndGame = () => {
-        endGame(gameId).then(response => console.log('Ended game with response:', response))
-
-        redirect('/home')
+        endGame(gameId).then(response => {
+            console.log('Ended game with response:', response)
+            redirect('/home')
+        })
     }
 
     return (
